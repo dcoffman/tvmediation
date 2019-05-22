@@ -1,0 +1,19 @@
+Package: tvmediation
+Type: Package
+Version: 1.0.0
+Title: Time Varying Mediation Analysis
+Description: A set of functions to measure the effect of mediating variables over time.
+Depends: R (>= 3.5.1)
+Imports:
+	locpol
+Suggests:
+	knitr, rmarkdown
+License: GPL-3
+LazyData: true
+VignetteBuilder: knitr
+Encoding: UTF-8
+Authors@R: as.person(c( 
+	"Xizhen Cai <cai.xizhen@gmail.com> [aut]",
+	"Donna Coffman <donna.coffman@temple.edu> [aut]",
+	"Harry Zobel <harryzobeljr@gmail.com> [aut, cre]"))
+
