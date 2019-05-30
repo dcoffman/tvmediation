@@ -82,13 +82,14 @@ sub.names <- unique(smoker$SubjectID)
 sub.n <- length(sub.names)
 point5 <- ceiling(.5*sub.n)
 
+set.seed(77)
 random.sample=sample(1:sub.n, size=point5)
 random.sample=sort(random.sample)
 
 smoker <- smoker[smoker$SubjectID %in% sub.names[random.sample], ]
 
 ## SAVE FILE
-save(smoker,file="C:/GitHub/tvmediation/data/smoker.rda")
+#save(smoker,file="C:/GitHub/tvmediation/data/smoker.rda")
 
 
 ## LOOK AT SOME TABLES...

@@ -7,7 +7,7 @@ The dataset is a subset of the Wisconsin Smokers' Health Study 2.
 }
 \usage{data(smoker)}
 \format{
-	A data frame with 30,507 observations on 12 variables.
+	A data frame with 15,340 observations on 12 variables.
 	\enumerate{
 		\item \strong{SubjectID:}	Subject ID
 		\item \strong{DaysFromTQD:}	Number of days from quit date
