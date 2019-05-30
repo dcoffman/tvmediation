@@ -77,6 +77,19 @@ smoker <- Hmisc::upData(smoker, labels = my.labels)
 ## ARRANGE BY ID, THEN DAYS FROM QUIT, THEN TIME OF DAY
 smoker <- arrange(smoker, SubjectID, DaysFromTQD, time.of.day)
 
+## SAMPLE 50% of the data
+sub.names <- unique(smoker$SubjectID)
+sub.n <- length(sub.names)
+point5 <- ceiling(.5*sub.n)
+
+random.sample=sample(1:sub.n, size=point5)
+random.sample=sort(random.sample)
+
+smoker <- smoker[smoker$SubjectID %in% sub.names[random.sample], ]
+
+## SAVE FILE
+save(smoker,file="C:/GitHub/tvmediation/data/smoker.rda")
+
 
 ## LOOK AT SOME TABLES...
 Hmisc::contents(smoker)
