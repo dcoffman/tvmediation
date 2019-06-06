@@ -1,6 +1,6 @@
 ---
 title: "Time Varying Mediation Analysis"
-author: "Harry Zobel"
+author: "Donna L. Coffman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -28,36 +28,40 @@ library(tvmediation)
 
 
 The purpose of this vignette is to provide users with a step-by-step guide for 
-performing a time varying mediation analysis and interpreting the results. We 
-will rely on the Wisconsin Smokers' Health Study 2 dataset which includes 1047 
-individuals across 3 treatment conditions. In one condition, one-third of 
-participants received only a nicotine patch. In a second condition, another 
-one-third received a nicotine patch and varenicline. A final third of 
-participants were placed into a third condition and received a nicotine patch 
-as well as combination nicotine replacement therapy. The outcome variable of 
-interest was how tired a participant felt of trying to quit smoking (7-point 
-Likert scale). In addition, a mediator variable was collected by asking 
-participants if they felt a negative mood in the last fifteen minutes. Both the 
-outcome and mediator variables were assessed 2x per day over the course of 
-twenty-eight days. A traditional approach to analyzing this type of data would 
-utilize a mediation analysis. First, a single direct effect would be calculated 
-by regressing the outcome on the treatment condition. Next, a single indirect 
-effect would be computed by multiplying the effect of treatment condition on the 
-mediator by the effect of the mediator on the outcome. However, we feel this 
-method potentially misses important information about the dynamic effect that a 
-mediator may have over time. Specifically, we hypothesize that mood changes and 
-thus, its mediating effect on one’s feelings of quitting smoking is likely to 
-vary. We therefore propose a time varying mediation analysis which estimates the 
-mediation effect as a function that varies over time.
+performing a time varying mediation analysis and interpreting the results. To illustrate we will used a simulated data set.
+
+
+
+<!-- We will rely on the Wisconsin Smokers' Health Study 2 dataset which includes 1047  -->
+<!-- individuals across 3 treatment conditions. In one condition, one-third of  -->
+<!-- participants received only a nicotine patch. In a second condition, another  -->
+<!-- one-third received a nicotine patch and varenicline. A final third of  -->
+<!-- participants were placed into a third condition and received a nicotine patch  -->
+<!-- as well as combination nicotine replacement therapy. The outcome variable of  -->
+<!-- interest was how tired a participant felt of trying to quit smoking (7-point  -->
+<!-- Likert scale). In addition, a mediator variable was collected by asking  -->
+<!-- participants if they felt a negative mood in the last fifteen minutes. Both the  -->
+<!-- outcome and mediator variables were assessed 2x per day over the course of  -->
+<!-- twenty-eight days. A traditional approach to analyzing this type of data would  -->
+<!-- utilize a mediation analysis. First, a single direct effect would be calculated  -->
+<!-- by regressing the outcome on the treatment condition. Next, a single indirect  -->
+<!-- effect would be computed by multiplying the effect of treatment condition on the  -->
+<!-- mediator by the effect of the mediator on the outcome. However, we feel this  -->
+<!-- method potentially misses important information about the dynamic effect that a  -->
+<!-- mediator may have over time. Specifically, we hypothesize that mood changes and  -->
+<!-- thus, its mediating effect on one’s feelings of quitting smoking is likely to  -->
+<!-- vary. We therefore propose a time varying mediation analysis which estimates the  -->
+<!-- mediation effect as a function that varies over time. -->
 
 ## Getting started
 
 To use the time varying mediation analysis package in R, you must first install
 it and load it: 
 ```{r, eval = FALSE}
-install.packages("tvmediation")
+devtools::install.packages("tvmediation")
 library(tvmediation)
 ```
+
 In addition, you will want to install the `locpol` package which is necessary
 for certain functions in the `tvmediation` package.
 
@@ -72,91 +76,9 @@ To load the `smoker` dataset, type:
 data(smoker)
 ```
 
-## The `smoker` dataset
-```{r echo = TRUE}
-head(smoker)
-```
-
-By inspecting the `smoker` dataset we see that there are 30507 observations on 
-12 variables. The data frame has also been labeled as to describe each variable.
-```{r echo = TRUE}
-Hmisc::contents(smoker)
-```
-
-Now that we have loaded the `smoker` dataset and explored its contents, we will
-digress and show how some of the variables were produced from our raw data to
-work within the `tvmediation` package. To do this, we will remove the variables 
-and then re-create them. 
-
-```{r, echo = FALSE}
-smoker$timeseq <- NULL
-smoker$patch <- NULL
-smoker$varenicline <- NULL
-smoker$comboNRT <- NULL
-head(smoker)
-```
-
-We take advantage of the `add_column` function from the `tidyverse` package to 
-create our variables.
-
-  First, we will create the `timeseq` variable which will be used to convey the 
-time course of the measurements in our study. We will combine `DaysFomTQD` and
-`time.of.day` into a single variable. AM will be indicated by whole numbers 
-while PM will be indicated by intermediate numbers (+0.5). 
-
-  Next, we will create three binary dummy variables, `patch`, `varenicline`, and 
-`comboNRT` based on `ConditionID` to indicate if the participant received the 
-treatment or not.
-
-
-```{r}
-# ADD timeseq VARIABLE TO DATA FRAME BEFORE WantToSmokeLast15min VARIABLE
-smoker <- add_column(smoker, timeseq = as.numeric(smoker$DaysFromTQD) + (as.numeric(smoker$time.of.day) / 2) - 0.5,
-                      .before = "WantToSmokeLst15min")
-# CREATE DUMMY TREATMENT VARIABLES
-smoker <- add_column(smoker, patch = as.numeric(smoker$ConditionID == "patch"),
-                      .before = "CigCount_Today")
-smoker <- add_column(smoker, varenicline = as.numeric(smoker$ConditionID == "varenicline"),
-                      .before = "CigCount_Today")
-smoker <- add_column(smoker, comboNRT = as.numeric(smoker$ConditionID == "comboNRT"),
-                      .before = "CigCount_Today")
-head(smoker)
-```
-
-Now, we will redefine integer variables to factors, label the factors 
-accordingly, and sort the data frame
-```{r}
-# CREATE FACTORS AND LAVELS
-my.factors <- c("patch", "varenicline", "comboNRT")
-smoker[my.factors] <- lapply(smoker[my.factors], factor)
-levels(smoker$patch) <- c("No", "Yes")
-levels(smoker$varenicline) <- c("No", "Yes")
-levels(smoker$comboNRT) <- c("No", "Yes")
-
-# DEFINE & APPLY LABLES TO VARIABLES
-my.labels <- c(timeseq = "Number of days from quit date (.5 indicates PM)",
-               patch = "Received patch (0 = No, 1 = Yes)",
-               varenicline = "Received varenicline (0 = No, 1 = Yes)",
-               comboNRT = "Received combination nicotine replacement therapy (0 = NO, 1 = Yes)")
-smoker <- Hmisc::upData(smoker, labels = my.labels)
-
-# SORT DATA FRAME BY `SubjectID`, AND THEN BY `timeseq`.
-smoker <- arrange(smoker, SubjectID, timeseq)
-head(smoker)
-```
-
-Our dataset is now sorted and ready for processing by the `tvmediation` package.
-
-
 ## Using `tvmediation`
+
 The current version of the `tvma` function only supports two treatment options.
-Thus, we will need to parse our data frame to exclude one of the possible 
-treatments. In this example, we will remove the `comboNRT` treatment and perform
-an analysis comparing the `patch` group to the `varenicline` group.
-This can be accomplished in the following way:
-```{r}
-smoker.parsed <- smoker[smoker$ConditionID != "comboNRT", ]
-```
 
 The `smoker` data frame is organized in Long format with `SubjectID` repeating
 over multiple rows for each participant. the `tvma` function requires that our
@@ -180,57 +102,6 @@ outcomes, we will use the `LongToWide` function twice as seen below:
 mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
 outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
 mediator[, 1:10]
-```
-
-To gain a better appreciation of how the `LongToWide` function is working,
-let's look at an easier example.
-First, generate a data frame with 5 subjects, and an outcome measure that was 
-recorded at 4-time intervals. 
-```{r}
-set.seed(4)
-df <- data.frame("subject.id" = rep(seq(from = 101, to = 105, by = 1), 4),
-        "time.sequence" = sort(rep(seq(from = 0.1, to = 0.4, by = .1), 5)),
-        "outcome" = sample(1:20, 20, replace=F))
-df
-```
-Now put the data into the function:
-```{r}
-mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome)
-mat.wide
-```
-
-Notice that the function gives a warning message saying that the data frame was 
-not properly sorted. While `LongToWide` will always check to see if the data was
-sorted by `subject.id`, and will sort if it is not, we strongly recommend that 
-the user always sorts their data prior to using the function.
-
-The `verbose` option in `LongToWide` is demonstrated below. First, we will sort
-the data frame, and then run the function with `verbose = TRUE`.
-```{r}
-df <- arrange(df, subject.id)
-mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome, verbose = TRUE)
-```
-Notice this time we did not recieve a warning message from the function. The 
-output shows us that matches were found for each time point, and thus data was
-inserted into each space in `mat.wide`. However, what happens if there is 
-missing data in the data frame?
-We can see what happens by removing a row from the data frame and running the
-function. 
-```{r}
-df <- df[-c(6), ]
-mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome, verbose = TRUE)
-```
-Now we see that `LongToWide` found a data point that did not match the expected 
-chronological time sequence. The row we removed was `time.sequence 2` for 
-subject 102. What the output shows us is that when `current time = 00.2`, the 
-`sub time = 00.3`. In other words, as we counted chronologically through the
-time sequence, as well as through the time recorded for the subject, the two 
-times did not match. Thus, the function does not move forward from the subjects
-current time, but instead, tests the next chronological time to see if it 
-matches the subjects time point. Whenever a match does not occur, NA is added
-into the matrix. Have a look below:
-```{r}
-mat.wide
 ```
 
 ## Using `tvma`
