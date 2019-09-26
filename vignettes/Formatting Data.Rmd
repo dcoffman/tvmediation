@@ -20,10 +20,10 @@ pre code {
 </style>
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)  # NEED TO LOAD tidyverse BEFORE Hmisc!
-library(Hmisc)
-library(tvmediation)
+# knitr::opts_chunk$set(echo = TRUE)
+# library(tidyverse)  # NEED TO LOAD tidyverse BEFORE Hmisc!
+# library(Hmisc)
+# library(tvmediation)
 ```
 
 
@@ -55,8 +55,8 @@ mediation effect as a function that varies over time.
 To use the time varying mediation analysis package in R, you must first install
 it and load it: 
 ```{r, eval = FALSE}
-install.packages("tvmediation")
-library(tvmediation)
+# install.packages("tvmediation")
+# library(tvmediation)
 ```
 In addition, you will want to install the `locpol` package which is necessary
 for certain functions in the `tvmediation` package.
@@ -69,18 +69,18 @@ for our example is named `smoker` and is also included in the package.
 
 To load the `smoker` dataset, type:
 ```{r}
-data(smoker)
+#data(smoker)
 ```
 
 ## The `smoker` dataset
 ```{r echo = TRUE}
-head(smoker)
+#head(smoker)
 ```
 
 By inspecting the `smoker` dataset we see that there are 30507 observations on 
 12 variables. The data frame has also been labeled as to describe each variable.
 ```{r echo = TRUE}
-Hmisc::contents(smoker)
+#Hmisc::contents(smoker)
 ```
 
 Now that we have loaded the `smoker` dataset and explored its contents, we will
@@ -89,11 +89,11 @@ work within the `tvmediation` package. To do this, we will remove the variables
 and then re-create them. 
 
 ```{r, echo = FALSE}
-smoker$timeseq <- NULL
-smoker$patch <- NULL
-smoker$varenicline <- NULL
-smoker$comboNRT <- NULL
-head(smoker)
+# smoker$timeseq <- NULL
+# smoker$patch <- NULL
+# smoker$varenicline <- NULL
+# smoker$comboNRT <- NULL
+# head(smoker)
 ```
 
 We take advantage of the `add_column` function from the `tidyverse` package to 
@@ -111,38 +111,38 @@ treatment or not.
 
 ```{r}
 # ADD timeseq VARIABLE TO DATA FRAME BEFORE WantToSmokeLast15min VARIABLE
-smoker <- add_column(smoker, timeseq = as.numeric(smoker$DaysFromTQD) + (as.numeric(smoker$time.of.day) / 2) - 0.5,
-                      .before = "WantToSmokeLst15min")
-# CREATE DUMMY TREATMENT VARIABLES
-smoker <- add_column(smoker, patch = as.numeric(smoker$ConditionID == "patch"),
-                      .before = "CigCount_Today")
-smoker <- add_column(smoker, varenicline = as.numeric(smoker$ConditionID == "varenicline"),
-                      .before = "CigCount_Today")
-smoker <- add_column(smoker, comboNRT = as.numeric(smoker$ConditionID == "comboNRT"),
-                      .before = "CigCount_Today")
-head(smoker)
+# smoker <- add_column(smoker, timeseq = as.numeric(smoker$DaysFromTQD) + (as.numeric(smoker$time.of.day) / 2) - 0.5,
+#                       .before = "WantToSmokeLst15min")
+# # CREATE DUMMY TREATMENT VARIABLES
+# smoker <- add_column(smoker, patch = as.numeric(smoker$ConditionID == "patch"),
+#                       .before = "CigCount_Today")
+# smoker <- add_column(smoker, varenicline = as.numeric(smoker$ConditionID == "varenicline"),
+#                       .before = "CigCount_Today")
+# smoker <- add_column(smoker, comboNRT = as.numeric(smoker$ConditionID == "comboNRT"),
+#                       .before = "CigCount_Today")
+# head(smoker)
 ```
 
 Now, we will redefine integer variables to factors, label the factors 
 accordingly, and sort the data frame
 ```{r}
 # CREATE FACTORS AND LAVELS
-my.factors <- c("patch", "varenicline", "comboNRT")
-smoker[my.factors] <- lapply(smoker[my.factors], factor)
-levels(smoker$patch) <- c("No", "Yes")
-levels(smoker$varenicline) <- c("No", "Yes")
-levels(smoker$comboNRT) <- c("No", "Yes")
-
-# DEFINE & APPLY LABLES TO VARIABLES
-my.labels <- c(timeseq = "Number of days from quit date (.5 indicates PM)",
-               patch = "Received patch (0 = No, 1 = Yes)",
-               varenicline = "Received varenicline (0 = No, 1 = Yes)",
-               comboNRT = "Received combination nicotine replacement therapy (0 = NO, 1 = Yes)")
-smoker <- Hmisc::upData(smoker, labels = my.labels)
-
-# SORT DATA FRAME BY `SubjectID`, AND THEN BY `timeseq`.
-smoker <- arrange(smoker, SubjectID, timeseq)
-head(smoker)
+# my.factors <- c("patch", "varenicline", "comboNRT")
+# smoker[my.factors] <- lapply(smoker[my.factors], factor)
+# levels(smoker$patch) <- c("No", "Yes")
+# levels(smoker$varenicline) <- c("No", "Yes")
+# levels(smoker$comboNRT) <- c("No", "Yes")
+# 
+# # DEFINE & APPLY LABLES TO VARIABLES
+# my.labels <- c(timeseq = "Number of days from quit date (.5 indicates PM)",
+#                patch = "Received patch (0 = No, 1 = Yes)",
+#                varenicline = "Received varenicline (0 = No, 1 = Yes)",
+#                comboNRT = "Received combination nicotine replacement therapy (0 = NO, 1 = Yes)")
+# smoker <- Hmisc::upData(smoker, labels = my.labels)
+# 
+# # SORT DATA FRAME BY `SubjectID`, AND THEN BY `timeseq`.
+# smoker <- arrange(smoker, SubjectID, timeseq)
+# head(smoker)
 ```
 
 Our dataset is now sorted and ready for processing by the `tvmediation` package.
@@ -177,9 +177,9 @@ represent time sequence and rows represent the outcome for each subject.
 As the `tvma` function will require two matrices, one for mediators, and one for
 outcomes, we will use the `LongToWide` function twice as seen below:
 ```{r}
-mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
-outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
-mediator[, 1:10]
+# mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+# outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
+# mediator[, 1:10]
 ```
 
 To gain a better appreciation of how the `LongToWide` function is working,
@@ -187,16 +187,16 @@ let's look at an easier example.
 First, generate a data frame with 5 subjects, and an outcome measure that was 
 recorded at 4-time intervals. 
 ```{r}
-set.seed(4)
-df <- data.frame("subject.id" = rep(seq(from = 101, to = 105, by = 1), 4),
-        "time.sequence" = sort(rep(seq(from = 0.1, to = 0.4, by = .1), 5)),
-        "outcome" = sample(1:20, 20, replace=F))
-df
+# set.seed(4)
+# df <- data.frame("subject.id" = rep(seq(from = 101, to = 105, by = 1), 4),
+#         "time.sequence" = sort(rep(seq(from = 0.1, to = 0.4, by = .1), 5)),
+#         "outcome" = sample(1:20, 20, replace=F))
+# df
 ```
 Now put the data into the function:
 ```{r}
-mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome)
-mat.wide
+# mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome)
+# mat.wide
 ```
 
 Notice that the function gives a warning message saying that the data frame was 
@@ -207,8 +207,8 @@ the user always sorts their data prior to using the function.
 The `verbose` option in `LongToWide` is demonstrated below. First, we will sort
 the data frame, and then run the function with `verbose = TRUE`.
 ```{r}
-df <- arrange(df, subject.id)
-mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome, verbose = TRUE)
+# df <- arrange(df, subject.id)
+# mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome, verbose = TRUE)
 ```
 Notice this time we did not recieve a warning message from the function. The 
 output shows us that matches were found for each time point, and thus data was
@@ -217,8 +217,8 @@ missing data in the data frame?
 We can see what happens by removing a row from the data frame and running the
 function. 
 ```{r}
-df <- df[-c(6), ]
-mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome, verbose = TRUE)
+# df <- df[-c(6), ]
+# mat.wide <- LongToWide(df$subject.id, df$time.sequence, df$outcome, verbose = TRUE)
 ```
 Now we see that `LongToWide` found a data point that did not match the expected 
 chronological time sequence. The row we removed was `time.sequence 2` for 
@@ -230,7 +230,7 @@ current time, but instead, tests the next chronological time to see if it
 matches the subjects time point. Whenever a match does not occur, NA is added
 into the matrix. Have a look below:
 ```{r}
-mat.wide
+#mat.wide
 ```
 
 ## Using `tvma`
@@ -247,10 +247,10 @@ The function still requires 2 more variables that we have not yet created:
 
 We can create these variables in the following way:
 ```{r}
-treatment <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
-treatment
-t.seq <- sort(unique(smoker.parsed$timeseq))
-t.seq
+# treatment <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
+# treatment
+# t.seq <- sort(unique(smoker.parsed$timeseq))
+# t.seq
 ```
 
 Note that for `treatment` we looked at only one instance of each subject's 
@@ -260,10 +260,10 @@ one instance of each time point and then sorted from smallest to largest.
 
 We are now ready to perform our time varying mediation analysis.
 ```{r, fig.width = 7, fig.height = 5, results='hide', fig.keep='all'} 
-results <- tvma(treatment, t.seq, mediator, outcome)
+#results <- tvma(treatment, t.seq, mediator, outcome)
 ```
 ```{r, echo = FALSE}
-results
+#results
 ```
 
 The `tvma` function returns a list of results including:
@@ -295,10 +295,10 @@ different analyses.
 For example, specifying `t.est`, and `replicates` in the follow code will produce 
 estimates as time points 0.2, 0.4, 0.6, and 0.8 using 500 bootsrap replicates.
 ```{r, fig.width = 6, fig.height = 4, results = 'hide', fig.keep = 'all'}
-results <- tvma(treatment, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
+#results <- tvma(treatment, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
 ```
 ```{r, echo = FALSE}
-results
+#results
 ```
 
 The `tvma` function computes bootstrap confidence intervals by default, but 
@@ -310,10 +310,10 @@ deviations exists.
 Importantly, this process can be time intensive depending on the size of your 
 dataset. For the `smoker` dataset, this process will take approximately 45 min.
 ```{r, fig.width = 6, fig.height = 4, results = 'hide', fig.keep = 'all'}
-results <- tvma(treatment, t.seq, mediator, outcome, CI = "asymptotic")
+#results <- tvma(treatment, t.seq, mediator, outcome, CI = "asymptotic")
 ```
 ```{r, echo = FALSE}
-results
+#results
 ```
 
 ## Summary
