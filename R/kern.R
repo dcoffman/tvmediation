@@ -1,6 +1,5 @@
-
 kern <- function(x, h, x.obs) {
-  # Kernal function...
+  # Kernel function...
   #
   # Args:
   #   x     -->   t.est at time j or t-deltat
@@ -11,10 +10,10 @@ kern <- function(x, h, x.obs) {
   #   kern  -->
   #
   ##
-
+  
   del <- x - x.obs
   ndel <- del^2
-  w <- ((1 / sqrt(2 * pi))) * (1 / h) * exp((-1 / 2) * ndel / h^2)
+  w <- ((1/sqrt(2*pi)))*(1/h)*exp((-1/2)*ndel/h^2)
   return(w)
-
+  
 }

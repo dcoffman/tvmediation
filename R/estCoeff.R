@@ -1,6 +1,6 @@
 
 estCoeff <- function(newMO.j.est) {
-
+  
   # Estimate coefficients.
   #
   # Args:
@@ -10,7 +10,7 @@ estCoeff <- function(newMO.j.est) {
   #   coeff.est    -->   estimated coefficients
   #
   ##
-
-  coeff.est <- solve(t(newMO.j.est$M) %*% (newMO.j.est$M)) %*% t(newMO.j.est$M) %*% (newMO.j.est$Y)
+  
+  coeff.est <- MASS::ginv(t(newMO.j.est$M) %*% (newMO.j.est$M)) %*% t(newMO.j.est$M) %*% (newMO.j.est$Y)
   return(coeff.est)
 }
