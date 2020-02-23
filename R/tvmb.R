@@ -18,8 +18,8 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   #   alpha1_hat       -->   estiamted treatment effect on mediator
   #   beta2_hat        -->   estiamted mediation effect on outcome
   #   medEffect        -->   time varying mediation effect
-  #   CI.low           -->   Upper confidence intervals
-  #   CI.upper         -->   Lower confidence intervals
+  #   CI.low           -->   Lower confidence intervals
+  #   CI.upper         -->   Upper confidence intervals
   #
   # Optional Returns:
   #   plot1_a1         -->   plot for alpha1_hat across t.seq
