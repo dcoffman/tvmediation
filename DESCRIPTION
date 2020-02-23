@@ -15,5 +15,6 @@ Encoding: UTF-8
 Authors@R: as.person(c( 
 	"Xizhen Cai <cai.xizhen@gmail.com> [aut]",
 	"Donna Coffman <donna.coffman@temple.edu> [aut]",
-	"Harry Zobel <harryzobeljr@gmail.com> [aut, cre]"))
+	"Harry Zobel <harryzobeljr@gmail.com> [aut]",
+	"Yajnaseni Chakraborti <yajnaseni.chakraborti@temple.edu> [aut, cre]"))
 RoxygenNote: 7.0.2
