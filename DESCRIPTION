@@ -16,4 +16,4 @@ Authors@R: as.person(c(
 	"Xizhen Cai <cai.xizhen@gmail.com> [aut]",
 	"Donna Coffman <donna.coffman@temple.edu> [aut]",
 	"Harry Zobel <harryzobeljr@gmail.com> [aut, cre]"))
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
