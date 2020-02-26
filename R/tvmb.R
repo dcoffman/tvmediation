@@ -32,7 +32,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   ##
 
 # Checking for any NA in the treatment vector and removing those indeces
-# from treatment as well as outcome and mediator vectors
+# from treatment as well as outcome and mediator matrices
 
   index = vector()  
   index=which(!is.na(treatment))

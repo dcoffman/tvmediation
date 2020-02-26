@@ -1,2 +1,2 @@
-export(tvma, LongToWide)
+export(tvma, LongToWide, tvmb)
 import(locpol)

@@ -17,4 +17,4 @@ Authors@R: as.person(c(
 	"Donna Coffman <donna.coffman@temple.edu> [aut]",
 	"Harry Zobel <harryzobeljr@gmail.com> [aut]",
 	"Yajnaseni Chakraborti <yajnaseni.chakraborti@temple.edu> [aut, cre]"))
-RoxygenNote: 7.0.2
+RoxygenNote: 7.0.2.9000
