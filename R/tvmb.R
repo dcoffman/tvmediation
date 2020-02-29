@@ -1,7 +1,7 @@
 #' Start of the tvmediation function for binary outcome function
 #' @export
 
-tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 500, verbose = "FALSE"){
+tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 500, verbose = FALSE){
   
   # Estimating time-varying mediation effect for binary outcome function
   #
@@ -271,7 +271,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   ##### Creating plots of the mediation effect estimates #####
   ##### ************************************************ #####
   
-  if(plot == "TRUE"){
+  if(plot == TRUE){
     # First Plot: plotting calculated coefficients and smoothed coefficients using ggplot
     plot1_a1 <- ggplot(data = test1, aes(t.seq,a1All)) +
       geom_point() +
@@ -338,8 +338,8 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
     
   #end of 'if' condition on plot
     
-  if(verbose == "TRUE"){
-    if(plot == "TRUE"){
+  if(verbose == TRUE){
+    if(plot == TRUE){
       print(final_results)
       print(plot_results)
     }else{
@@ -348,7 +348,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   }
   
   # Enclosing all the plots in a list object to return
-    if(plot == "TRUE" & CI == "boot"){
+    if(plot == TRUE & CI == "boot"){
       results <- list("Estimates" = final_results,
                       "plot1_a1" = plot1_a1,
                       "plot2_b2" = plot2_b2,
@@ -356,7 +356,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
                       "MedEff_CI" = plot4,
                       "bootstrap" = plot5)
     }
-    else if(plot == "TRUE" & CI != "boot"){
+    else if(plot == TRUE & CI != "boot"){
       results <- list("Estimates" = final_results,
                       "plot1_a1" = plot1_a1,
                       "plot2_b2" = plot2_b2,
