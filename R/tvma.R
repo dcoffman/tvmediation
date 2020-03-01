@@ -45,7 +45,8 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
     results <- estBootCIs(treatment, t.seq, mediator, outcome, t.est, deltat, replicates)
     plot.label <- "Bootstrap CI"
   }
-  results <- c(list(hat.alpha.1 = est.smooth$hat.alpha.1, hat.beta.2 = est.smooth$hat.beta.2,
+  results <- c(list(hat.alpha.1 = est.smooth$hat.alpha.1, 
+                    hat.beta.2 = est.smooth$hat.beta.2,
                     mediation.effect = est.smooth$est.M), results)
   
   
