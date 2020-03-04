@@ -1,4 +1,4 @@
-#' Start of the tvmediation function for binary outcome function
+#' Time-varying mediation function for binary outcome
 #' @export
 
 tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 500, verbose = FALSE){

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvmb.R
 \name{tvmb}
 \alias{tvmb}
-\title{Start of the tvmediation function for binary outcome function}
+\title{Time-varying mediation function for binary outcome}
 \usage{
 tvmb(
   treatment,
@@ -12,9 +12,9 @@ tvmb(
   plot = FALSE,
   CI = "boot",
   replicates = 500,
-  verbose = "FALSE"
+  verbose = FALSE
 )
 }
 \description{
-Start of the tvmediation function for binary outcome function
+Time-varying mediation function for binary outcome
 }
