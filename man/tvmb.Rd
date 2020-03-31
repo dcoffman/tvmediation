@@ -12,7 +12,7 @@ tvmb(
   plot = FALSE,
   CI = "boot",
   replicates = 500,
-  verbose = "FALSE"
+  verbose = FALSE
 )
 }
 \description{
