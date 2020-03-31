@@ -1,4 +1,4 @@
-#' Start of the tvmediation function for binary outcome function
+#' Time-varying mediation function for binary outcome
 #' @export
 
 tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 500, verbose = FALSE){
@@ -273,39 +273,36 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   
   if(plot == TRUE){
     # First Plot: plotting calculated coefficients and smoothed coefficients using ggplot
-    plot1_a1 <- ggplot(data = test1, aes(t.seq,a1All)) +
-      geom_point() +
+    plot1_a1 <- ggplot(data = test1, aes(t.seq, smootha1)) +
+      geom_line(color = "red", size = 0.75) +
       labs(title = "Plotting the alpha coffecients",
            x = "Time Sequence",
-           y = "Alpha1") +
-      geom_line(data = test1, aes(t.seq,smootha1), color = "red", size = 0.75)
+           y = "Alpha1")
     
     # Second plot: plotting beta2 coeffeicients (calculated and smoothed) across
     # the time using ggplot
-    plot2_b2 <- ggplot(data = test2, aes(t.seq.b, b2All)) +
-      geom_point() +
+    plot2_b2 <- ggplot(data = test2, aes(t.seq.b, smoothb2)) +
+      geom_line(color = "red", size = 0.75) +
       labs(title = "Plotting the beta2 coffecients",
            x = "Time Sequence",
-           y = "Beta2") +
-      geom_line(aes(t.seq.b, smoothb2), color = "red", size = 0.75)
+           y = "Beta2")
     
     # Third plot: plotting the mediation effects across time using ggplot
-    plot3 <- ggplot(data = test3, aes(t.seq.b, med_pt, color = as.factor(type))) +
-      geom_point() +
-      geom_line(aes(t.seq.b, smooth), size = 0.5) +
+    plot3 <- ggplot(data = test3, aes(t.seq.b, smooth, color = as.factor(type))) +
+      geom_line(size = 0.75) +
       labs(title = "Plotting the mediation effect",
            x = "Time Sequence",
            y = "Mediation Effect",
            color = "Effect Type") +
       scale_color_manual(labels = c("Prod", "Diff"),
                          values = c("indianred1", "blue"))
+    
     if(CI == "boot"){
       # Fourth plot: plotting the mediation effect with 95% CIs
-      plot4 <- ggplot(data = test4, aes(t.seq.b2, medProd)) +
-        geom_point(shape = 1, size = 1.75, stroke = 1.75, color = "blue") +
-        geom_line(aes(t.seq.b2, smoothProd), size = 0.8, color = "blue") +
-        geom_line(aes(t.seq.b2, LowQnt, color = "red"), size = 1.25) +
-        geom_line(aes(t.seq.b2, UpQnt, color = "red"), size = 1.25) +
+      plot4 <- ggplot(data = test4, aes(t.seq.b2, smoothProd)) +
+        geom_line(size = 1, color = "red") +
+        geom_line(aes(t.seq.b2, LowQnt), color = "blue", size = 0.8, linetype = "dashed") +
+        geom_line(aes(t.seq.b2, UpQnt), color = "blue", size = 0.8, linetype = "dashed") +
         geom_line(aes(t.seq.b2, 0)) +
         labs(title = "Mediation Effect with 95% CIs (computed with bootstrap)",
              x = "Time Sequence",

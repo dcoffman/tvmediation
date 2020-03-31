@@ -1,4 +1,6 @@
-
+#' Function to format the dataset (transposing the datset from Long to Wide structure)
+#' @export
+#' 
 LongToWide <- function(subject.id, time.sequence, outcome, verbose = FALSE) {
   # Transpose data from Long to Wide format
   #

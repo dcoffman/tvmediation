@@ -1,5 +1,7 @@
+#' Time-varying mediation function for continuous outcome and 2 treatment arms (exposure groups)
+#' @export
 
-tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = "FALSE") {
+tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE) {
   # Estimate time-varying mediation effect and bootstrap standard errors
   #
   # Args:
@@ -67,7 +69,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
   }
   
   ## Print results to screen and return them
-  if (verbose == "TRUE") {
+  if (verbose == TRUE) {
     print("Time Varying Mediation Results:")
     print(results)
   }
