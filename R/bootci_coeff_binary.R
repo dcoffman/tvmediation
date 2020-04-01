@@ -2,13 +2,16 @@
 ##### Bootstrapping samples to estimate confidence intervals for coefficients #####
 ##### *********************************************************************** #####
 
-bootci_coeff_binary <- function(treatment, t.seq, nm, m, outcome, replicates = 500){
+bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 500){
   #bootstrapping
   set.seed(27)
   reps = replicates
   
   start.time <- Sys.time()
   print("Beginning bootstrap for coefficient CIs.")
+  
+  n = length(treatment)
+  nm = nrow(outcome)
   
   #matrix with indirect (mediation) effects for each individual at each time
   IE_a1 = matrix(NA, nrow = reps, ncol = nm)
@@ -18,7 +21,7 @@ bootci_coeff_binary <- function(treatment, t.seq, nm, m, outcome, replicates = 5
   #take 500 or replicates number of bootstrap samples
   for(i in 1:reps){
     #get indexes to use for bootstrap sample
-    index1 = sample(1:n,size=n,replace=TRUE)
+    index1 = sample(1:n, size=n,replace=TRUE)
     
     a1AllTemp = vector()
     # b1AllTemp = vector()

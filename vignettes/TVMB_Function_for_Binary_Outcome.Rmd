@@ -122,7 +122,7 @@ t.seq <- sort(unique(data_final$timeseq))
 
 We are now ready to perform our time varying mediation analysis.
 ```{r, fig.width = 7, fig.height = 5, results='hide', fig.keep='all'} 
-results_tvmb <- tvmb(treatment, t.seq, mediator, outcome)
+results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, plot = TRUE)
 ```
 ```{r, echo = FALSE}
 results_tvmb

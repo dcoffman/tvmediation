@@ -2,13 +2,16 @@
 ##### Bootstrapping samples to estimate confidence intervals #####
 ##### ****************************************************** #####;
 
-bootci_tvmb <- function(treatment, t.seq, nm, m, outcome, coeff_data, replicates = 500){
+bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 500){
   #bootstrapping
   set.seed(27)
   reps = replicates
   
   start.time <- Sys.time()
   print("Beginning bootstrap for coefficient CIs.")
+  
+  n = length(treatment)
+  nm = nrow(outcome)
   
   #matrix with indirect (mediation) effects for each individual at each time
   IE = matrix(NA,nrow = reps,ncol = nm-1)

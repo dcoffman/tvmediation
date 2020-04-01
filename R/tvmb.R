@@ -142,7 +142,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
       ##### Bootstrapping samples to estimate confidence intervals for coefficients #####
       ##### *********************************************************************** #####
       
-      coeff_CI <- bootci_coeff_binary(treatment, t.seq, nm, m, outcome, replicates)
+      coeff_CI <- bootci_coeff_binary(treatment, t.seq, m, outcome, replicates)
       
       #*********************************************************************************#
       
@@ -210,7 +210,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
       ##### ****************************************************** #####;
       
       if(CI == "boot"){
-        list_all <- bootci_tvmb(treatment, t.seq, nm, m, outcome, coeff_data, replicates)
+        list_all <- bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates)
         IE_t <- list_all$bootstrap_result
         final_dat <- list_all$all_results
         final_dat1 <- final_dat %>%
