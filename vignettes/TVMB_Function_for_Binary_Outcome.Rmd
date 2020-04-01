@@ -2,7 +2,7 @@
 title: "Time-varying Mediation Function for Binary Outcome"
 author: "Yajnaseni Chakraborti"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{Formatting Data}
   %\VignetteEngine{knitr::rmarkdown}
@@ -136,7 +136,7 @@ We are now ready to perform our time varying mediation analysis.
 ```{r, fig.width = 18, fig.height = 10, results='hide', fig.keep='all'} 
 results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, plot = TRUE)
 ```
-```{r, fig.width = 8, fig.height = 4, echo = FALSE}
+```{r, fig.width = 10, fig.height = 5, echo = FALSE}
 results_tvmb
 ```
 

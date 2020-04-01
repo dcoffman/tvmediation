@@ -2,7 +2,7 @@
 title: "Time Varying Mediation Analysis"
 author: "Donna L. Coffman"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{Time Varying Mediation Analysis}
   %\VignetteEngine{knitr::rmarkdown}
