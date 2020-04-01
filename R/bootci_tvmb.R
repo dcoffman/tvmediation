@@ -66,7 +66,7 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 5
     
     #calculate smooth line for products
     medProdTemp <- coeff_dat$medProd
-    medProdTemp <- medProdTemp[which(!is.na(medProd))]
+    medProdTemp <- medProdTemp[which(!is.na(medProdTemp))]
     
     smooth = loess(medProdTemp ~ t.seq.b2[1:length(t.seq.b2)], span = 0.5,degree=1)
     
