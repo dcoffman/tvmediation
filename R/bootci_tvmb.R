@@ -2,7 +2,7 @@
 ##### Bootstrapping samples to estimate confidence intervals #####
 ##### ****************************************************** #####;
 
-bootci_tvmb <- function(treatment, t.seq, nm, m, outcome, replicates = 500){
+bootci_tvmb <- function(treatment, t.seq, nm, m, outcome, coeff_data, replicates = 500){
   #bootstrapping
   set.seed(27)
   reps = replicates
@@ -94,13 +94,14 @@ bootci_tvmb <- function(treatment, t.seq, nm, m, outcome, replicates = 500){
   IE_t <- t(IE)
   IE_t <- data.frame(cbind(t.seq.b, IE_t))
   
-  final_dat <- merge(coeff_data, CI_1, all.x = TRUE)
-  results <- final_dat
+  final_CI <- merge(coeff_data, CI_1, all.x = TRUE)
+  # results <- final_CI
   # names(results) <- c("timeseq", "medEffect", "alpha1_hat", "beta2_hat", "CI.low", "CI.upper")
   
   end.time <- Sys.time()
   total.time <- end.time - start.time
   print(sprintf("Process complete. Elapsed time = %.3f secs", as.numeric(total.time, units = "secs")))
   
-  return(results)
+  final_list <- list(bootstrap_result = IE_t, all_results = final_CI)
+  return(final_list)
 }

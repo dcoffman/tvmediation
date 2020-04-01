@@ -24,6 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(reshape2)
 library(ggplot2)
+library(ggpubr)
 library('kedd')
 ```
 

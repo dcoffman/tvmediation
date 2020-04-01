@@ -17,110 +17,117 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   #   verbose     -->   TRUE or FALSE for printing results to screen.                   Default = "FALSE"
   #
   # Returns:
-  #   alpha1_hat       -->   estiamted treatment effect on mediator
+  #   timeseq          -->   time points of estimation
+  #   alpha1_hat       -->   estiamted exposure effect on mediator
+  #   CI.lower.a1      -->   Lower confidence intervals for alpha1_hat
+  #   CI.upper.a1      -->   Upper confidence intervals for alpha1_hat
   #   beta2_hat        -->   estiamted mediation effect on outcome
-  #   medEffect        -->   time varying mediation effect
-  #   CI.low           -->   Lower confidence intervals
-  #   CI.upper         -->   Upper confidence intervals
+  #   CI.lower.b2      -->   Lower confidence intervals for beta2_hat
+  #   CI.upper.b2      -->   Upper confidence intervals for beta2_hat
+  #   b1All            -->   estimated exposure effect on outcome
+  #   cAll             -->   estimated direct effect of exposure on outcome
+  #   medDiff          -->   time varying mediation effect (difference term)
+  #   medEffect        -->   time varying mediation effect (product term)
+  #   CI.low           -->   Lower confidence intervals for medEffect
+  #   CI.upper         -->   Upper confidence intervals for medEffect
   #
   # Optional Returns:
-  #   plot1_a1         -->   plot for alpha1_hat across t.seq
-  #   plot2_b2         -->   plot for beta2_hat across t.seq
-  #   MedEff           -->   plot for medEffect across t.seq
+  #   plot1_a1         -->   plot for alpha1_hat with CIs across t.seq
+  #   plot2_b2         -->   plot for beta2_hat with CIs across t.seq
+  #   MedEff           -->   plot for mediation effects (difference and product) across t.seq
   #   MedEff_CI        -->   plot for CIs of medEffect
-  #   bootstrap        -->   plot for estimated medEffects from 
-  #                          bootstrapped samples across t.seq
+  #   bootstrap        -->   plot for estimated medEffects from bootstrapped samples across t.seq
   ##
 
 # Checking for any NA in the treatment vector and removing those indeces
 # from treatment as well as outcome and mediator matrices
-
-  index = vector()  
-  index=which(!is.na(treatment))
-  treatment = treatment[index]
-  outcome = outcome[,index]
-  m = mediator[,index]
-
-  t.seq <- sort(unique(t.seq)) # check if the t.seq is unique or not
-
-  # set n and nm
-  n = length(treatment)
-  nm = nrow(outcome)
-
-  ##### *************************************************** #####
-  ##### Estimating mediation effect product and difference  #####
-  ##### *************************************************** #####
-
-  # Checking for sparseness of the outcome matrix. If all observations
-  # corresponding to each time point is missing the function will stop.
-
-  index_ex = vector()
-
-  for(i in 2:nm){
-    check_pt <- c(is.na(outcome[i,]))
-    num_TRUE <- sum(check_pt, na.rm = TRUE)
-    if(num_TRUE == n){
-      index_ex <- append(index_ex,i)
-      print(paste("Observations missing for row",i,"of the outcome matrix."))
-      next()
-    }
-  }
-
-  if(length(index_ex) == 0){
- 
-  # Regression of exposure treatment(y) on mediator(x)
-  # fit a1 coefficient for each time point
-  a1All = vector()
-  
-  for(i in 1:nm){
-    fit1 = lm(m[i,] ~ treatment,na.action=na.omit)
-    a1All = append(a1All,fit1$coefficients[[2]])
-  }
-  
-  # create smoothing line
-  smootha1 = loess(a1All ~ t.seq[1:nm], span = 0.3, degree=1)
-  
-  # creating a dataframe with the time sequences, a1 and smoothed coeffeicients
-  test1 <- data.frame(cbind(t.seq, a1All, smootha1$fitted))
-  names(test1)[3] <- "smootha1"
-  
-  
-  # Regression of outcome(y) on mediator(x2) and exposure(treatment - x1)
-  # fit b1 and b2 coefficients for each time point
-  b2All = vector()
-  b1All = vector()
-  sd2Real = vector()
-  
-  for(i in 2:nm){
-    fit2 = glm(outcome[i,] ~ treatment + m[(i-1),],family="binomial",na.action=na.omit)
+  if(CI == "boot" || CI == "none"){
+    index = vector()  
+    index=which(!is.na(treatment))
+    treatment = treatment[index]
+    outcome = outcome[,index]
+    m = mediator[,index]
     
-    b2Hat = fit2$coefficients[[3]]
-    b1Hat = fit2$coefficients[[2]]
+    t.seq <- sort(unique(t.seq)) # check if the t.seq is unique or not
     
-    #calculate sd to standardize with
-    sd2 = sqrt(b1Hat^2*var(treatment,na.rm=TRUE)+b2Hat^2*var(m[(i-1),],na.rm=TRUE)+2*b1Hat*b2Hat*cov(treatment,m[(i-1),],use="complete.obs")+(pi^2/3))
+    # set n and nm
+    n = length(treatment)
+    nm = nrow(outcome)
     
-    #append standardized coefficient to list of all coefficients
-    b1All = append(b1All,b1Hat/sd2)
-    b2All = append(b2All,b2Hat/sd2) 
-  }
-  
-  # smooth
-    t.seq.b <- t.seq
-    t.seq.b <- t.seq.b[-1]
-    smoothb2 = loess(b2All ~ t.seq.b[1:length(t.seq.b)], span = 0.2,degree=1)
-
-  
-  # creating a dataframe with the time sequences, b2 and smoothened coeffeicients
-    test2 <- data.frame(cbind(t.seq.b, b2All, smoothb2$fitted))
-    names(test2)[3] <- "smoothb2"
-  
-  
-  #regress outcome(y) on exposure(x) at each time point to use in difference method
-    cAll = vector()
-
+    ##### *************************************************** #####
+    ##### Estimating mediation effect product and difference  #####
+    ##### *************************************************** #####
+    
+    # Checking for sparseness of the outcome matrix. If all observations
+    # corresponding to each time point is missing the function will stop.
+    
+    index_ex = vector()
+    
     for(i in 2:nm){
+      check_pt <- c(is.na(outcome[i,]))
+      num_TRUE <- sum(check_pt, na.rm = TRUE)
+      if(num_TRUE == n){
+        index_ex <- append(index_ex,i)
+        print(paste("Observations missing for row",i,"of the outcome matrix."))
+        next()
+      }
+    }
     
+    if(length(index_ex) == 0){
+      
+      # Regression of exposure treatment(y) on mediator(x)
+      # fit a1 coefficient for each time point
+      a1All = vector()
+      
+      for(i in 1:nm){
+        fit1 = lm(m[i,] ~ treatment,na.action=na.omit)
+        a1All = append(a1All,fit1$coefficients[[2]])
+      }
+      
+      # create smoothing line
+      smootha1 = loess(a1All ~ t.seq[1:nm], span = 0.3, degree=1)
+      
+      # creating a dataframe with the time sequences, a1 and smoothed coeffeicients
+      test1 <- data.frame(cbind(t.seq, a1All, smootha1$fitted))
+      names(test1)[3] <- "smootha1"
+      
+      
+      # Regression of outcome(y) on mediator(x2) and exposure(treatment - x1)
+      # fit b1 and b2 coefficients for each time point
+      b2All = vector()
+      b1All = vector()
+      sd2Real = vector()
+      
+      for(i in 2:nm){
+        fit2 = glm(outcome[i,] ~ treatment + m[(i-1),],family="binomial",na.action=na.omit)
+        
+        b2Hat = fit2$coefficients[[3]]
+        b1Hat = fit2$coefficients[[2]]
+        
+        #calculate sd to standardize with
+        sd2 = sqrt(b1Hat^2*var(treatment,na.rm=TRUE)+b2Hat^2*var(m[(i-1),],na.rm=TRUE)+2*b1Hat*b2Hat*cov(treatment,m[(i-1),],use="complete.obs")+(pi^2/3))
+        
+        #append standardized coefficient to list of all coefficients
+        b1All = append(b1All,b1Hat/sd2)
+        b2All = append(b2All,b2Hat/sd2) 
+      }
+      
+      # smooth
+      t.seq.b <- t.seq
+      t.seq.b <- t.seq.b[-1]
+      smoothb2 = loess(b2All ~ t.seq.b[1:length(t.seq.b)], span = 0.2,degree=1)
+      
+      
+      # creating a dataframe with the time sequences, b2 and smoothened coeffeicients
+      test2 <- data.frame(cbind(t.seq.b, b2All, smoothb2$fitted))
+      names(test2)[3] <- "smoothb2"
+      
+      
+      #regress outcome(y) on exposure(x) at each time point to use in difference method
+      cAll = vector()
+      
+      for(i in 2:nm){
+        
         fit3 = glm(outcome[i,]~treatment, family="binomial",na.action=na.omit)
         cHat = fit3$coefficients[[2]]
         
@@ -128,194 +135,206 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         
         #append standardized coefficient to list of all coefficients
         cAll = append(cAll,cHat/sd1)
-    }
-    
-    
-    ##### *********************************************************************** #####
-    ##### Bootstrapping samples to estimate confidence intervals for coefficients #####
-    ##### *********************************************************************** #####
-    
-    coeff_CI <- bootci_coeff_binary(treatment, t.seq, nm, m, outcome, replicates)
-    
-    #*********************************************************************************#
-    
-    
-    #### Formatting the results into a single dataframe ####
-    
-    coeff_alpha1 <- merge(test1, coeff_CI, by.x = "t.seq") %>%
-                          select(-CI.lower.b2, -CI.upper.b2)
-    coeff_beta1 <- cbind(t.seq.b, b1All, cAll)
-    coeff_beta2 <- merge(test2, coeff_CI, by.x = "t.seq.b", by.y = "t.seq", all.y = TRUE) %>%
-                          select(-CI.lower.a1, -CI.upper.a1)
-    
-    coeff_data1 <- merge(coeff_alpha1, coeff_beta2, by.x = "t.seq", by.y = "t.seq.b",
-                        all.x = TRUE)
-    
-    coeff_data <- merge(coeff_data1, coeff_beta1, by.x = "t.seq", by.y = "t.seq.b",
-                        all.x = TRUE)
-    
-  
-  #calculate mediation effects
-  #really b2(t)*a1(t-1) because a1 starts at t=1 while b2 starts at t=2
-    for(i in 1:nrow(coeff_data)){
-      if(!is.na(coeff_data$b1All[i])){
-        coeff_data$medProd[i] = coeff_data$b2All[i]*coeff_data$a1All[i-1]
-        coeff_data$medDif[i] = coeff_data$cAll[i] - coeff_data$b1All[i]
-      }
-    }
-  
-  #calculate smooth line for products
-    medProd <- coeff_data$medProd
-    medProd <- medProd[which(!is.na(medProd))]
-    smoothProd = loess(medProd ~ t.seq.b[1:length(t.seq.b)], span = 0.3,degree=1)
-  
-  #calculate smooth line for differences
-    medDif <- coeff_data$medDif
-    medDif <- medDif[which(!is.na(medDif))]
-    smoothDif = loess(medDif ~ t.seq.b[1:length(t.seq.b)], span = 0.3,degree=1)
-  
-  #creating a dataframe with the time sequences, mediation effects and smoothened coeffeicients
-    test_a <- data.frame(cbind(t.seq.b, medProd, smoothProd$fitted))
-    names(test_a)[2] <- "med_pt"
-    names(test_a)[3] <- "smooth"
-    test_a$type <- "Prod"
-    
-    test_b <- data.frame(cbind(t.seq.b, medDif, smoothDif$fitted))
-    names(test_b)[2] <- "med_pt"
-    names(test_b)[3] <- "smooth"
-    test_b$type <- "Diff"
-    
-    test3 <- rbind(test_a, test_b)
-    
-    coeff_data <- merge(coeff_data, test_a, by.x = "t.seq", by.y = "t.seq.b",
-                        all.x = TRUE) %>%
-                  select(-med_pt, -type)
-    names(coeff_data)[14] <- "smooth_medProd"
-    
-    coeff_data <- merge(coeff_data, test_b, by.x = "t.seq", by.y = "t.seq.b",
-                        all.x = TRUE) %>%
-                  select(-med_pt, -type)
-    names(coeff_data)[15] <- "smooth_medDif"
-    
-    
-  ##### ****************************************************** #####
-  ##### Bootstrapping samples to estimate confidence intervals #####
-  ##### ****************************************************** #####;
-  
-  if(CI == "boot"){
-    final_results <- bootci_tvmb(treatment, t.seq, nm, m, outcome, replicates)
-  }else{
-    final_dat <- coeff_data
-    final_results <- final_dat %>%
-      select(t.seq, a1All, b2All, medProd)
-    names(final_results) <- c("timeseq", "alpha1_hat", "beta2_hat", "medEffect")
-  }
-  
-  ##### ************************************************ #####
-  ##### Creating plots of the mediation effect estimates #####
-  ##### ************************************************ #####
-  
-  if(plot == TRUE){
-    # First Plot: plotting alpha1 coefficients (smoothed) using across
-    # the time using ggplot
-    plot1_a1 <- ggplot(data = coeff_data, aes(t.seq, smootha1)) +
-                geom_line(color = "red", size = 0.75) +
-                geom_line(aes(t.seq, CI.lower.a1), color = "blue", size = 0.8, linetype = "dashed") +
-                geom_line(aes(t.seq, CI.upper.a1), color = "blue", size = 0.8, linetype = "dashed") +
-                labs(title = "Plotting the alpha coffecients",
-                     x = "Time Sequence",
-                     y = "Alpha1")
-    
-    # Second plot: plotting beta2 coeffeicients (smoothed) across
-    # the time using ggplot
-    plot2_b2 <- ggplot(data = coeff_data, aes(t.seq, smoothb2)) +
-                geom_line(color = "red", size = 0.75) +
-                geom_line(aes(t.seq, CI.lower.b2), color = "blue", size = 0.8, linetype = "dashed") +
-                geom_line(aes(t.seq, CI.upper.b2), color = "blue", size = 0.8, linetype = "dashed") +
-                labs(title = "Plotting the beta2 coffecients",
-                     x = "Time Sequence",
-                     y = "Beta2")
-              
-    # Third plot: plotting the mediation effects across time using ggplot
-    plot3 <- ggplot(data = test3, aes(t.seq.b, smooth, color = as.factor(type))) +
-      geom_line(size = 0.75) +
-      labs(title = "Plotting the mediation effect",
-           x = "Time Sequence",
-           y = "Mediation Effect",
-           color = "Effect Type") +
-      scale_color_manual(labels = c("Prod", "Diff"),
-                         values = c("indianred1", "blue"))
-    
-    if(CI == "boot"){
-      # Fourth plot: plotting the mediation effect with 95% CIs
-      plot4 <- ggplot(data = final_results, aes(t.seq, medEffect)) +
-                geom_line(size = 1, color = "red") +
-                geom_line(aes(timeseq, CI.low), color = "blue", size = 0.8, linetype = "dashed") +
-                geom_line(aes(timeseq, CI.upper), color = "blue", size = 0.8, linetype = "dashed") +
-                geom_line(aes(timeseq, 0)) +
-                labs(title = "Mediation Effect with 95% CIs (computed with bootstrap)",
-                     x = "Time Sequence",
-                     y = "Mediation Effect") + 
-                theme(legend.position = "none")
-      
-      # Fifth plot: plotting the mediation effect from 500 bootstrap samples
-      plot5 <- ggplot(data = IE_t, aes(t.seq.b, V2)) + 
-        geom_line() + 
-        labs(title = "Bootstrap result of Mediation Effect",
-             x = "Time Sequence",
-             y = "Mediation Effect")
-      for (i in 3:ncol(IE_t)) {
-        x <- data.frame(cbind(t.seq.b,IE_t[,i]))
-        names(x)[2] <- "val"
-        plot5 <- plot5 + geom_line(data = x, aes(t.seq.b, val))
       }
       
-      plot_results <- list("plot1_a1" = plot1_a1,
-                      "plot2_b2" = plot2_b2,
-                      "MedEff" = plot3,
-                      "MedEff_CI" = plot4,
-                      "bootstrap" = plot5)
+      
+      ##### *********************************************************************** #####
+      ##### Bootstrapping samples to estimate confidence intervals for coefficients #####
+      ##### *********************************************************************** #####
+      
+      coeff_CI <- bootci_coeff_binary(treatment, t.seq, nm, m, outcome, replicates)
+      
+      #*********************************************************************************#
+      
+      
+      #### Formatting the results into a single dataframe ####
+      
+      coeff_alpha1 <- merge(test1, coeff_CI, by.x = "t.seq") %>%
+        select(-CI.lower.b2, -CI.upper.b2)
+      coeff_beta1 <- cbind(t.seq.b, b1All, cAll)
+      coeff_beta2 <- merge(test2, coeff_CI, by.x = "t.seq.b", by.y = "t.seq", all.y = TRUE) %>%
+        select(-CI.lower.a1, -CI.upper.a1)
+      
+      coeff_data1 <- merge(coeff_alpha1, coeff_beta2, by.x = "t.seq", by.y = "t.seq.b",
+                           all.x = TRUE)
+      
+      coeff_data <- merge(coeff_data1, coeff_beta1, by.x = "t.seq", by.y = "t.seq.b",
+                          all.x = TRUE)
+      
+      
+      #calculate mediation effects
+      #really b2(t)*a1(t-1) because a1 starts at t=1 while b2 starts at t=2
+      for(i in 1:nrow(coeff_data)){
+        if(!is.na(coeff_data$b1All[i])){
+          coeff_data$medProd[i] = coeff_data$b2All[i]*coeff_data$a1All[i-1]
+          coeff_data$medDif[i] = coeff_data$cAll[i] - coeff_data$b1All[i]
+        }
+      }
+      
+      #calculate smooth line for products
+      medProd <- coeff_data$medProd
+      medProd <- medProd[which(!is.na(medProd))]
+      smoothProd = loess(medProd ~ t.seq.b[1:length(t.seq.b)], span = 0.3,degree=1)
+      
+      #calculate smooth line for differences
+      medDif <- coeff_data$medDif
+      medDif <- medDif[which(!is.na(medDif))]
+      smoothDif = loess(medDif ~ t.seq.b[1:length(t.seq.b)], span = 0.3,degree=1)
+      
+      #creating a dataframe with the time sequences, mediation effects and smoothened coeffeicients
+      test_a <- data.frame(cbind(t.seq.b, medProd, smoothProd$fitted))
+      names(test_a)[2] <- "med_pt"
+      names(test_a)[3] <- "smooth_Prod"
+      test_a$type <- "Prod"
+      
+      test_b <- data.frame(cbind(t.seq.b, medDif, smoothDif$fitted))
+      names(test_b)[2] <- "med_pt"
+      names(test_b)[3] <- "smooth"
+      test_b$type <- "Diff"
+      
+      # test3 <- rbind(test_a, test_b)
+      
+      coeff_data <- merge(coeff_data, test_a, by.x = "t.seq", by.y = "t.seq.b",
+                          all.x = TRUE) %>%
+        select(-med_pt, -type)
+      names(coeff_data)[14] <- "smooth_medProd"
+      
+      coeff_data <- merge(coeff_data, test_b, by.x = "t.seq", by.y = "t.seq.b",
+                          all.x = TRUE) %>%
+        select(-med_pt, -type)
+      names(coeff_data)[15] <- "smooth_medDif"
+      
+      
+      ##### ****************************************************** #####
+      ##### Bootstrapping samples to estimate confidence intervals #####
+      ##### ****************************************************** #####;
+      
+      if(CI == "boot"){
+        list_all <- bootci_tvmb(treatment, t.seq, nm, m, outcome, coeff_data, replicates)
+        IE_t <- list_all$bootstrap_result
+        final_dat <- list_all$all_results
+        final_dat1 <- final_dat %>%
+          select(- c(a1All, b2All, medProd, medDif))
+        final_results <- final_dat1[c(1:9, 11, 10, 12, 13)]
+        names(final_results)[c(1, 2, 5, 10, 11)] <- c("timeseq", "alpha1_hat", "beta2_hat", "medDiff", "medEffect")
+      }else{
+        final_dat <- coeff_data
+        final_dat1 <- final_dat %>%
+          select(- c(a1All, b2All, medProd, medDif))
+        final_results <- final_dat1[c(1:9, 11, 10)]
+        names(final_results)[c(1, 2, 5, 10, 11)] <- c("timeseq", "alpha1_hat", "beta2_hat", "medDiff", "medEffect")
+      }
+      
+      ##### ************************************************ #####
+      ##### Creating plots of the mediation effect estimates #####
+      ##### ************************************************ #####
+      
+      if(plot == TRUE){
+        # First Plot: plotting alpha1 coefficients (smoothed) using across
+        # the time using ggplot
+        plot1_a1 <- ggplot(data = final_results, aes(timeseq, alpha1_hat)) +
+          geom_line(color = "red", size = 0.75) +
+          geom_line(aes(timeseq, CI.lower.a1), color = "blue", size = 0.8, linetype = "dashed") +
+          geom_line(aes(timeseq, CI.upper.a1), color = "blue", size = 0.8, linetype = "dashed") +
+          labs(title = "Plotting the alpha coffecients",
+               x = "Time Sequence",
+               y = "Alpha1")
+        
+        # Second plot: plotting beta2 coeffeicients (smoothed) across
+        # the time using ggplot
+        plot2_b2 <- ggplot(data = final_results, aes(timeseq, beta2_hat)) +
+          geom_line(color = "red", size = 0.75) +
+          geom_line(aes(timeseq, CI.lower.b2), color = "blue", size = 0.8, linetype = "dashed") +
+          geom_line(aes(timeseq, CI.upper.b2), color = "blue", size = 0.8, linetype = "dashed") +
+          labs(title = "Plotting the beta2 coffecients",
+               x = "Time Sequence",
+               y = "Beta2")
+        
+        # Third plot: plotting the mediation effects across time using ggplot
+        plot3_a <- ggplot(data = final_results, aes(timeseq, medDiff)) +
+          geom_line(size = 0.75, color = "black") +
+          labs(title = "Plotting the mediation (difference) effect",
+               x = "Time Sequence",
+               y = "Mediation Effect")
+        plot3_b <- ggplot(data = final_results, aes(timeseq, medEffect)) +
+          geom_line(size = 0.75, color = "red") +
+          labs(title = "Plotting the mediation (product) effect",
+               x = "Time Sequence",
+               y = "Mediation Effect") 
+        plot3 <- ggarrange(plot3_a, plot3_b)
+        
+        if(CI == "boot"){
+          # Fourth plot: plotting the mediation effect with 95% CIs
+          plot4 <- ggplot(data = final_results, aes(timeseq, medEffect)) +
+            geom_line(size = 1, color = "red") +
+            geom_line(aes(timeseq, CI.low), color = "blue", size = 0.8, linetype = "dashed") +
+            geom_line(aes(timeseq, CI.upper), color = "blue", size = 0.8, linetype = "dashed") +
+            geom_line(aes(timeseq, 0)) +
+            labs(title = "Mediation Effect with 95% CIs (computed with bootstrap)",
+                 x = "Time Sequence",
+                 y = "Mediation Effect") + 
+            theme(legend.position = "none")
+          
+          # Fifth plot: plotting the mediation effect from 500 bootstrap samples
+          plot5 <- ggplot(data = IE_t, aes(t.seq.b, V2)) + 
+            geom_line() + 
+            labs(title = "Bootstrap result of Mediation Effect",
+                 x = "Time Sequence",
+                 y = "Mediation Effect")
+          for (i in 2:ncol(IE_t)) {
+            x <- data.frame(cbind(t.seq.b,IE_t[,i]))
+            names(x)[2] <- "val"
+            plot5 <- plot5 + geom_line(data = x, aes(t.seq.b, val))
+          }
+          
+          plot_results <- list("plot1_a1" = plot1_a1,
+                               "plot2_b2" = plot2_b2,
+                               "MedEff" = plot3,
+                               "MedEff_CI" = plot4,
+                               "bootstrap" = plot5)
+        }else{
+          plot_results <- list("plot1_a1" = plot1_a1,
+                               "plot2_b2" = plot2_b2,
+                               "MedEff" = plot3)
+        }
+      }
+      
+      #end of 'if' condition on plot
+      
+      if(verbose == TRUE){
+        if(plot == TRUE){
+          print(final_results)
+          print(plot_results)
+        }else{
+          print(final_results)
+        }
+      }
+      
+      # Enclosing all the plots in a list object to return
+      if(plot == TRUE & CI == "boot"){
+        results <- list("Estimates" = final_results,
+                        "plot1_a1" = plot1_a1,
+                        "plot2_b2" = plot2_b2,
+                        "MedEff" = plot3,
+                        "MedEff_CI" = plot4,
+                        "bootstrap" = plot5)
+      }
+      else if(plot == TRUE & CI != "boot"){
+        results <- list("Estimates" = final_results,
+                        "plot1_a1" = plot1_a1,
+                        "plot2_b2" = plot2_b2,
+                        "MedEff" = plot3)  
+      }
+      else{
+        results <- list("Estimates" = final_results)
+      }
+      
+      return(results)
+      
     }else{
-      plot_results <- list("plot1_a1" = plot1_a1,
-                           "plot2_b2" = plot2_b2,
-                           "MedEff" = plot3)
-  }
-}
-    
-  #end of 'if' condition on plot
-    
-  if(verbose == TRUE){
-    if(plot == TRUE){
-      print(final_results)
-      print(plot_results)
-    }else{
-      print(final_results)
-    }
-  }
-  
-  # Enclosing all the plots in a list object to return
-    if(plot == TRUE & CI == "boot"){
-      results <- list("Estimates" = final_results,
-                      "plot1_a1" = plot1_a1,
-                      "plot2_b2" = plot2_b2,
-                      "MedEff" = plot3,
-                      "MedEff_CI" = plot4,
-                      "bootstrap" = plot5)
-    }
-    else if(plot == TRUE & CI != "boot"){
-      results <- list("Estimates" = final_results,
-                      "plot1_a1" = plot1_a1,
-                      "plot2_b2" = plot2_b2,
-                      "MedEff" = plot3)  
-    }
-    else{
-      results <- list("Estimates" = final_results)
-    }
-    
-    return(results)
-   
-}else{
       print("Function tvmb stopped running because of missing observations from the outcome matrix.")
-}
-  
+    }
+  } else{
+    print(paste("Error:Accepted values for CI are 'boot' and 'none';you have entered an unacceptable value for CI."))
+  }#end of CI="boot" if condition
 } #end of function
