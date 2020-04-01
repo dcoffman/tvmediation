@@ -9,7 +9,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-<style>
+<style type="text/css">
 pre {
   overflow-x: auto;
 }
@@ -19,6 +19,8 @@ pre code {
 }
 </style>
 
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
@@ -26,8 +28,11 @@ library(dplyr)
 library(reshape2)
 library(ggplot2)
 library(ggpubr)
-library('kedd')
+library(kedd)
+library(tvmediation)
 ```
+
+<div style="text-align: justify">
 
 The purpose of this vignette is to provide users with a step-by-step guide for 
 performing a time varying mediation analysis for binary outcome and interpreting the results. We will rely on a dataset simulated (based on the Wisconsin Smokers' Health Study 2 dataset) which includes 1086 individuals across 3 treatment conditions. In one condition, one-third of participants received only a nicotine patch. In a second condition, another one-third received a nicotine patch and varenicline. A final third of 
@@ -67,7 +72,6 @@ If there are two treatment groups, create a `treatment` variable with the follow
 To load the `smoker` dataset, type:
 ```{r}
 data(smoker)
-View(smoker)
 ```
 
 Creating two dummy variables to indicate whether a particpant was given varenicline or comboNRT. `NRT1` indicates whether a subject recieved `Varenicline` or not. `NRT2` indicates whether a subject recieved `comboNRT` or not. Each subject's response for the treatment group (e.g. `varenicline`) was converted to a numeric value, and 1 was subtracted to yield a vector of zeros and ones.
@@ -75,6 +79,9 @@ Creating two dummy variables to indicate whether a particpant was given varenicl
 ```{r}
 NRT1 <- as.numeric(unique(smoker[ ,c("SubjectID","varenicline")])[,2])-1
 NRT2 <- as.numeric(unique(smoker[ ,c("SubjectID","comboNRT")])[,2])-1
+
+NRT1[1:25]
+NRT2[1:25]
 ```
 
 Depending on our exposure of interest, i.e. whether we want to compare the mediation effects observed among participants with varenicline vs placebo (nicotine patch), or comboNRT vs placebo, or varenicline vs comboNRT, a final variable was derived based on these two variables.
@@ -84,6 +91,7 @@ For example: The following codes are to derive the final variable to compare the
 ```{r}
 treatment= rep(NA,1086)
 treatment = ifelse(NRT1==1 & NRT2==0, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
+treatment[1:25]
 ```
 
 The current version of the `tvmb` function only supports two treatment options. Therefore, in order to estimate the mediation effects observed among participants with comboNRT vs placebo, the above code would be changed to,
@@ -115,18 +123,20 @@ outcomes, we will use the `LongToWide` function twice as seen below:
 ```{r}
 mediator <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$NegMoodLst15min)
 outcome <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$smoke_status)
+mediator[1:16, 1:25]
 ```
 
 The `tvmb` also requires the time sequence variable in a vector format.
 ```{r}
 t.seq <- sort(unique(smoker$timeseq))
+t.seq[1:16]
 ```
 
 We are now ready to perform our time varying mediation analysis.
-```{r, fig.width = 7, fig.height = 5, results='hide', fig.keep='all'} 
+```{r, fig.width = 18, fig.height = 10, results='hide', fig.keep='all'} 
 results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, plot = TRUE)
 ```
-```{r, echo = FALSE}
+```{r, fig.width = 8, fig.height = 4, echo = FALSE}
 results_tvmb
 ```
 
@@ -161,4 +171,8 @@ confidence intervals `MedEff_CI`. We recommend using the plot to interpret your 
 
 ## Summary
 TBD
+
+</div>
 ---
+
+

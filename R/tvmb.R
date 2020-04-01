@@ -18,14 +18,14 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   #
   # Returns:
   #   timeseq          -->   time points of estimation
-  #   alpha1_hat       -->   estiamted exposure effect on mediator
+  #   alpha1_hat       -->   estiamted exposure effect on mediator (indirect effect)
   #   CI.lower.a1      -->   Lower confidence intervals for alpha1_hat
   #   CI.upper.a1      -->   Upper confidence intervals for alpha1_hat
-  #   beta2_hat        -->   estiamted mediation effect on outcome
+  #   beta2_hat        -->   estiamted mediation effect on outcome (indirect effect)
   #   CI.lower.b2      -->   Lower confidence intervals for beta2_hat
   #   CI.upper.b2      -->   Upper confidence intervals for beta2_hat
-  #   b1All            -->   estimated exposure effect on outcome
-  #   cAll             -->   estimated direct effect of exposure on outcome
+  #   b1All            -->   estimated exposure effect on outcome (direct effect)
+  #   cAll             -->   estimated effect of exposure on outcome (total effect)
   #   medDiff          -->   time varying mediation effect (difference term)
   #   medEffect        -->   time varying mediation effect (product term)
   #   CI.low           -->   Lower confidence intervals for medEffect
@@ -233,54 +233,54 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         # First Plot: plotting alpha1 coefficients (smoothed) using across
         # the time using ggplot
         plot1_a1 <- ggplot(data = final_results, aes(timeseq, alpha1_hat)) +
-          geom_line(color = "red", size = 0.75) +
-          geom_line(aes(timeseq, CI.lower.a1), color = "blue", size = 0.8, linetype = "dashed") +
-          geom_line(aes(timeseq, CI.upper.a1), color = "blue", size = 0.8, linetype = "dashed") +
-          labs(title = "Plotting the alpha coffecients",
-               x = "Time Sequence",
-               y = "Alpha1")
+                    geom_line(color = "red", size = 0.75) +
+                    geom_line(aes(timeseq, CI.lower.a1), color = "blue", size = 0.8, linetype = "dashed") +
+                    geom_line(aes(timeseq, CI.upper.a1), color = "blue", size = 0.8, linetype = "dashed") +
+                    labs(title = "Plotting the alpha coffecients",
+                         x = "Time Sequence",
+                         y = "Alpha1")
         
         # Second plot: plotting beta2 coeffeicients (smoothed) across
         # the time using ggplot
         plot2_b2 <- ggplot(data = final_results, aes(timeseq, beta2_hat)) +
-          geom_line(color = "red", size = 0.75) +
-          geom_line(aes(timeseq, CI.lower.b2), color = "blue", size = 0.8, linetype = "dashed") +
-          geom_line(aes(timeseq, CI.upper.b2), color = "blue", size = 0.8, linetype = "dashed") +
-          labs(title = "Plotting the beta2 coffecients",
-               x = "Time Sequence",
-               y = "Beta2")
+                    geom_line(color = "red", size = 0.75) +
+                    geom_line(aes(timeseq, CI.lower.b2), color = "blue", size = 0.8, linetype = "dashed") +
+                    geom_line(aes(timeseq, CI.upper.b2), color = "blue", size = 0.8, linetype = "dashed") +
+                    labs(title = "Plotting the beta2 coffecients",
+                         x = "Time Sequence",
+                         y = "Beta2")
         
         # Third plot: plotting the mediation effects across time using ggplot
         plot3_a <- ggplot(data = final_results, aes(timeseq, medDiff)) +
-          geom_line(size = 0.75, color = "black") +
-          labs(title = "Plotting the mediation (difference) effect",
-               x = "Time Sequence",
-               y = "Mediation Effect")
+                    geom_line(size = 0.75, color = "black") +
+                    labs(title = "Plotting the mediation (difference) effect",
+                         x = "Time Sequence",
+                         y = "Mediation Effect")
         plot3_b <- ggplot(data = final_results, aes(timeseq, medEffect)) +
-          geom_line(size = 0.75, color = "red") +
-          labs(title = "Plotting the mediation (product) effect",
-               x = "Time Sequence",
-               y = "Mediation Effect") 
+                    geom_line(size = 0.75, color = "red") +
+                    labs(title = "Plotting the mediation (product) effect",
+                         x = "Time Sequence",
+                         y = "Mediation Effect") 
         plot3 <- ggarrange(plot3_a, plot3_b)
         
         if(CI == "boot"){
           # Fourth plot: plotting the mediation effect with 95% CIs
           plot4 <- ggplot(data = final_results, aes(timeseq, medEffect)) +
-            geom_line(size = 1, color = "red") +
-            geom_line(aes(timeseq, CI.low), color = "blue", size = 0.8, linetype = "dashed") +
-            geom_line(aes(timeseq, CI.upper), color = "blue", size = 0.8, linetype = "dashed") +
-            geom_line(aes(timeseq, 0)) +
-            labs(title = "Mediation Effect with 95% CIs (computed with bootstrap)",
-                 x = "Time Sequence",
-                 y = "Mediation Effect") + 
-            theme(legend.position = "none")
+                    geom_line(size = 1, color = "red") +
+                    geom_line(aes(timeseq, CI.low), color = "blue", size = 0.8, linetype = "dashed") +
+                    geom_line(aes(timeseq, CI.upper), color = "blue", size = 0.8, linetype = "dashed") +
+                    geom_line(aes(timeseq, 0)) +
+                    labs(title = "Mediation Effect with 95% CIs (computed with bootstrap)",
+                         x = "Time Sequence",
+                         y = "Mediation Effect") + 
+                    theme(legend.position = "none")
           
           # Fifth plot: plotting the mediation effect from 500 bootstrap samples
           plot5 <- ggplot(data = IE_t, aes(t.seq.b, V2)) + 
-            geom_line() + 
-            labs(title = "Bootstrap result of Mediation Effect",
-                 x = "Time Sequence",
-                 y = "Mediation Effect")
+                    geom_line() + 
+                    labs(title = "Bootstrap result of Mediation Effect",
+                         x = "Time Sequence",
+                         y = "Mediation Effect")
           for (i in 2:ncol(IE_t)) {
             x <- data.frame(cbind(t.seq.b,IE_t[,i]))
             names(x)[2] <- "val"

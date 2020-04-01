@@ -27,6 +27,7 @@ library(locpol)
 library(tvmediation)
 ```
 
+<div style="text-align: justify">
 
 The purpose of this vignette is to provide users with a step-by-step guide for 
 performing a time varying mediation analysis and interpreting the results. To illustrate we will used a simulated data set.
@@ -79,7 +80,7 @@ data(smoker)
 
 ## Using `tvmediation`
 
-The current version of the `tvma` function only supports two treatment options.
+The current version of the `tvma` function only supports two treatment options. A separate function `tvma_3trt` for three treatment options is also available.
 
 The `smoker` data frame is organized in Long format with `SubjectID` repeating
 over multiple rows for each participant. the `tvma` function requires that our
@@ -196,5 +197,7 @@ research, and others. By adopting the Time Varying Mediation Analysis for your
 data, we hope to characterize the realistic nature of an effect over time as 
 opposed to the traditional approach of estimating an effect based on its single
 occurrence. 
+
+</div>
 
 ---

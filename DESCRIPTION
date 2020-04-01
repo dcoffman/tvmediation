@@ -5,7 +5,7 @@ Title: Time Varying Mediation Analysis
 Description: A set of functions to measure the effect of mediating variables over time.
 Depends: R (>= 3.5.1)
 Imports:
-	locpol
+	dplyr, reshape2, ggplot2, ggpubr, kedd, locpol
 Suggests:
 	knitr, rmarkdown
 License: GPL-3
