@@ -41,7 +41,7 @@ mediation effect as a function that varies over time.
 To use the time varying mediation analysis package in R, you must first install
 it and load it: 
 ```{r, eval = FALSE}
-devtools::install.packages("tvmediation")
+install.packages("tvmediation")
 library(tvmediation)
 ```
 
