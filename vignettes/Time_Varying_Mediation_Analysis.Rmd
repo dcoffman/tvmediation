@@ -174,18 +174,20 @@ results <- tvma(treatment, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.
 results
 ```
 
-The `tvma` function computes bootstrap confidence intervals by default, but 
-another powerful option for computing confidence intervals and standard 
-deviations exists.
+The `tvma` function computes bootstrap confidence intervals by default.
 
-3. Declaring `CI = asymptotic` provides an alternative method for deriving confidence intervals.
-
-Importantly, this process can be time intensive depending on the size of your 
-dataset. For the `smoker` dataset, this process will take approximately 45 min.
-```{r, fig.width = 6, fig.height = 4, results = 'hide', fig.keep = 'all'}
+```{r, eval=FALSE, echo = FALSE, fig.width = 6, fig.height = 4, results = 'hide', fig.keep = 'all'}
+# but 
+# another powerful option for computing confidence intervals and standard 
+# deviations exists.
+# 
+# 3. Declaring `CI = asymptotic` provides an alternative method for deriving confidence intervals.
+# 
+# Importantly, this process can be time intensive depending on the size of your 
+# dataset. For the `smoker` dataset, this process will take approximately 45 min.
 results <- tvma(treatment, t.seq, mediator, outcome, CI = "asymptotic")
 ```
-```{r, echo = FALSE}
+```{r, eval=FALSE, echo = FALSE}
 results
 ```
 
