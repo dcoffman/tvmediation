@@ -47,6 +47,9 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 500){
       b2AllTemp = append(b2AllTemp,b2Hat/sd2)
     }  
     
+    t.seq.b <- t.seq
+    t.seq.b <- t.seq.b[-1]
+    
     t.seq.b2 <- t.seq
     t.seq.b2 <- t.seq.b2[-1]
     

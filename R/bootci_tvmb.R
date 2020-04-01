@@ -45,6 +45,9 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 5
     #calculate mediation effect for an individual at time points 2-50
     #this is taking product of a1[t-1]*b2[t]
     
+    t.seq.b <- t.seq
+    t.seq.b <- t.seq.b[-1]
+    
     t.seq.b2 <- t.seq
     t.seq.b2 <- t.seq.b2[-1]
     
