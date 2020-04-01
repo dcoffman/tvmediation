@@ -19,7 +19,7 @@ estBootCIs <- function(trt, t.seq, M, Y, t.est, deltat, replicates) {
   ##
   
   start.time <- Sys.time()
-  print("Beginning bootstrap.")
+  print("Beginning bootstrap for mediation effect CIs.")
   N <- length(trt)
   storage.boot <- matrix(0, nrow = replicates, ncol = length(t.est))
   

@@ -22,12 +22,17 @@ bootci_tvm_3trt<-function(boot.sample, orig.data, t.est)
   storage.boot1=matrix(0, nrow=boot.sample, ncol=length(t.est))
   storage.boot2=matrix(0, nrow=boot.sample, ncol=length(t.est))
   
-  print(paste("Bootstrap starting for confidence interval computation."))
+  start.time <- Sys.time()
+  print("Beginning bootstrap for mediation effect CIs.")
   
   for(k1 in 1:boot.sample)
   {
     set.seed(k1^2)
-    print(k1)
+    if (k1 < boot.sample) {
+      cat(sprintf("Boostrapping iteration %03d", k1), " \r")
+    } else {
+      print(sprintf("Boostrapping iteration %03d", k1))
+    }
     index.sample<-sample(1:N, N, replace=TRUE)
     x.boot=x[,index.sample]
     y.boot=y[,index.sample]
@@ -70,6 +75,11 @@ bootci_tvm_3trt<-function(boot.sample, orig.data, t.est)
   ## The line below is commented till orig.sd1.all and orig.sd2.all from tvmcurve_3trt_sd.R can be computed
   # list(plw1=lower1, pup1=upper1, plw2=lower2, pup2=upper2,  orig.sd1.all=orig.sd1.all, orig.sd2.all=orig.sd2.all, orig.se1.all=orig.se1.all, orig.se2.all=orig.se2.all, orig.mediation1=original.mediation1, orig.mediation2=original.mediation2) 
   
-  list(plw1=lower1, pup1=upper1, plw2=lower2, pup2=upper2, orig.se1.all=orig.se1.all, orig.se2.all=orig.se2.all, orig.mediation1=original.mediation1, orig.mediation2=original.mediation2) 
+  results <- list(plw1=lower1, pup1=upper1, plw2=lower2, pup2=upper2, orig.se1.all=orig.se1.all, orig.se2.all=orig.se2.all, orig.mediation1=original.mediation1, orig.mediation2=original.mediation2) 
+  
+  end.time <- Sys.time()
+  total.time <- end.time - start.time
+  print(sprintf("Process complete. Elapsed time = %.3f secs", as.numeric(total.time, units = "secs")))
+  return(results)
   
 }      
