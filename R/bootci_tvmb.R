@@ -8,7 +8,7 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 5
   reps = replicates
   
   start.time <- Sys.time()
-  print("Beginning bootstrap for coefficient CIs.")
+  print("Beginning bootstrap for mediation effect CIs.")
   
   n = length(treatment)
   nm = nrow(outcome)
@@ -87,8 +87,7 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 5
   smoothLow = loess(quantiles[1,] ~ t.seq[2:nm], span = 0.1, degree=1)
   smoothUp = loess(quantiles[2,] ~ t.seq[2:nm], span = 0.1, degree=1)
   
-  t.seq.b3 <- t.seq.b2[-1]
-  CI_1 <- data.frame(cbind(t.seq.b3, smoothLow$fitted, smoothUp$fitted))
+  CI_1 <- data.frame(cbind(t.seq.b2, smoothLow$fitted, smoothUp$fitted))
   
   #creating a dataframe with the time sequences, mediation effect and quantiles
   # test4_1 <- data.frame(cbind(t.seq.b2, medProd, smoothProd$fitted))
