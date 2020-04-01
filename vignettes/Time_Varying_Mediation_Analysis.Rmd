@@ -23,6 +23,7 @@ pre code {
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)  # NEED TO LOAD tidyverse BEFORE Hmisc!
 library(Hmisc)
+library(locpol)
 library(tvmediation)
 ```
 
@@ -99,8 +100,8 @@ represent time sequence and rows represent the outcome for each subject.
 As the `tvma` function will require two matrices, one for mediators, and one for
 outcomes, we will use the `LongToWide` function twice as seen below:
 ```{r}
-mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
-outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
+mediator <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$NegMoodLst15min)
+outcome <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$cessFatig)
 mediator[, 1:10]
 ```
 
@@ -118,9 +119,9 @@ The function still requires 2 more variables that we have not yet created:
 
 We can create these variables in the following way:
 ```{r}
-treatment <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
+treatment <- as.numeric(unique(smoker[ , c("SubjectID","varenicline")])[ , 2])-1
 treatment
-t.seq <- sort(unique(smoker.parsed$timeseq))
+t.seq <- sort(unique(smoker$timeseq))
 t.seq
 ```
 

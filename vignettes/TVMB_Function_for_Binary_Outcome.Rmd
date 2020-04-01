@@ -41,7 +41,7 @@ mediation effect as a function that varies over time.
 To use the time varying mediation analysis package in R, you must first install
 it and load it: 
 ```{r, eval = FALSE}
-install.packages("tvmediation")
+devtools::install.packages("tvmediation")
 library(tvmediation)
 ```
 
@@ -65,7 +65,7 @@ If there are two treatment groups, create a `treatment` variable with the follow
 
 To load the `SimulData` dataset, type:
 ```{r}
-data(SimulData)
+data(smoker)
 ```
 
 Creating two dummy variables to indicate whether a particpant was given varenicline or comboNRT. `NRT1` indicates whether a subject recieved `Varenicline` or not. `NRT2` indicates whether a subject recieved `comboNRT` or not. Each subject's response for the treatment group (e.g. `varenicline`) was converted to a numeric value, and 1 was subtracted to yield a vector of zeros and ones.
@@ -132,30 +132,30 @@ results_tvmb
 
 The `tvmb` function returns a list of results including:
 
-1. `alpha1_hat` the estimated effect of the intervention on the mediator 
-2. `beta2_hat` the estimated effect of the mediator on the outcome
-3. `medEffect` the time varying mediation effect
-4. `CI.low` the lower confidence intervals
-5. `CI.upper` the upper confidence intervals
-6. `plot1_a1` plot for alpha1_hat across t.seq
-7. `plot2_b2` plot for beta2_hat across t.seq
-8. `MedEff` plot for medEffect across t.seq
-9. `MedEff_CI` plot for CIs of medEffect
-10.`bootstrap` plot for estimated medEffects from bootstrapped samples across t.seq
+1.  `alpha1_hat` the estimated effect of the intervention on the mediator 
+2.  `CI.lower.a1` the lower confidence intervals for alpha1_hat
+3.  `CI.upper.a1` the upper confidence intervals for alpha1_hat
+4.  `beta2_hat` the estimated effect of the mediator on the outcome
+5   `CI.lower.b2` the lower confidence intervals for beta2_hat
+6.  `CI.upper.b2` the upper confidence intervals for beta2_hat
+7.  `b1All` the estimated exposure effect on outcome
+8.  `cAll` the estimated direct effect of exposure on outcome
+9.  `medDiff` the time varying mediation effect (difference term)
+10. `medEffect` the time varying mediation effect (product term)
 
-Note that the `CI.low` and `CI.upper` are only returned when bootstrap confidence intervals are computed. The plot results `plot1_a1`, `plot2_b2`, `MedEff` are only returned when `plot = TRUE` was passed as an argument. 
+The following are the optional results that are returned based on the user arguments passed:
+11. `CI.low` the lower confidence intervals
+12. `CI.upper` the upper confidence intervals
+13. `plot1_a1` plot for alpha1_hat across t.seq
+14. `plot2_b2` plot for beta2_hat across t.seq
+15. `MedEff` plot for medEffects (diferrence and product) across t.seq
+16. `MedEff_CI` plot for CIs of medEffect
+17. `bootstrap` plot for estimated medEffects from bootstrapped samples across t.seq
+
+Therefore, `CI.low` and `CI.upper` are only returned when bootstrap confidence intervals are computed. The plot results `plot1_a1`, `plot2_b2`, `MedEff` are only returned when `plot = TRUE` was passed as an argument. 
 
 The function also generated a plot of the mediation effect and the bootstrapped
 confidence intervals `MedEff_CI`. We recommend using the plot to interpret your findings as it may be difficult to derive meaning from the numerical values alone. Further, plots with confidence intervals and mediation effect from bootstrapped samples, `MedEff_CI` and `bootstrap` are returned if `CI = "boot"` is passed.
-
-For example, specifying `t.est`, and `replicates` in the follow code will produce 
-estimates as time points 0.2, 0.4, 0.6, and 0.8 using 500 bootsrap replicates.
-```{r, fig.width = 6, fig.height = 4, results = 'hide', fig.keep = 'all'}
-results <- tvma(treatment, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
-```
-```{r, echo = FALSE}
-results
-```
 
 ## Summary
 TBD
