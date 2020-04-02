@@ -2,7 +2,7 @@
 title: "Time-varying Mediation Function for Continuous Outcome 3 Treatment (Exposure Groups)"
 author: "Yajnaseni Chakraborti"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{Formatting Data}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,7 +21,13 @@ pre code {
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tvmediation)
+library(locpol)
+library(dplyr)
+library(ggplot2)
 ```
+
+<div style="text-align: justify">
 
 The purpose of this vignette is to provide users with a step-by-step guide for 
 performing a time varying mediation analysis for continuous outcome with 3 treatment (exposure) groups and interpreting the results. We will rely on a dataset simulated (based on the Wisconsin Smokers' Health Study 2 dataset) which includes 1086 individuals across 3 treatment conditions. In one condition, one-third of participants received only a nicotine patch. In a second condition, another one-third received a nicotine patch and varenicline. A final third of participants were placed into a third condition and received a nicotine patch as well as combination nicotine replacement therapy. The  outcome variables of interest was 'Cessation Fatigue' that recorded . In addition, mediator variables were collected by asking participants if they felt a negative mood in the last fifteen minutes, and whether they wanted to smoke in the last 15 minutes. Both the 
@@ -42,53 +48,41 @@ library(dplyr)
 library(ggplot2)
 ```
 
-The `tvmb` function requires 4 necessary and 4 optional input variables.
+The `tvma_3trt` function requires 4 necessary and 4 optional input variables.
 
-1. `treatment` A binary vector with treatment schedule
-2. `t.seq` The time sequence of the measures
-3. `mediator` The matrix of mediator values in wide format
-4. `outcome` The matrix of outcome outcomes in wide format
+1. `NRT1` A binary vector with treatment1 schedule
+2. `NRT2` A binary vectot with treatment2 schedule
+3. `t.seq` The time sequence of the measures
+4. `mediator` The matrix of mediator values in wide format
+5. `outcome` The matrix of outcome outcomes in wide format
 
 The optional inputs are:
 
-5. `plot` TRUE or FALSE for plotting mediation effect. The default value is "FALSE".
-6. `CI` "none" or "boot" method of deriving confidence intervals. The default value is "boot".
-7. `replicates` Number of replicates for bootstrapping confidence intervals. The default value is 500.
-8. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
+6. `t.est` The time sequence of estimation
+7. `plot` TRUE or FALSE for plotting mediation effect. The default value is "FALSE".
+8. `CI` "none" or "boot" method of deriving confidence intervals. The default value is "boot".
+9. `replicates` Number of replicates for bootstrapping confidence intervals. The default value is 500.
+10. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
 
-## Formatting your data before calling the `tvmb` function
+## Formatting your data before calling the `tvma_3trt` function
 
-If there are two treatment groups, create a `treatment` variable with the following assignment: `1` for the comparator group and `0` for the placebo group. If there are three treatment groups, two dummy variables clearly indicating `treatment1`, `treatment2` and `placebo` need to be created. An example is given as follows. In the `SimulData.rda` dataset, three columns indicating the assignment of the three treatments are present.
+When there are three treatment groups, create two dummy variables `NRT1` and `NRT2` corresponding to the treatment (exposure) groups other than the placebo or the standard of care in this case. In our data, `NRT1 = 1` indicates that the participant has been given `varenicline` and `NRT1 = 0` for `no varenicline`. Similarly, `NRT2 = 1` means particpant has recieved the `combination treatment` and `NRT2 = 0` means particpant did not recieve the `combination treatment (comboNRT)`. Naturally, `NRT1 = 1` and `NRT2 = 1` are mutually exclusive that is a particpant cannot have `NRT1 = 1` and `NRT2 = 1` simulataneously. If `NRT1 = 1` then for that particpant `NRT2` must be equal to `0`. However, `NRT1 = 0` and `NRT2 = 0` are not mutually exclusive. When `NRT1 = 0` and `NRT2 = 0` then it is obvious that the particpant has recieved the placebo or the standard of care, in this case `patch`. Thus if there are three treatment groups, two dummy variables clearly indicating `NRT1` or `treatment1`, `NRT2` or `treatment2` and `placebo` need to be created. An example is given as follows. In the `smoker.rda` dataset, three columns indicating the assignment of the three treatments are present.
 
 To load the `SimulData` dataset, type:
 ```{r}
-data(SimulData)
+data(smoker)
 ```
 
 Creating two dummy variables to indicate whether a particpant was given varenicline or comboNRT. `NRT1` indicates whether a subject recieved `Varenicline` or not. `NRT2` indicates whether a subject recieved `comboNRT` or not. Each subject's response for the treatment group (e.g. `varenicline`) was converted to a numeric value, and 1 was subtracted to yield a vector of zeros and ones.
 
 ```{r}
-NRT1 <- as.numeric(unique(data_final[ ,c("SubjectID","varenicline")])[,2])-1
-NRT2 <- as.numeric(unique(data_final[ ,c("SubjectID","comboNRT")])[,2])-1
+NRT1 <- as.numeric(unique(smoker[ ,c("SubjectID","varenicline")])[,2])-1
+NRT2 <- as.numeric(unique(smoker[ ,c("SubjectID","comboNRT")])[,2])-1
 ```
 
-Depending on our exposure of interest, i.e. whether we want to compare the mediation effects observed among participants with varenicline vs placebo (nicotine patch), or comboNRT vs placebo, or varenicline vs comboNRT, a final variable was derived based on these two variables.
+Unlike the `tvmb` function for binary outcome or the `tvma` function for continuous outcome and 2 treatment groups, the user does not need to compare the mediation effects in parts, i.e. `varenicline` vs `placebo (nicotine patch)`, or `comboNRT` vs `placebo`, or `varenicline` vs `comboNRT`, a final variable was derived based on these two variables. The mathematical model is built to support time varying mediation for three exposure groups. For more information on the mathematical model, please read Cai et.al. 2020 (site the paper properly once published).
 
-For example: The following codes are to derive the final variable to compare the mediation effects observed among participants with varenicline vs placebo (nicotine patch).
-
-```{r}
-treatment= rep(NA,1086)
-treatment = ifelse(NRT1==1 & NRT2==0, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
-```
-
-The current version of the `tvmb` function only supports two treatment options. Therefore, in order to estimate the mediation effects observed among participants with comboNRT vs placebo, the above code would be changed to,
-
-```{r}
-# treatment= rep(NA,1086)
-# treatment = ifelse(NRT1==0 & NRT2==1, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
-```
-
-The `SimulData` data frame is organized in Long format with `SubjectID` repeating
+The `smoker` dataset is organized in Long format with `SubjectID` repeating
 over multiple rows for each participant. The `tvmb` function requires that our
 data be in Wide format in order to accurately estimate the time varying mediator
 coefficients. The `tvmediation` package includes a useful function `LongToWide` 
@@ -104,22 +98,22 @@ to help users properly format their data for analysis.
 The output of `LongToWide` is a matrix of data in wide format where columns 
 represent time sequence and rows represent the outcome for each subject.
 
-As the `tvmb` function will require two matrices, one for mediators, and one for
+As the `tvma_3trt` function will require two matrices, one for mediators, and one for
 outcomes, we will use the `LongToWide` function twice as seen below:
 
 ```{r}
-mediator <- LongToWide(data_final$SubjectID, data_final$timeseq, data_final$NegMoodLst15min)
-outcome <- LongToWide(data_final$SubjectID, data_final$timeseq, data_final$cessFatig)
+mediator <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$NegMoodLst15min)
+outcome <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$cessFatig)
 ```
 
-The `tvmb` also requires the time sequence variable in a vector format.
+The `tvma_3trt` also requires the time sequence variable in a vector format.
 ```{r}
-t.seq <- sort(unique(data_final$timeseq))
+t.seq <- sort(unique(smoker$timeseq))
 ```
 
 We are now ready to perform our time varying mediation analysis.
 ```{r, fig.width = 7, fig.height = 5, results='hide', fig.keep='all'} 
-results_tvma_3trt <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome)
+results_tvma_3trt <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome, plot = TRUE)
 ```
 ```{r, echo = FALSE}
 results_tvma_3trt
@@ -127,28 +121,47 @@ results_tvma_3trt
 
 ## Results
 
-The `tvmb` function returns a list of results including:
+The `tvma_3trt` function returns a list of results including:
 
-1. `alpha1_hat` the estimated effect of the intervention on the mediator 
-2. `beta2_hat` the estimated effect of the mediator on the outcome
-3. `medEffect` the time varying mediation effect
-4. `CI.low` the lower confidence intervals
-5. `CI.upper` the upper confidence intervals
-6. `plot1_a1` plot for alpha1_hat across t.seq
-7. `plot2_b2` plot for beta2_hat across t.seq
-8. `MedEff` plot for medEffect across t.seq
-9. `MedEff_CI` plot for CIs of medEffect
-10.`bootstrap` plot for estimated medEffects from bootstrapped samples across t.seq
+1. `hat.alpha1` the estimated effect of treatment1 on the mediator
+2. `hat.alpha2` the estimated effect of treatment2 on the mediator
+3. `hat.beta3` the estimated effect of the mediator on the outcome
+4. `hat.mediation1` the time varying mediation effect of treatment1
+5. `hat.mediation2` the time varying mediation effect of treatment2
+6. `CI.lower.alpha1` the lower confidence intervals for hat.alpha1
+7. `CI.upper.alpha1` the upper confidence intervals for hat.alpha1
+8. `CI.lower.alpha2` the lower confidence intervals for hat.alpha2
+9. `CI.upper.alpha2` the upper confidence intervals for hat.alpha2
+10. `CI.lower.beta3` the lower confidence intervals for hat.beta3
+11. `CI.upper.beta3` the upper confidence intervals for hat.beta3
 
-Note that the `CI.low` and `CI.upper` are only returned when bootstrap confidence intervals are computed. The plot results `plot1_a1`, `plot2_b2`, `MedEff` are only returned when `plot = TRUE` was passed as an argument. 
+Optional returns based on arguments passed by user
 
-The function also generated a plot of the mediation effect and the bootstrapped
-confidence intervals `MedEff_CI`. We recommend using the plot to interpret your findings as it may be difficult to derive meaning from the numerical values alone. Further, plots with confidence intervals and mediation effect from bootstrapped samples, `MedEff_CI` and `bootstrap` are returned if `CI = "boot"` is passed.
+12. `CI.lower.NRT1` the lower confidence intervals for treatment1
+13. `CI.upper.NRT1` the upper confidence intervals for treatment1
+14. `CI.lower.NRT2` the lower confidence intervals for treatment2
+15. `CI.upper.NRT2` the upper confidence intervals for treatment2
+16. `SE_MedEff1` estimated standard error of mediation effect for treatment1
+17. `SE_MedEff2` estimated standard error of mediation effect for treatment2
+
+Returns if `plot = TRUE` argument is passed
+
+18. `plot1_a1` plot for hat.alpha1 across t.seq
+19. `plot2_a2` plot for hat.alpha2 across t.seq
+20. `plot3_b3` plot for hat.beta3 across t.seq
+21. `MedEff_NRT1` plot for medEffect across t.seq for treatment1
+22. `MedEff_NRT2` plot for medEffect across t.seq for treatment2
+23. `MedEff_CI_NRT1` plot for CIs of medEffect across t.seq for treatment1
+24. `MedEff_CI_NRT2` plot for CIs of medEffect across t.seq for treatment2
+
+As noted above, the CIs are only returned when bootstrap confidence intervals are computed; the plot results are only returned when `plot = TRUE` was passed as an argument. 
+
+We recommend using the plot to interpret your findings as it may be difficult to derive meaning from the numerical values alone. Further, plots with confidence intervals and mediation effect from bootstrapped samples, are returned if `CI = "boot"` is passed.
 
 For example, specifying `t.est`, and `replicates` in the follow code will produce 
 estimates as time points 0.2, 0.4, 0.6, and 0.8 using 500 bootsrap replicates.
 ```{r, fig.width = 6, fig.height = 4, results = 'hide', fig.keep = 'all'}
-results <- tvma(treatment, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
+results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
 ```
 ```{r, echo = FALSE}
 results
@@ -156,4 +169,6 @@ results
 
 ## Summary
 TBD
+
+</div>
 ---

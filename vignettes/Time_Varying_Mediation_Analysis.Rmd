@@ -133,7 +133,7 @@ one instance of each time point and then sorted from smallest to largest.
 
 We are now ready to perform our time varying mediation analysis.
 ```{r, fig.width = 7, fig.height = 5, results='hide', fig.keep='all'} 
-results <- tvma(treatment, t.seq, mediator, outcome)
+results <- tvma(treatment, t.seq, mediator, outcome, plot = TRUE)
 ```
 ```{r, echo = FALSE}
 results
