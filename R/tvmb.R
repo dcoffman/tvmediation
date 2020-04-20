@@ -252,15 +252,17 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         
         # Third plot: plotting the mediation effects across time using ggplot
         plot3_a <- ggplot(data = final_results, aes(timeseq, medDiff)) +
-                    geom_line(size = 0.75, color = "black") +
+                    geom_line(color = "black", size = 0.75) +
                     labs(title = "Plotting the mediation (difference) effect",
-                         x = "Time Sequence",
-                         y = "Mediation Effect")
+                             x = "Time Sequence",
+                             y = "Mediation Effect")
+        
         plot3_b <- ggplot(data = final_results, aes(timeseq, medEffect)) +
-                    geom_line(size = 0.75, color = "red") +
+                    geom_line(color = "red", size = 0.75) +
                     labs(title = "Plotting the mediation (product) effect",
-                         x = "Time Sequence",
-                         y = "Mediation Effect") 
+                             x = "Time Sequence",
+                             y = "Mediation Effect")
+        
         plot3 <- ggarrange(plot3_a, plot3_b)
         
         if(CI == "boot"){
