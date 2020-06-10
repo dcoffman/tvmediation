@@ -3,18 +3,26 @@ Type: Package
 Version: 1.0.0
 Title: Time Varying Mediation Analysis
 Description: A set of functions to measure the effect of mediating variables over time.
+Authors@R: as.person(c(
+	"Donna Coffman <donna.coffman@temple.edu> [aut, cre]",
+	"Xizhen Cai <cai.xizhen@gmail.com> [aut]",
+	"Harry Zobel <harryzobeljr@gmail.com> [ctb]",
+	"Yajnaseni Chakraborti <yajnaseni.chakraborti@temple.edu> [ctb]"
+	))
+RoxygenNote: 7.1.0
 Depends: R (>= 3.5.1)
 Imports:
-	dplyr, reshape2, ggplot2, ggpubr, kedd, locpol
+    dplyr,
+    ggplot2,
+    ggpubr,
+    kedd,
+    locpol,
+    reshape2
 Suggests:
-	knitr, rmarkdown
+    knitr,
+    rmarkdown
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr
 Encoding: UTF-8
-Authors@R: as.person(c( 
-	"Xizhen Cai <cai.xizhen@gmail.com> [aut]",
-	"Donna Coffman <donna.coffman@temple.edu> [aut]",
-	"Harry Zobel <harryzobeljr@gmail.com> [aut]",
-	"Yajnaseni Chakraborti <yajnaseni.chakraborti@temple.edu> [aut, cre]"))
-RoxygenNote: 7.1.0
+

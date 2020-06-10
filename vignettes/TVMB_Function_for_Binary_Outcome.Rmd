@@ -69,7 +69,7 @@ The optional inputs are:
 
 If there are two treatment groups, create a `treatment` variable with the following assignment: `1` for the comparator group and `0` for the placebo group. If there are three treatment groups, two dummy variables clearly indicating `treatment1`, `treatment2` and `placebo` need to be created. An example is given as follows. In the `smoker.rda` dataset, three columns indicating the assignment of the three treatments are present.
 
-To load the `smoker` dataset, type:
+To load the simulated dataset `smoker.rda`, type:
 ```{r}
 data(smoker)
 ```
@@ -101,7 +101,7 @@ The current version of the `tvmb` function only supports two treatment options. 
 # treatment = ifelse(NRT1==0 & NRT2==1, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
 ```
 
-The `SimulData` data frame is organized in Long format with `SubjectID` repeating
+The `smoker.rda` data frame is organized in Long format with `SubjectID` repeating
 over multiple rows for each participant. The `tvmb` function requires that our
 data be in Wide format in order to accurately estimate the time varying mediator
 coefficients. The `tvmediation` package includes a useful function `LongToWide` 
