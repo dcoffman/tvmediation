@@ -111,7 +111,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         # create smoothing line
         smootha1 = loess(a1All ~ t.seq[1:nm], span = 0.3, degree=1)
         
-        # creating a dataframe with the time sequences, a1 and smoothed coeffeicients
+        # creating a dataframe with the time sequences, a1 and smoothed coefficients
         test1 <- data.frame(cbind(t.seq, a1All, smootha1$fitted))
         names(test1)[3] <- "smootha1"
         
@@ -142,7 +142,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         smoothb2 = loess(b2All ~ t.seq.b[1:length(t.seq.b)], span = 0.2,degree=1)
         
         
-        # creating a dataframe with the time sequences, b2 and smoothened coeffeicients
+        # creating a dataframe with the time sequences, b2 and smoothened coefficients
         test2 <- data.frame(cbind(t.seq.b, b2All, smoothb2$fitted))
         names(test2)[3] <- "smoothb2"
         
@@ -205,7 +205,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         medDif <- medDif[which(!is.na(medDif))]
         smoothDif = loess(medDif ~ t.seq.b[1:length(t.seq.b)], span = 0.3,degree=1)
         
-        #creating a dataframe with the time sequences, mediation effects and smoothened coeffeicients
+        #creating a dataframe with the time sequences, mediation effects and smoothened coefficients
         test_a <- data.frame(cbind(t.seq.b, medProd, smoothProd$fitted))
         names(test_a)[2] <- "med_pt"
         names(test_a)[3] <- "smooth_Prod"
@@ -260,18 +260,18 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             geom_line(color = "red", size = 0.75) +
             geom_line(aes(timeseq, CI.lower.a1), color = "blue", size = 0.8, linetype = "dashed") +
             geom_line(aes(timeseq, CI.upper.a1), color = "blue", size = 0.8, linetype = "dashed") +
-            labs(title = "Plotting the alpha coeffecients",
+            labs(title = "Plotting the alpha coefficients",
                  x = "Time (in days)",
                  y = "Alpha1") +
             scale_x_continuous(breaks = seq(0, 28.5, 1))
           
-          # Second plot: plotting beta2 coeffeicients (smoothed) across
+          # Second plot: plotting beta2 coefficients (smoothed) across
           # the time using ggplot
           plot2_b2 <- ggplot(data = final_results, aes(timeseq, beta2_hat)) +
             geom_line(color = "red", size = 0.75) +
             geom_line(aes(timeseq, CI.lower.b2), color = "blue", size = 0.8, linetype = "dashed") +
             geom_line(aes(timeseq, CI.upper.b2), color = "blue", size = 0.8, linetype = "dashed") +
-            labs(title = "Plotting the beta2 coeffecients",
+            labs(title = "Plotting the beta2 coefficients",
                  x = "Time (in days)",
                  y = "Beta2") +
             scale_x_continuous(breaks = seq(0, 28.5, 1))

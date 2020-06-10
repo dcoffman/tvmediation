@@ -121,27 +121,27 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
               geom_line(color = "red", size = 0.75) +
               geom_line(aes(t.est, alw1), size = 0.8, color = "blue", linetype = "dashed") +
               geom_line(aes(t.est, aup1), size = 0.8, color = "blue", linetype = "dashed") +
-              labs(title = "Plotting the alpha1 coeffecients",
+              labs(title = "Plotting the alpha1 coefficients",
                    x = "Time (in days)",
                    y = "Alpha1") +
               scale_x_continuous(breaks = seq(0, 28.5, 1))
             
-            # Second plot: plotting alpha2 coeffeicients across time using ggplot
+            # Second plot: plotting alpha2 coefficients across time using ggplot
             plot2_a2 <- ggplot(data = test1, aes(t.est,hat.alpha2)) +
               geom_line(color = "red", size = 0.75) +
               geom_line(aes(t.est, alw2), size = 0.8, color = "blue", linetype = "dashed") +
               geom_line(aes(t.est, aup2), size = 0.8, color = "blue", linetype = "dashed") +
-              labs(title = "Plotting the alpha2 coeffecients",
+              labs(title = "Plotting the alpha2 coefficients",
                    x = "Time (in days)",
                    y = "Alpha2") +
               scale_x_continuous(breaks = seq(0, 28.5, 1))
             
-            # Third plot: plotting beta3 coeffeicients across time using ggplot
+            # Third plot: plotting beta3 coefficients across time using ggplot
             plot3_b3 <- ggplot(data = test1, aes(t.est,hat.beta3)) +
               geom_line(color = "red", size = 0.75) +
               geom_line(aes(t.est, blw3), size = 0.8, color = "blue", linetype = "dashed") +
               geom_line(aes(t.est, bup3), size = 0.8, color = "blue", linetype = "dashed") +
-              labs(title = "Plotting the beta3 coeffecients",
+              labs(title = "Plotting the beta3 coefficients",
                    x = "Time (in days)",
                    y = "Beta3") +
               scale_x_continuous(breaks = seq(0, 28.5, 1))

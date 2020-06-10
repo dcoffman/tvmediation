@@ -116,17 +116,17 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
           geom_line(color = "red", size = 0.75) +
           geom_line(aes(t.est, CI.lower.alpha), size = 0.8, color = "blue", linetype = "dashed") +
           geom_line(aes(t.est, CI.upper.alpha), size = 0.8, color = "blue", linetype = "dashed") +
-          labs(title = "Plotting the alpha1 coeffecients",
+          labs(title = "Plotting the alpha1 coefficients",
                x = "Time (in days)",
                y = "Alpha1") +
           scale_x_continuous(breaks = seq(0, 28.5, 1))
         
-        # Second plot: plotting beta2 coeffeicients across time using ggplot
+        # Second plot: plotting beta2 coefficients across time using ggplot
         plot2_b2 <- ggplot(data = final_results, aes(t.est,hat.beta.2)) +
           geom_line(color = "red", size = 0.75) +
           geom_line(aes(t.est, CI.lower.beta), size = 0.8, color = "blue", linetype = "dashed") +
           geom_line(aes(t.est, CI.upper.beta), size = 0.8, color = "blue", linetype = "dashed") +
-          labs(title = "Plotting the beta2 coeffecients",
+          labs(title = "Plotting the beta2 coefficients",
                x = "Time (in days)",
                y = "Beta2") +
           scale_x_continuous(breaks = seq(0, 28.5, 1))
