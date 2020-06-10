@@ -111,6 +111,19 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       #### Plot construction ####
       if(plot == TRUE){
         
+        l <- min(final_results$t.est)
+        u <- max(final_results$t.est)
+        
+        if(u <= 1){
+          i <- 0.2
+        }else if(u>1 && u<=30){
+          i <- 2
+        }else if(u>30 && u <=50){
+          i <- 5
+        }else if(u>50){
+          i <- 10
+        }
+        
         # First Plot: plotting alpha1 coefficients across time using ggplot
         plot1_a1 <- ggplot(data = final_results, aes(t.est,hat.alpha.1)) +
           geom_line(color = "red", size = 0.75) +
@@ -119,7 +132,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
           labs(title = "Plotting the alpha1 coefficients",
                x = "Time (in days)",
                y = "Alpha1") +
-          scale_x_continuous(breaks = seq(0, 28.5, 1))
+          scale_x_continuous(breaks = seq(l, u, i))
         
         # Second plot: plotting beta2 coefficients across time using ggplot
         plot2_b2 <- ggplot(data = final_results, aes(t.est,hat.beta.2)) +
@@ -129,7 +142,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
           labs(title = "Plotting the beta2 coefficients",
                x = "Time (in days)",
                y = "Beta2") +
-          scale_x_continuous(breaks = seq(0, 28.5, 1))
+          scale_x_continuous(breaks = seq(l, u, i))
         
         # Third plot: plotting the mediation effect of treatment arm
         plot3 <- ggplot(data = final_results, aes(t.est,est.M)) +
@@ -137,7 +150,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
           labs(title = "Plotting the time-varying mediation effect",
                x = "Time (in days)",
                y = "Mediation Effect") +
-          scale_x_continuous(breaks = seq(0, 28.5, 1))
+          scale_x_continuous(breaks = seq(l, u, i))
         
         if(CI == "boot"){
           
@@ -151,7 +164,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
                  x = "Time (in days)",
                  y = "Mediation Effect") + 
             theme(legend.position = "none") +
-            scale_x_continuous(breaks = seq(0, 28.5, 1))   
+            scale_x_continuous(breaks = seq(l, u, i))   
           
           plot_results <- list("Alpha_CI" = plot1_a1,
                                "Beta_CI" = plot2_b2,

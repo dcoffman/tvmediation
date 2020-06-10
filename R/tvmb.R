@@ -254,6 +254,20 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         ##### ************************************************ #####
         
         if(plot == TRUE){
+          
+          l <- min(final_results$t.est)
+          u <- max(final_results$t.est)
+          
+          if(u <= 1){
+            i <- 0.2
+          }else if(u>1 && u<=30){
+            i <- 2
+          }else if(u>30 && u <=50){
+            i <- 5
+          }else if(u>50){
+            i <- 10
+          }
+          
           # First Plot: plotting alpha1 coefficients (smoothed) using across
           # the time using ggplot
           plot1_a1 <- ggplot(data = final_results, aes(timeseq, alpha1_hat)) +
@@ -263,7 +277,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             labs(title = "Plotting the alpha coefficients",
                  x = "Time (in days)",
                  y = "Alpha1") +
-            scale_x_continuous(breaks = seq(0, 28.5, 1))
+            scale_x_continuous(breaks = seq(l, u, i))
           
           # Second plot: plotting beta2 coefficients (smoothed) across
           # the time using ggplot
@@ -274,7 +288,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             labs(title = "Plotting the beta2 coefficients",
                  x = "Time (in days)",
                  y = "Beta2") +
-            scale_x_continuous(breaks = seq(0, 28.5, 1))
+            scale_x_continuous(breaks = seq(l, u, i))
           
           # Third plot: plotting the mediation effects across time using ggplot
           plot3_a <- ggplot(data = final_results, aes(timeseq, medDiff)) +
@@ -282,14 +296,14 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             labs(title = "Plotting the mediation (difference) effect",
                  x = "Time (in days)",
                  y = "Mediation Effect") +
-            scale_x_continuous(breaks = seq(0, 28.5, 1))
+            scale_x_continuous(breaks = seq(l, u, i))
           
           plot3_b <- ggplot(data = final_results, aes(timeseq, medEffect)) +
             geom_line(color = "red", size = 0.75) +
             labs(title = "Plotting the mediation (product) effect",
                  x = "Time (in days)",
                  y = "Mediation Effect") +
-            scale_x_continuous(breaks = seq(0, 28.5, 1))
+            scale_x_continuous(breaks = seq(l, u, i))
           
           plot3 <- ggarrange(plot3_a, plot3_b)
           
@@ -304,7 +318,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
                    x = "Time (in days)",
                    y = "Mediation Effect") + 
               theme(legend.position = "none") +
-              scale_x_continuous(breaks = seq(0, 28.5, 1))
+              scale_x_continuous(breaks = seq(l, u, i))
             
             # Fifth plot: plotting the mediation effect from 500 bootstrap samples
             plot5 <- ggplot(data = IE_t, aes(t.seq.b, V2)) + 
@@ -312,7 +326,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
               labs(title = "Bootstrap result of Mediation Effect",
                    x = "Time (in days)",
                    y = "Mediation Effect") +
-              scale_x_continuous(breaks = seq(0, 28.5, 1))
+              scale_x_continuous(breaks = seq(l, u, i))
             for (i in 2:ncol(IE_t)) {
               x <- data.frame(cbind(t.seq.b,IE_t[,i]))
               names(x)[2] <- "val"

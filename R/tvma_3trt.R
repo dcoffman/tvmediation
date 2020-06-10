@@ -116,6 +116,19 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
           #### Plot construction ####
           if(plot == TRUE){
             
+            l <- min(final_results$t.est)
+            u <- max(final_results$t.est)
+            
+            if(u <= 1){
+              i <- 0.2
+            }else if(u>1 && u<=30){
+              i <- 2
+            }else if(u>30 && u <=50){
+              i <- 5
+            }else if(u>50){
+              i <- 10
+            }
+            
             # First Plot: plotting alpha1 coefficients across time using ggplot
             plot1_a1 <- ggplot(data = test1, aes(t.est,hat.alpha1)) +
               geom_line(color = "red", size = 0.75) +
@@ -124,7 +137,7 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
               labs(title = "Plotting the alpha1 coefficients",
                    x = "Time (in days)",
                    y = "Alpha1") +
-              scale_x_continuous(breaks = seq(0, 28.5, 1))
+              scale_x_continuous(breaks = seq(l, u, i))
             
             # Second plot: plotting alpha2 coefficients across time using ggplot
             plot2_a2 <- ggplot(data = test1, aes(t.est,hat.alpha2)) +
@@ -134,7 +147,7 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
               labs(title = "Plotting the alpha2 coefficients",
                    x = "Time (in days)",
                    y = "Alpha2") +
-              scale_x_continuous(breaks = seq(0, 28.5, 1))
+              scale_x_continuous(breaks = seq(l, u, i))
             
             # Third plot: plotting beta3 coefficients across time using ggplot
             plot3_b3 <- ggplot(data = test1, aes(t.est,hat.beta3)) +
@@ -144,7 +157,7 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
               labs(title = "Plotting the beta3 coefficients",
                    x = "Time (in days)",
                    y = "Beta3") +
-              scale_x_continuous(breaks = seq(0, 28.5, 1))
+              scale_x_continuous(breaks = seq(l, u, i))
             
             # Fourth plot: plotting the mediation effect of treatment arm1
             plot4 <- ggplot(data = test1, aes(t.est,hat.mediation1)) +
@@ -152,7 +165,7 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
               labs(title = "Plotting the time-varying mediation effect (NRT1)",
                    x = "Time (in days)",
                    y = "Mediation Effect for NRT1") +
-              scale_x_continuous(breaks = seq(0, 28.5, 1))
+              scale_x_continuous(breaks = seq(l, u, i))
             
             # Fifth plot: plotting the mediation effect of treatment arm2
             plot5 <- ggplot(data = test1, aes(t.est,hat.mediation2)) +
@@ -160,7 +173,7 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
               labs(title = "Plotting the time-varying mediation effect (NRT2)",
                    x = "Time (in days)",
                    y = "Mediation Effect for NRT2") +
-              scale_x_continuous(breaks = seq(0, 28.5, 1))
+              scale_x_continuous(breaks = seq(l, u, i))
             
             if(CI == "boot"){
               # Sixth plot: plotting the mediation effect of treatment arm1 with 95% CIs
@@ -173,7 +186,7 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                      x = "Time (in days)",
                      y = "Mediation Effect for NRT1") + 
                 theme(legend.position = "none")  +
-                scale_x_continuous(breaks = seq(0, 28.5, 1))  
+                scale_x_continuous(breaks = seq(l, u, i))  
               
               # Seventh plot: plotting the mediation effect of treatment arm2 with 95% CIs
               plot7 <- ggplot(data = test2, aes(t.est, orig.mediation2)) +
@@ -185,7 +198,7 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                      x = "Time (in days)",
                      y = "Mediation Effect for NRT2") + 
                 theme(legend.position = "none") +
-                scale_x_continuous(breaks = seq(0, 28.5, 1))
+                scale_x_continuous(breaks = seq(l, u, i))
               
               plot_results <- list("plot1_a1" = plot1_a1,
                                    "plot2_a2" = plot2_a2,
