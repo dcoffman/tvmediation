@@ -1,7 +1,7 @@
 #' Time-varying mediation function for binary outcome
 #' @export
 
-tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 500, verbose = FALSE)
+tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
 {
   
   # Estimating time-varying mediation effect for binary outcome function
@@ -255,9 +255,9 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         
         if(plot == TRUE){
           
-          lt <- length(final_results$t.est)
-          l <- min(final_results$t.est)
-          u <- max(final_results$t.est)
+          lt <- length(final_results$timeseq)
+          l <- min(final_results$timeseq)
+          u <- max(final_results$timeseq)
           
           if(u <= 1){
             if(lt <= 10){
