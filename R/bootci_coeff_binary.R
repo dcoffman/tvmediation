@@ -20,6 +20,12 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 500){
   
   #take 500 or replicates number of bootstrap samples
   for(i in 1:reps){
+    if (i < reps) {
+      cat(sprintf("Boostrapping iteration %03d", i), " \r")
+    } else {
+      print(sprintf("Boostrapping iteration %03d", i))
+    }
+    
     #get indexes to use for bootstrap sample
     index1 = sample(1:n, size=n,replace=TRUE)
     
