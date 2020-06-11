@@ -111,13 +111,20 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       #### Plot construction ####
       if(plot == TRUE){
         
+        lt <- length(final_results$t.est)
         l <- min(final_results$t.est)
         u <- max(final_results$t.est)
         
         if(u <= 1){
-          i <- 0.2
+          if(lt <= 10){
+            i <- 0.2
+          }else if(lt>10 && lt<=20){
+            i <- 0.15
+          }else if(lt>20){
+            i <- 0.25
+          }
         }else if(u>1 && u<=30){
-          i <- 2
+            i <- 2
         }else if(u>30 && u <=50){
           i <- 5
         }else if(u>50){
