@@ -10,7 +10,7 @@ Authors@R: as.person(c(
 	"Yajnaseni Chakraborti <yajnaseni.chakraborti@temple.edu> [ctb]"
 	))
 RoxygenNote: 7.1.0
-Depends: R (>= 3.5.1)
+Depends: R (>= 3.6.3)
 Imports:
     dplyr,
     ggplot2,

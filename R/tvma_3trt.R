@@ -116,8 +116,8 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
           #### Plot construction ####
           if(plot == TRUE){
             
-            l <- min(final_results$t.est)
-            u <- max(final_results$t.est)
+            l <- min(final_results$timeseq)
+            u <- max(final_results$timeseq)
             
             if(u <= 1){
               i <- 0.2
