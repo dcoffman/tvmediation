@@ -12,6 +12,8 @@ Authors@R: as.person(c(
 RoxygenNote: 7.1.0
 Depends: R (>= 3.6.3)
 Imports:
+    tidyverse,
+    Hmisc,
     dplyr,
     ggplot2,
     ggpubr,

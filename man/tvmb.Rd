@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvmb.R
 \name{tvmb}
 \alias{tvmb}
-\title{Time-varying mediation function for binary outcome}
+\title{Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups}
 \usage{
 tvmb(
   treatment,
@@ -16,5 +16,5 @@ tvmb(
 )
 }
 \description{
-Time-varying mediation function for binary outcome
+Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups
 }

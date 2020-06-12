@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvma_3trt.R
 \name{tvma_3trt}
 \alias{tvma_3trt}
-\title{Time-varying mediation function for continuous outcome and 3 treatment arms (exposure groups)}
+\title{Time Varying Mediation Function: Continuous Outcome and Three Treatment (Exposure) Groups}
 \usage{
 tvma_3trt(
   NRT1,
@@ -18,5 +18,5 @@ tvma_3trt(
 )
 }
 \description{
-Time-varying mediation function for continuous outcome and 3 treatment arms (exposure groups)
+Time Varying Mediation Function: Continuous Outcome and Three Treatment (Exposure) Groups
 }

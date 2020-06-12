@@ -12,7 +12,7 @@ author:
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Time Varying Mediation Analysis}
+  %\VignetteIndexEntry{Time Varying Mediation Function: Continuous Outcome and Three Treatment (Exposure) Groups}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
