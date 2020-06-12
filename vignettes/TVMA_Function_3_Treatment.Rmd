@@ -202,7 +202,7 @@ The optional inputs are:
 
 We will call our function with additional optional argument `plot=TRUE`. The rest of the optional arguments are left to their respective default values.
 
-```{r, fig.width = 7, fig.height = 5, results='hide', fig.keep='all'} 
+```{r, fig.width = 10, fig.height = 5, results='hide', fig.keep='all'} 
 results_tvma_3trt <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome, plot = TRUE)
 ```
 

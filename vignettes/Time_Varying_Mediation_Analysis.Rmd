@@ -32,7 +32,6 @@ knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 library(tidyverse)  # NEED TO LOAD tidyverse BEFORE Hmisc!
 library(Hmisc)
 library(locpol)
-library(devtools)
 library(tvmediation)
 library(dplyr)
 library(ggplot2)
