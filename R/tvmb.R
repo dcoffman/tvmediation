@@ -1,4 +1,4 @@
-#' Time-varying mediation function for binary outcome
+#' Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups
 #' @export
 
 tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)

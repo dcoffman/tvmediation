@@ -11,7 +11,7 @@ tvmb(
   outcome,
   plot = FALSE,
   CI = "boot",
-  replicates = 500,
+  replicates = 1000,
   verbose = FALSE
 )
 }

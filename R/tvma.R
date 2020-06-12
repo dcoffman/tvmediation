@@ -1,4 +1,4 @@
-#' Time-varying mediation function for continuous outcome and 2 treatment arms (exposure groups)
+#' Time Varying Mediation Analysis: Continuous Outcome and Two Treatment (Exposure) Groups
 #' @export
 
 tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)

@@ -18,6 +18,7 @@ Authors:
 		\item Donna Coffman
 		\item Xizhen Cai
 		\item Harry Zobel
+		\item Yajnaseni Chakraborti
 	}
 }
 \keyword{internal}

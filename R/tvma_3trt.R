@@ -1,4 +1,4 @@
-#' Time-varying mediation function for continuous outcome and 3 treatment arms (exposure groups)
+#' Time Varying Mediation Function: Continuous Outcome and Three Treatment (Exposure) Groups
 #' @export
 
 tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)

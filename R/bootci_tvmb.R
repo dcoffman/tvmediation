@@ -18,6 +18,13 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 5
   
   #take 500 or replicates number of bootstrap samples
   for(i in 1:reps){
+    
+    if (i < reps) {
+      cat(sprintf("Boostrapping iteration %03d", i), " \r")
+    } else {
+      print(sprintf("Boostrapping iteration %03d", i))
+    }
+    
     #get indexes to use for bootstrap sample
     index1 = sample(1:n,size=n,replace=TRUE)
     
