@@ -2,7 +2,10 @@ Package: tvmediation
 Type: Package
 Version: 1.0.0
 Title: Time Varying Mediation Analysis
-Description: A set of functions to measure the effect of mediating variables over time.
+Description: A set of functions to measure the effect of mediating variables over time. This method takes
+  into consideration the dynamic effect that a mediator may have over time; thus the realistic nature of an
+  effect over time is characterized as opposed to the traditional approach of estimating an effect based on
+  its single occurrence.
 Authors@R: as.person(c(
 	"Donna Coffman <donna.coffman@temple.edu> [aut, cre]",
 	"Xizhen Cai <cai.xizhen@gmail.com> [aut]",
@@ -12,17 +15,17 @@ Authors@R: as.person(c(
 RoxygenNote: 7.1.0
 Depends: R (>= 3.6.3)
 Imports:
-    tidyverse,
-    Hmisc,
-    dplyr,
-    ggplot2,
-    ggpubr,
-    kedd,
-    locpol,
-    reshape2
+    dplyr (>= 1.0.0),
+    ggplot2 (>= 3.3.1),
+    ggpubr (>= 0.3.0),
+    Hmisc (>= 4.4-0),
+    kedd (>= 1.0.3),
+    locpol (>= 0.7-0),
+    reshape2 (>= 1.4.4),
+    tidyverse (>= 1.3.0)
 Suggests:
-    knitr,
-    rmarkdown
+    knitr (>= 1.28),
+    rmarkdown (>= 2.2)
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr

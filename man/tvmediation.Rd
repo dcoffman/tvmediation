@@ -9,13 +9,19 @@ A package for estimating mediation effects that vary over time.
 } 
 
 \seealso{
-\code{\link{tvma}}, \code{\link{LongToWide}}, \code{\link{smoker}}
+\code{\link{tvma}}, \code{\link{tvma_3trt}}, \code{\link{tvmb}}, \code{\link{LongToWide}}, \code{\link{smoker}}
+
+Useful links:
+\itemize{
+  \item \url{https://github.com/dcoffman/tvmediation}
+}
 }
 
 \author{
+\strong{Maintainer}: Donna Coffman \email{donna.coffman@temple.edu}
+
 Authors:
 	\itemize{
-		\item Donna Coffman
 		\item Xizhen Cai
 		\item Harry Zobel
 		\item Yajnaseni Chakraborti
