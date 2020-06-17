@@ -15,6 +15,71 @@ tvmb(
   verbose = FALSE
 )
 }
+\arguments{
+\item{treatment}{a vector with treatment values}
+
+\item{t.seq}{a vector of unique time points for each observation}
+
+\item{mediator}{matrix of mediator values in wide format}
+
+\item{outcome}{matrix of outcome outcomes in wide format}
+
+\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE".}
+
+\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot".}
+
+\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000.}
+
+\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE"}
+}
+\value{
+\item{timeseq}{time points of estimation}
+
+\item{alpha1_hat}{exposure effect on mediator (indirect effect)}
+
+\item{CI.lower.a1}{lower confidence intervals for alpha1_hat}
+
+\item{CI.upper.a1}{upper confidence intervals for alpha1_hat}
+
+\item{beta2_hat}{estimated mediation effect on outcome (indirect effect)}
+
+\item{CI.lower.b2}{lower confidence intervals for beta2_hat}
+
+\item{CI.upper.b2}{upper confidence intervals for beta2_hat}
+
+\item{b1All}{estimated exposure effect on outcome (direct effect)}
+
+\item{cAll}{estimated effect of exposure on outcome (total effect)}
+
+\item{medDiff}{time varying mediation effect (difference term)}
+
+\item{medEffect}{time varying mediation effect (product term)}
+
+\item{CI.low}{lower confidence intervals for medEffect}
+
+\item{CI.upper}{upper confidence intervals for medEffect}
+}
 \description{
-Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups
+Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and binary outcome.
+}
+\note{
+*Currently supports 2 treatment options. Future releases may expand number of treatment options.
+}
+\section{Plot Returns}{
+
+\enumerate{
+\item{\code{plot1_a1 }}{plot for alpha1_hat with CIs across timeseq}
+\item{\code{plot2_b2 }}{plot for beta2_hat with CIs across timeseq}
+\item{\code{MedEff }}{plot for mediation effects (difference and product) across timeseq}
+\item{\code{MedEff_CI }}{plot for CIs of medEffect}
+\item{\code{bootstrap }}{plot for estimated medEffects from bootstrapped samples across timeseq}
+}
+}
+
+\references{
+\enumerate{
+\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}
+\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The annals of Statistics 27 1491-1518.}
+\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology) 62 303-322.}
+}
 }

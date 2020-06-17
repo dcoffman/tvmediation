@@ -32,7 +32,6 @@ knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 library(tidyverse)  # NEED TO LOAD tidyverse BEFORE Hmisc!
 library(Hmisc)
 library(locpol)
-library(devtools)
 library(tvmediation)
 library(dplyr)
 library(ggplot2)
@@ -43,9 +42,9 @@ library(ggpubr)
 
 ## Introduction
 
-The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 2 treatment (exposure) groups and continuous outcome. We will rely on a dataset simulated based on the Wisconsin Smokers' Health Study 2 dataset which includes 1086 individuals across 3 treatment conditions. In one condition, one-third of participants received only a `nicotine patch`. In a second condition, another one-third received `varenicline`. A final third of participants were placed into a third condition and received a `combination nicotine replacement therapy (NRT) - nicotine patch + nicotine mini-lozenge`. For our illustration the outcome of interest is `smoking status` a binary variable derived from variables recording the number of cigarrettes smoked by the participants. In addition, mediator variables were collected by asking participants if they felt a `negative mood in the last fifteen minutes`, whether they `wanted to smoke in the last 15 minutes`, or `cessation fatigue` recording how tired a participant felt of trying to quit smoking (7-point Likert scale). Both the outcome and mediator variables were assessed 2x per day over the course of twenty-eight days.
+The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 2 treatment (exposure) groups and binary outcome. We will rely on a dataset simulated based on the Wisconsin Smokers' Health Study 2 dataset which includes 1086 individuals across 3 treatment conditions. In one condition, one-third of participants received only a `nicotine patch`. In a second condition, another one-third received `varenicline`. A final third of participants were placed into a third condition and received a `combination nicotine replacement therapy (NRT) - nicotine patch + nicotine mini-lozenge`. For our illustration the outcome of interest is `daily smoking status` a binary variable derived from variables recording the number of cigarrettes smoked by the participants. In addition, mediator variables were collected by asking participants if they felt a `negative mood in the last fifteen minutes`, whether they `wanted to smoke in the last 15 minutes`, or `cessation fatigue` recording how tired a participant felt of trying to quit smoking (7-point Likert scale). Both the outcome and mediator variables were assessed 2x per day over the course of twenty-eight days. The assessments were recorded daily (2x per day) for the first two weeks (rendering 30 time points of response since assessments starts on day 0 post target quit day), and every other day (2x per day) for weeks 3 and 4 (rendering 14 time points of response).
 
-A traditional approach to analyzing this type of data would be to utilize a mediation analysis. First, a single direct effect would be calculated by regressing the outcome on the treatment condition. Next, a single indirect effect would be computed by multiplying the effect of treatment condition on the mediator by the effect of the mediator on the outcome. However, we feel this method potentially misses important information about the dynamic effect that a mediator may have over time. Specifically, we hypothesize that mood changes and thus, its mediating effect on one’s feelings of quitting smoking is likely to vary over time. We therefore propose a time varying mediation analysis which estimates the mediation effect as a function that varies over time.
+A traditional approach to analyzing this type of data would be to utilize a mediation analysis. First, a single direct effect would be calculated by regressing the outcome on the treatment condition. Next, a single indirect effect would be computed by multiplying the effect of treatment condition on the mediator by the effect of the mediator on the outcome. However, this method potentially misses important information about the dynamic effect that a mediator may have over time. Specifically, we hypothesize that mood changes and thus, its mediating effect on one’s feelings of quitting smoking is likely to vary over time. We therefore propose a time varying mediation analysis which estimates the mediation effect as a function that varies over time.
 
 The `tvmb` function like `tvma` is developed for analyzing the mediation effect of 2 treatment (exposure) groups.
 
@@ -81,7 +80,7 @@ The `tvmb` function requires 4 necessary and 4 optional input variables.
 1. `treatment` A binary vector with treatment schedule
 2. `t.seq` The time sequence of the measures
 3. `mediator` The matrix of mediator values in wide format
-4. `outcome` The matrix of outcome outcomes in wide format
+4. `outcome` The matrix of outcome values in wide format
 
 The optional inputs are:
 
@@ -108,7 +107,7 @@ The `smoker` data frame is organized in Long format with `SubjectID` repeating o
 3. `outcome` requires a column of measures that are to be transposed.
 4. `verbose` is an option that can be turned on to print the output of `LongToWide` to the console
 
-The output of `LongToWide` is a matrix of data in wide format where columns represent time sequence and rows represent the response to the variable of interest for each subject.
+The output of `LongToWide` is a matrix of data in wide format where columns represent the subjects and rows represent the time sequence. Thus each cell contains the j-th subject's response at the i-th time point.
 
 As the `tvmb` function will require two matrices, one for mediators, and one for outcomes, we will use the `LongToWide` function twice as seen below:
 
@@ -127,7 +126,7 @@ class(outcome)
 outcome[1:16, 1:10]
 ```
 
-Now your dataset might not always be in long format which requires to be converted in wide format using the `LongToWide` function. Your data might already be in wide format, in which case there is no need to use the `LongToWide` function and you can simply subset your dataset/dataframe. However, please note that `mediator` and `outcome` must be of class `matrix`; hence make sure you convert the classtype of the subsetted datasets to `matrix` before proceeding.
+Now your dataset might not always be in long format which requires to be converted in wide format using the `LongToWide` function. Your data might already be in wide format, in which case there is no need to use the `LongToWide` function and you can simply subset your dataset/dataframe. However, please note that `mediator` and `outcome` must be of class `matrix`; hence make sure you convert the classtype of the subsetted datasets to `matrix` before proceeding. This can be done using the R function `as.matrix`.
 
 The function still requires 2 more variables that we have not yet created:
 
@@ -208,7 +207,7 @@ As discussed earlier, the `tvmb` function requires 4 necessary and 4 optional in
 1. `treatment` A binary vector with treatment schedule
 2. `t.seq` The time sequence of the measures
 3. `mediator` The matrix of mediator values in wide format
-4. `outcome` The matrix of outcome outcomes in wide format
+4. `outcome` The matrix of outcome values in wide format
 
 The optional inputs are:
 
@@ -231,16 +230,17 @@ The `tvmb` function returns a list of results including:
 2.  `CI.lower.a1` the lower confidence intervals for alpha1_hat
 3.  `CI.upper.a1` the upper confidence intervals for alpha1_hat
 4.  `beta2_hat` the estimated effect of the mediator on the outcome
-5   `CI.lower.b2` the lower confidence intervals for beta2_hat
+5.   `CI.lower.b2` the lower confidence intervals for beta2_hat
 6.  `CI.upper.b2` the upper confidence intervals for beta2_hat
-7.  `b1All` the estimated exposure effect on outcome
+7.  `b1All` the estimated exposure effect on outcome mediated by the mediator
 8.  `cAll` the estimated direct effect of exposure on outcome
 9.  `medDiff` the time varying mediation effect (difference term)
 10. `medEffect` the time varying mediation effect (product term)
 
 Optional returns based on arguments `CI = "boot"` passed by the user include:
-11. `CI.low` the lower confidence intervals
-12. `CI.upper` the upper confidence intervals
+
+11. `CI.low` the lower confidence intervals of the time varying mediation effect
+12. `CI.upper` the upper confidence intervals of the time varying mediation effect
 
 ```{r}
 results_tvmb$Estimates
@@ -269,13 +269,13 @@ In the above plot, the effect of `varenicline` on subjects' feeling of `negative
 results_tvmb$plot2_b2
 ```
 
-In the above plot, the effect of subjects' `negative mood in the last fifteen minutes` on the outcome `smoking status` follows a sinusoidal trend over time with occassional spikes around day 6-7 (end of week 1) and day 14 (end of week 3). 
+In the above plot, the effect of subjects' `negative mood in the last fifteen minutes` on the outcome `daily smoking status` follows a sinusoidal trend over time with occasional spikes around day 6-7 (end of week 1) and day 14 (end of week 3). 
 
 ```{r, fig.width = 10, fig.height = 5, echo = FALSE}
 results_tvmb$MedEff
 ```
 
-In the above plots, the effect of `varenicline` on `smoking status` that is mediated by the `negative mood in the last fifteen minutes` (using both the difference and product method of estimating mediation effect ) show that the effect follows no particular trend but oscilates between a weak and a positive effect compared to the effect of using `nicotine patch only`. The plot for mediation effect using the `difference method` shows that the effect  of `varenicline` on `smoking status` compared to `nicotine patch only` decreases rapidly in the first week and then increases around day 8 before decreasing till day 16 and increasing thereafter. The plot for mediation effect using the `product method` shows that the effect  of `varenicline` on `smoking status` compared to `nicotine patch only` decreases rapidly in the first 2 weeks hovering mostly around 0 (no effect), then decreases sharply around day 14 before sharply increasing again till day 21 and decreasing thereafter. The effect is extremely erratic and given that the confidence intervals cross zero for the estimated mediation effect (using product method), we can conclude that this effect is not statistically significant. See the below plot `MedEff_CI`.
+In the above plots, the effect of `varenicline` on `daily smoking status` that is mediated by the `negative mood in the last fifteen minutes` (using both the difference and product method of estimating mediation effect ) show that the effect follows no particular trend but oscilates between a weak and a positive effect compared to the effect of using `nicotine patch only`. The plot for mediation effect using the `difference method` shows that the effect  of `varenicline` on `daily smoking status` compared to `nicotine patch only` decreases rapidly in the first week and then increases around day 8 before decreasing till day 16 and increasing thereafter. The plot for mediation effect using the `product method` shows that the effect  of `varenicline` on `daily smoking status` compared to `nicotine patch only` decreases rapidly in the first 2 weeks hovering mostly around 0 (no effect), then decreases sharply around day 14 before sharply increasing again till day 21 and decreasing thereafter. The effect is extremely erratic and given that the confidence intervals cross zero for the estimated mediation effect (using product method), we can conclude that this effect is not statistically significant. See the below plot `MedEff_CI`.
 
 ```{r, fig.width = 10, fig.height = 5, echo = FALSE}
 results_tvmb$MedEff_CI

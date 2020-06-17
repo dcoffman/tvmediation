@@ -17,6 +17,70 @@ tvma_3trt(
   verbose = FALSE
 )
 }
+\arguments{
+\item{NRT1}{a vector with treatment arm 1 values}
+
+\item{NRT2}{a vector with treatment arm 2 values}
+
+\item{t.seq}{a vector of time points for each observation}
+
+\item{mediator}{matrix of mediator values in wide format}
+
+\item{outcome}{matrix of outcome outcomes in wide format}
+
+\item{t.est}{time points to make the estimation                              Default = t.seq}
+
+\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE"}
+
+\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot"}
+
+\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000}
+
+\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE"}
+}
+\value{
+\item{hat.alpha1}{estimated NRT1 effect on mediator}
+
+\item{hat.alpha2}{estimated NRT2 effect on mediator}
+
+\item{hat.beta3}{estimated mediation effect on outcome}
+
+\item{hat.mediation1}{time varying mediation effect - NRT1 on outcome}
+
+\item{hat.mediation2}{time varying mediation effect - NRT2 on outcome}
+
+\item{CI.upper.NRT1}{Upper confidence intervals for NRT1}
+
+\item{CI.lower.NRT1}{Lower confidence intervals for NRT1}
+
+\item{CI.upper.NRT2}{Upper confidence intervals for NRT2}
+
+\item{CI.lower.NRT2}{Lower confidence intervals for NRT2}
+
+\item{SE_MedEff1}{estimated standard errors of the mediation effect for NRT1}
+
+\item{SE_MedEff2}{estimated standard errors of the mediation effect for NRT2}
+}
 \description{
-Time Varying Mediation Function: Continuous Outcome and Three Treatment (Exposure) Groups
+Function to estimate the time-varying mediation effect and bootstrap standard errors, involving three treatment groups and continuous outcome.
+}
+\section{Plot Returns}{
+
+\enumerate{
+\item{\code{plot1_a1 }}{plot for hat.alpha1 across t.seq with CI}
+\item{\code{plot2_a2 }}{plot for hat.alpha2 across t.seq with CI}
+\item{\code{plot3_b3 }}{plot for hat.beta3 across t.seq with CI}
+\item{\code{MedEff_NRT1 }}{plot for hat.mediation1 across t.seq}
+\item{\code{MedEff_NRT2 }}{plot for hat.mediation2 across t.seq}
+\item{\code{MedEff_CI_NRT1 }}{plot for CIs of medEffect for NRT1}
+\item{\code{MedEff_CI_NRT2 }}{plot for CIs of medEffect for NRT2}
+}
+}
+
+\references{
+\enumerate{
+\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}
+\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The annals of Statistics 27 1491-1518.}
+\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology) 62 303-322.}
+}
 }

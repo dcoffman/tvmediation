@@ -31,7 +31,7 @@ It is reccomended that the user sorts the data prior to using this function.
 set.seed(4)
 df <- data.frame("subject.id" = rep(seq(from = 101, to = 105, by = 1), 4),
         "time.sequence" = sort(rep(seq(from = 0.1, to = 0.4, by = .1), 5)),
-        "outcome" = sample(1:20, 20, replace=F))
+        "outcome" = sample(1:20, 20, replace=FALSE))
 df
 df <- arrange(df, subject.id)
 df
