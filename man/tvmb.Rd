@@ -76,6 +76,30 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 }
 }
 
+\examples{
+data(smoker)
+
+# REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
+smoker.parsed <- smoker[smoker$treatment != 4, ]
+
+# GENERATE WIDE FORMATTED MEDIATORS
+mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+
+# GENERATE WIDE FORMATTED OUTCOMES
+outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$smoke_status)
+
+# GENERATE A BINARY TREATMENT VARIABLE
+trt <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
+
+# GENERATE A VECTOR OF UNIQUE TIME POINTS
+t.seq <- sort(unique(smoker.parsed$timeseq))
+
+# COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
+results <- tvmb(trt, t.seq, mediator, outcome)
+
+# ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().
+
+}
 \references{
 \enumerate{
 \item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}

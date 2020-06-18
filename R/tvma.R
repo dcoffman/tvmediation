@@ -57,6 +57,8 @@
 #' # COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
 #' results <- tvma(treatment, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
 #' 
+#' # ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorials for tvma() and tvmb().
+#' 
 #' @references 
 #' \enumerate{
 #' \item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}
