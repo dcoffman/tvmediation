@@ -36,6 +36,30 @@
 #' \item{\code{MedEff_CI_NRT2 }}{plot for CIs of medEffect for NRT2}
 #' }
 #' 
+#' @examples
+#' data(smoker)
+#' 
+#' smoker.parsed <- smoker
+#' 
+#' # GENERATE WIDE FORMATTED MEDIATORS
+#' mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+#' 
+#' # GENERATE WIDE FORMATTED OUTCOMES
+#' outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
+#' 
+#' # GENERATE TWO BINARY TREATMENT VARIABLES
+#' NRT1 <- as.numeric(unique(smoker.parsed[ ,c("SubjectID","varenicline")])[,2])-1
+#' NRT2 <- as.numeric(unique(smoker.parsed[ ,c("SubjectID","comboNRT")])[,2])-1
+#' 
+#' # GENERATE A VECTOR OF UNIQUE TIME POINTS
+#' t.seq <- sort(unique(smoker.parsed$timeseq))
+#' 
+#' # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
+#' results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome)
+#' 
+#' # COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
+#' results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
+#' 
 #' @references 
 #' \enumerate{
 #' \item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}

@@ -1,4 +1,22 @@
-#' Function to format the dataset (transposing the datset from Long to Wide structure)
+#' Function to format the dataset
+#' 
+#' Transposing a dataset with repeated measurements/responses for each subject from longitudinal to wide format.
+#' 
+#' @param subject.id      a column of subject identifiers
+#' @param time.sequence   a column of time points
+#' @param outcome         a column of measures to be transposed
+#' @param verbose         TRUE or FALSE (default = FALSE) prints output to screen (OPTIONAL INPUT)
+#' 
+#' @details If data is not sorted by subject.id, a warning message will appear. The function will then sort the data by subject.id. It is reccomended that the user sorts the data prior to using this function.
+#' 
+#' @return \item{\code{mat.wide }}{a matrix of data in short format, columns = outcome for each subject, rows = timeseq}
+#' 
+#' @examples 
+#' set.seed(4)
+#' # CREATING A TRANSPOSED DATASET FOR MEDIATOR `WantToSmokeLst15min`
+#' smoker.parsed <- smoker
+#' mat.wide <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$WantToSmokeLst15min)
+#' 
 #' @export
 #' 
 LongToWide <- function(subject.id, time.sequence, outcome, verbose = FALSE) {
@@ -15,7 +33,7 @@ LongToWide <- function(subject.id, time.sequence, outcome, verbose = FALSE) {
   #
   # Returns:
   #   mat.wide      -->  a matrix of data in short format
-  #                     columns = timeseq, rows = outcome for each subject
+  #                      columns = outcome for each subject, rows = timeseq
   #
   #
   ##

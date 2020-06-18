@@ -1,5 +1,71 @@
 #' Time Varying Mediation Analysis: Continuous Outcome and Two Treatment (Exposure) Groups
+#' 
+#' Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and continuous outcome.
+#' 
+#' @param treatment   a vector with treatment values
+#' @param t.seq       a vector of time points for each observation
+#' @param mediator    matrix of mediator values in wide format
+#' @param outcome     matrix of outcome outcomes in wide format
+#' @param t.est       time points to make the estimation                              Default = t.seq (OPTIONAL INPUT)
+#' @param plot        TRUE or FALSE for plotting mediation effect                     Default = "FALSE" (OPTIONAL INPUT)
+#' @param CI          "none" or "boot" method of deriving confidence intervals.       Default = "boot" (OPTIONAL INPUT)
+#' @param replicates  Number of replicates for bootstrapping confidence intervals.    Default = 1000 (OPTIONAL INPUT)
+#' @param verbose     TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL INPUT)
+#' 
+#' @return \item{hat.alpha.1}{estimated treatment effect on mediator}
+#' @return \item{hat.beta.2}{estimated mediator effect on outcome}
+#' @return \item{est.M}{time varying mediation effect}
+#' @return \item{CI.upper.alpha}{Upper confidence intervals for coefficient alpha1}
+#' @return \item{CI.lower.alpha}{Lower confidence intervals for coefficient alpha1}
+#' @return \item{CI.upper.beta}{Upper confidence intervals for coefficient beta2}
+#' @return \item{CI.lower.beta}{Lower confidence intervals for coefficient beta2}
+#' @return \item{boot.se.m}{estimated standard error of the time varying mediation effect}
+#' @return \item{CI.upper}{Upper confidence intervals of the time varying mediation effect}
+#' @return \item{CI.lower}{Lower confidence intervals of the time varying mediation effect}
+#' 
+#' @section Plot Returns:
+#' \enumerate{
+#' \item{\code{Alpha_CI }}{plot for hat.alpha.1 across t.seq with CI}
+#' \item{\code{Beta_CI }}{plot for hat.beta.2 across t.seq with CI}
+#' \item{\code{MedEff }}{plot for mediation.effect across t.seq}
+#' \item{\code{MedEff_CI }}{plot for CIs of mediation.effect across t.seq}
+#' }
+#' 
+#' @note *Currently supports 2 treatment options. See \code{tvma_3trt} function for three treatment options. Future releases may expand number of treatment options.
+#' 
+#' @examples
+#' data(smoker)
+#' 
+#' # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
+#' smoker.parsed <- smoker[smoker$treatment != 4, ]
+#' 
+#' # GENERATE WIDE FORMATTED MEDIATORS
+#' mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+#' 
+#' # GENERATE WIDE FORMATTED OUTCOMES
+#' outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
+#' 
+#' # GENERATE A BINARY TREATMENT VARIABLE
+#' trt <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
+#' 
+#' # GENERATE A VECTOR OF UNIQUE TIME POINTS
+#' t.seq <- sort(unique(smoker.parsed$timeseq))
+#' 
+#' # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
+#' results <- tvma(trt, t.seq, mediator, outcome)
+#' 
+#' # COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
+#' results <- tvma(treatment, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
+#' 
+#' @references 
+#' \enumerate{
+#' \item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}
+#' \item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The annals of Statistics 27 1491-1518.}
+#' \item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology) 62 303-322.}
+#' }
+#' 
 #' @export
+#' 
 
 tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
   {
@@ -68,6 +134,13 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
   
   if(flag == 0){
     if(CI == "boot" || CI == "none"){
+      
+      index = vector()  
+      index=which(!is.na(treatment))
+      treatment = treatment[index]
+      outcome = outcome[,index]
+      mediator = mediator[,index]
+      
       deltat <- max(diff(t.seq)) / 2  # half the time between two measures
       N <- length(treatment)
       t.coeff <- NULL
