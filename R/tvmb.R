@@ -6,10 +6,10 @@
 #' @param t.seq       a vector of unique time points for each observation
 #' @param mediator    matrix of mediator values in wide format
 #' @param outcome     matrix of outcome outcomes in wide format
-#' @param plot        TRUE or FALSE for plotting mediation effect                     Default = "FALSE".
-#' @param CI          "none" or "boot" method of deriving confidence intervals.       Default = "boot".
-#' @param replicates  Number of replicates for bootstrapping confidence intervals.    Default = 1000.
-#' @param verbose     TRUE or FALSE for printing results to screen.                   Default = "FALSE"
+#' @param plot        TRUE or FALSE for plotting mediation effect                     Default = "FALSE". (OPTIONAL ARGUMENT)
+#' @param CI          "none" or "boot" method of deriving confidence intervals.       Default = "boot". (OPTIONAL ARGUMENT)
+#' @param replicates  Number of replicates for bootstrapping confidence intervals.    Default = 1000. (OPTIONAL ARGUMENT)
+#' @param verbose     TRUE or FALSE for printing results to screen.                   Default = "FALSE". (OPTIONAL ARGUMENT)
 #' 
 #' @return \item{timeseq}{time points of estimation}
 #' @return \item{alpha1_hat}{exposure effect on mediator (indirect effect)}

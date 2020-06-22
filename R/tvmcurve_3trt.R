@@ -1,3 +1,23 @@
+#' Main function for time varying mediation function for continuous Outcome and three treatment (Exposure) Groups
+#' 
+#' Part of the set of internal functions to estimate the time-varying mediation effect and bootstrap standard errors, involving three treatment groups and continuous outcome.
+#' 
+#' @param NRT1        a vector with treatment arm 1 values
+#' @param NRT2        a vector with treatment arm 2 values
+#' @param t.seq       a vector of time points for each observation
+#' @param x           matrix of mediator values in wide format
+#' @param y           matrix of outcome outcomes in wide format
+#' @param t.est       time points to make the estimation             Default = t.seq.
+#' 
+#' @return \item{hat.alpha1}{estimated NRT1 effect on mediator}
+#' @return \item{hat.alpha2}{estimated NRT2 effect on mediator}
+#' @return \item{hat.beta3}{estimated mediation effect on outcome}
+#' @return \item{hat.mediation1}{time varying mediation effect - NRT1 on outcome}
+#' @return \item{hat.mediation2}{time varying mediation effect - NRT2 on outcome}
+#' 
+#' @export
+
+
 tvmcurve_3trt<-function(NRT1, NRT2, t.seq, x, y, t.est)
 {
   # Estimate time-varying mediation effect and bootstrap standard errors

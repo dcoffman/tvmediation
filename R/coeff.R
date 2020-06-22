@@ -1,3 +1,19 @@
+#' Function to estimate coefficients at time T
+#' 
+#' Part of the set of internal functions called within the \code{tvmcurve_3trt} function to assist in the estimation of time varying mediation effect.
+#' 
+#' @param j           a number indicating time point of observation
+#' @param NRT1        a vector with treatment arm 1 values
+#' @param NRT2        a vector with treatment arm 2 values
+#' @param x           matrix of mediator values in wide format
+#' @param y           matrix of outcome outcomes in wide format
+#' 
+#' @return \item{coeff.est}{estimated coefficients of the mediation model}
+#' @return \item{nomissing.index}{index of complete cases}
+#' 
+#' @export
+#' 
+
 ###### It assumes the following quantities are known #######
 #### NRT: intervention 
 #### t-seq: observed t-seq 

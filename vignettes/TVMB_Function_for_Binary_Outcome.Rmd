@@ -200,7 +200,7 @@ t.seq
 
 We are now ready to perform our time varying mediation analysis.
 
-## Calling the `tvma` function
+## Calling the `tvmb` function
 
 As discussed earlier, the `tvmb` function requires 4 necessary and 4 optional input variables.
 

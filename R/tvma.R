@@ -6,22 +6,22 @@
 #' @param t.seq       a vector of time points for each observation
 #' @param mediator    matrix of mediator values in wide format
 #' @param outcome     matrix of outcome outcomes in wide format
-#' @param t.est       time points to make the estimation                              Default = t.seq (OPTIONAL INPUT)
-#' @param plot        TRUE or FALSE for plotting mediation effect                     Default = "FALSE" (OPTIONAL INPUT)
-#' @param CI          "none" or "boot" method of deriving confidence intervals.       Default = "boot" (OPTIONAL INPUT)
-#' @param replicates  Number of replicates for bootstrapping confidence intervals.    Default = 1000 (OPTIONAL INPUT)
-#' @param verbose     TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL INPUT)
+#' @param t.est       time points to make the estimation                              Default = t.seq (OPTIONAL ARGUMENT)
+#' @param plot        TRUE or FALSE for plotting mediation effect                     Default = "FALSE" (OPTIONAL ARGUMENT)
+#' @param CI          "none" or "boot" method of deriving confidence intervals.       Default = "boot" (OPTIONAL ARGUMENT)
+#' @param replicates  Number of replicates for bootstrapping confidence intervals.    Default = 1000 (OPTIONAL ARGUMENT)
+#' @param verbose     TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL ARGUMENT)
 #' 
 #' @return \item{hat.alpha.1}{estimated treatment effect on mediator}
 #' @return \item{hat.beta.2}{estimated mediator effect on outcome}
 #' @return \item{est.M}{time varying mediation effect}
-#' @return \item{CI.upper.alpha}{Upper confidence intervals for coefficient alpha1}
-#' @return \item{CI.lower.alpha}{Lower confidence intervals for coefficient alpha1}
-#' @return \item{CI.upper.beta}{Upper confidence intervals for coefficient beta2}
-#' @return \item{CI.lower.beta}{Lower confidence intervals for coefficient beta2}
+#' @return \item{CI.upper.alpha}{upper limit of confidence intervals for coefficient alpha1}
+#' @return \item{CI.lower.alpha}{lower limit of confidence intervals for coefficient alpha1}
+#' @return \item{CI.upper.beta}{upper limit of confidence intervals for coefficient beta2}
+#' @return \item{CI.lower.beta}{lower limit of confidence intervals for coefficient beta2}
 #' @return \item{boot.se.m}{estimated standard error of the time varying mediation effect}
-#' @return \item{CI.upper}{Upper confidence intervals of the time varying mediation effect}
-#' @return \item{CI.lower}{Lower confidence intervals of the time varying mediation effect}
+#' @return \item{CI.upper}{upper limit of confidence intervals of the time varying mediation effect}
+#' @return \item{CI.lower}{lower limit of confidence intervals of the time varying mediation effect}
 #' 
 #' @section Plot Returns:
 #' \enumerate{

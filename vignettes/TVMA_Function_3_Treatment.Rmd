@@ -181,7 +181,7 @@ t.seq
 
 We are now ready to perform our time varying mediation analysis.
 
-## Calling the `tvma` function
+## Calling the `tvma_3trt` function
 
 As discussed earlier, the `tvma_3trt` function requires 5 necessary and 5 optional input variables.
 

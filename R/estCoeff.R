@@ -1,3 +1,14 @@
+#' Function to estimate coefficients at time T
+#' 
+#' Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.
+#' 
+#' @param newMO.j.est       a list containing mean centered mediators and outcomes
+#' 
+#' @return \item{coeff.est}{estimated coefficients of the mediation model}
+#' 
+#' @export
+#' 
+
 
 estCoeff <- function(newMO.j.est) {
   

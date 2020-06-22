@@ -1,3 +1,26 @@
+#' Bootstrapping samples to estimate confidence intervals for coefficients of continuous outcome and three treatment (exposure) groups
+#' 
+#' Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and three treatment (exposure) groups.
+#' 
+#' @param NRT1              a vector with treatment arm 1 values
+#' @param NRT2              a vector with treatment arm 2 values
+#' @param t.seq             a vector of time points for each observation
+#' @param mediator          matrix of mediator values in wide format
+#' @param outcome           matrix of outcome outcomes in wide format
+#' @param t.est             time points to make the estimation                              Default = t.seq.
+#' @param original.coeff    a list of the estimated coefficients \code{hat.alpha1}, \code{hat.alpha2} and \code{hat.beta3}.
+#' @param boot.sample       number of replicates for bootstrapping confidence intervals.    Default = 1000.
+#' 
+#' @return \item{alw1}{lower limit of confidence intervals for estimated NRT1 effect on mediator}
+#' @return \item{aup1}{upper limit of confidence intervals for estimated NRT1 effect on mediator}
+#' @return \item{alw2}{lower limit of confidence intervals for estimated NRT2 effect on mediator}
+#' @return \item{aup2}{upper limit of confidence intervals for estimated NRT2 effect on mediator}
+#' @return \item{blw3}{lower limit of confidence intervals for estimated effect of mediator on outcome}
+#' @return \item{bup3}{upper limit of confidence intervals for estimated effect of mediator on outcome}
+#' 
+#' @export
+#' 
+
 ##################################################################################
 #### Bootstrap for computing the CI for coefficients alpha1, alpha2 and beta3 ####
 ##################################################################################

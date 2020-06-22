@@ -28,15 +28,15 @@ tvma_3trt(
 
 \item{outcome}{matrix of outcome outcomes in wide format}
 
-\item{t.est}{time points to make the estimation                              Default = t.seq}
+\item{t.est}{time points to make the estimation                              Default = t.seq. (OPTIONAL ARGUMENT)}
 
-\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE"}
+\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE". (OPTIONAL ARGUMENT)}
 
-\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot"}
+\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot". (OPTIONAL ARGUMENT)}
 
-\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000}
+\item{replicates}{number of replicates for bootstrapping confidence intervals.    Default = 1000. (OPTIONAL ARGUMENT)}
 
-\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE"}
+\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE". (OPTIONAL ARGUMENT)}
 }
 \value{
 \item{hat.alpha1}{estimated NRT1 effect on mediator}
@@ -49,13 +49,13 @@ tvma_3trt(
 
 \item{hat.mediation2}{time varying mediation effect - NRT2 on outcome}
 
-\item{CI.upper.NRT1}{Upper confidence intervals for NRT1}
+\item{CI.upper.NRT1}{upper limit of confidence intervals for NRT1}
 
-\item{CI.lower.NRT1}{Lower confidence intervals for NRT1}
+\item{CI.lower.NRT1}{lower limit of confidence intervals for NRT1}
 
-\item{CI.upper.NRT2}{Upper confidence intervals for NRT2}
+\item{CI.upper.NRT2}{upper limit of confidence intervals for NRT2}
 
-\item{CI.lower.NRT2}{Lower confidence intervals for NRT2}
+\item{CI.lower.NRT2}{lower limit of confidence intervals for NRT2}
 
 \item{SE_MedEff1}{estimated standard errors of the mediation effect for NRT1}
 

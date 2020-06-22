@@ -1,3 +1,23 @@
+#' Bootstrapping samples to estimate confidence intervals for continuous outcome and three treatment (exposure) groups mediation effects
+#' 
+#' Internal function for estimating bootstrapped confidence intervals for the mediation model of continuous outcome and three treatment (exposure) groups when user argument \code{CI="boot"}.
+#' 
+#' @param boot.sample    number of replicates for bootstrapping confidence intervals.    Default = 1000.
+#' @param orig.data      a list of original data \code{NRT1}, \code{NRT2}, \code{mediator}, \code{outcome} and \code{t.seq}.
+#' @param t.est          time points to make the estimation.                             Default = t.seq.
+#' 
+#' @return \item{plw1}{lower limit of confidence intervals for estimated mediation effect in NRT1}
+#' @return \item{pup1}{upper limit of confidence intervals for estimated mediation effect in NRT1}
+#' @return \item{plw2}{lower limit of confidence intervals for estimated mediation effect in NRT2}
+#' @return \item{pup2}{upper limit of confidence intervals for estimated mediation effect in NRT2}
+#' @return \item{orig.se1.all}{estimated standard errors of the mediation effect for NRT1}
+#' @return \item{orig.se2.all}{estimated standard errors of the mediation effect for NRT2}
+#' @return \item{orig.mediation1}{time varying mediation effect - NRT1 on outcome}
+#' @return \item{orig.mediation2}{time varying mediation effect - NRT2 on outcome}
+#' 
+#' @export
+#' 
+
 ## function to calculate the time-varying-mediation-curve and standard deviation
 bootci_tvm_3trt<-function(boot.sample, orig.data, t.est)
 {

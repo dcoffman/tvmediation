@@ -1,3 +1,23 @@
+#' Bootstrapping samples to estimate confidence intervals for coefficients of continuous outcome and two treatment (exposure) groups
+#' 
+#' Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and two treatment (exposure) groups.
+#' 
+#' @param trt         a vector with treatment values
+#' @param t.seq       a vector of time points for each observation
+#' @param M           matrix of mediator values in wide format
+#' @param Y           matrix of outcome outcomes in wide format
+#' @param t.est       time points to make the estimation                              Default = t.seq
+#' @param deltat      a small constant which controls the time-lag of the effect of the mediator on the outcome.
+#' @param replicates  number of replicates for bootstrapping confidence intervals.    Default = 1000
+#' 
+#' @return \item{CI.upper.alpha}{upper limit of confidence intervals for coefficient alpha1}
+#' @return \item{CI.lower.alpha}{lower limit of confidence intervals for coefficient alpha1}
+#' @return \item{CI.upper.beta}{upper limit of confidence intervals for coefficient beta2}
+#' @return \item{CI.lower.beta}{lower limit of confidence intervals for coefficient beta2}
+#' 
+#' @export
+#' 
+
 ##########################################################################
 #### Bootstrap for computing the CI for coefficients alpha1 and beta2 ####
 ##########################################################################

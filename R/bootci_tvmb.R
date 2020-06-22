@@ -1,8 +1,36 @@
+#' Bootstrapping samples to estimate confidence intervals for binary outcome mediation effects
+#' 
+#' Part of the set of internal functions for estimating bootstrapped confidence intervals for the mediation effect estimate for binary outcome when user argument \code{CI="boot"}.
+#' 
+#' @param treatment    a vector with treatment values
+#' @param t.seq        a vector of unique time points for each observation
+#' @param m            matrix of mediator values in wide format
+#' @param outcome      matrix of outcome outcomes in wide format
+#' @param coeff_data   a merged dataset of indirect and direct effects coefficients and confidence intervals estimated from \code{bootci_coeff_binary}
+#' @param replicates   number of replicates for bootstrapping confidence intervals.    Default = 1000.
+#' 
+#' @return \item{timeseq}{time points of estimation}
+#' @return \item{alpha1_hat}{exposure effect on mediator (indirect effect)}
+#' @return \item{CI.lower.a1}{lower limit of confidence intervals for alpha1_hat}
+#' @return \item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
+#' @return \item{beta2_hat}{estimated mediation effect on outcome (indirect effect)}
+#' @return \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
+#' @return \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
+#' @return \item{b1All}{estimated exposure effect on outcome (direct effect)}
+#' @return \item{cAll}{estimated effect of exposure on outcome (total effect)}
+#' @return \item{medDiff}{time varying mediation effect (difference term)}
+#' @return \item{medEffect}{time varying mediation effect (product term)}
+#' @return \item{CI.low}{lower limit of confidence intervals for medEffect}
+#' @return \item{CI.upper}{upper limit of confidence intervals for medEffect}
+#' 
+#' @export
+#' 
+
 ##### ****************************************************** #####
 ##### Bootstrapping samples to estimate confidence intervals #####
 ##### ****************************************************** #####;
 
-bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 500){
+bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 1000){
   #bootstrapping
   set.seed(27)
   reps = replicates

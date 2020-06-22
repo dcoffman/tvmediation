@@ -24,13 +24,13 @@ tvmb(
 
 \item{outcome}{matrix of outcome outcomes in wide format}
 
-\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE".}
+\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE". (OPTIONAL ARGUMENT)}
 
-\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot".}
+\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot". (OPTIONAL ARGUMENT)}
 
-\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000.}
+\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000. (OPTIONAL ARGUMENT)}
 
-\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE"}
+\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE". (OPTIONAL ARGUMENT)}
 }
 \value{
 \item{timeseq}{time points of estimation}

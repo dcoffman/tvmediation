@@ -1,3 +1,16 @@
+#' Function to compute new Mediator and Outcome using time T and T-1 mean centered on the individual
+#' 
+#' Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.
+#' 
+#' @param trt             numeric binary treatment schedule for each individual
+#' @param mediator        (t.seq x N) matrix where N = number of observations. Column 1 is mediator at time T-1. Column 2 is mediator at time T.
+#' @param outcome         (Nx1) matrix were N = number of observations. Column 1 is outcome at time T-1.
+#' @param centerOutcome   outcomes must be centered estimating coefficients and covariance of error terms.
+#' 
+#' @return \item{newMO}{list containing new mediators, outcomes, and index of complete cases}
+#' 
+#' @export
+#' 
 
 newMediatorOutcome <- function(trt, M, Y) {
   # Compute new Mediator and Outcome using time T and T-1
@@ -14,7 +27,7 @@ newMediatorOutcome <- function(trt, M, Y) {
   #                       & covariance of error terms.
   #
   # Returns:
-  #   newMO         -->   list containing new Mediators, Outcomes, and Index of nomissing
+  #   newMO         -->   list containing new Mediators, Outcomes, and Index of complete cases (nomissing)
   ##
   
   if (dim(M)[2] != 2) {

@@ -25,15 +25,15 @@ tvma(
 
 \item{outcome}{matrix of outcome outcomes in wide format}
 
-\item{t.est}{time points to make the estimation                              Default = t.seq (OPTIONAL INPUT)}
+\item{t.est}{time points to make the estimation                              Default = t.seq (OPTIONAL ARGUMENT)}
 
-\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE" (OPTIONAL INPUT)}
+\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE" (OPTIONAL ARGUMENT)}
 
-\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot" (OPTIONAL INPUT)}
+\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot" (OPTIONAL ARGUMENT)}
 
-\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000 (OPTIONAL INPUT)}
+\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000 (OPTIONAL ARGUMENT)}
 
-\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL INPUT)}
+\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL ARGUMENT)}
 }
 \value{
 \item{hat.alpha.1}{estimated treatment effect on mediator}
@@ -42,19 +42,19 @@ tvma(
 
 \item{est.M}{time varying mediation effect}
 
-\item{CI.upper.alpha}{Upper confidence intervals for coefficient alpha1}
+\item{CI.upper.alpha}{upper limit of confidence intervals for coefficient alpha1}
 
-\item{CI.lower.alpha}{Lower confidence intervals for coefficient alpha1}
+\item{CI.lower.alpha}{lower limit of confidence intervals for coefficient alpha1}
 
-\item{CI.upper.beta}{Upper confidence intervals for coefficient beta2}
+\item{CI.upper.beta}{upper limit of confidence intervals for coefficient beta2}
 
-\item{CI.lower.beta}{Lower confidence intervals for coefficient beta2}
+\item{CI.lower.beta}{lower limit of confidence intervals for coefficient beta2}
 
 \item{boot.se.m}{estimated standard error of the time varying mediation effect}
 
-\item{CI.upper}{Upper confidence intervals of the time varying mediation effect}
+\item{CI.upper}{upper limit of confidence intervals of the time varying mediation effect}
 
-\item{CI.lower}{Lower confidence intervals of the time varying mediation effect}
+\item{CI.lower}{lower limit of confidence intervals of the time varying mediation effect}
 }
 \description{
 Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and continuous outcome.

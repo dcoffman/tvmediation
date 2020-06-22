@@ -1,3 +1,21 @@
+#' Bootstrapping samples to estimate confidence intervals for continuous outcome and two treatment (exposure) groups mediation effects
+#' 
+#' Part of the set of internal functions for estimating bootstrapped confidence intervals for the mediation model of continuous outcome and two treatment (exposure) groups when user argument \code{CI="boot"}.
+#' 
+#' @param trt         a vector with treatment values
+#' @param t.seq       a vector of time points at each obs
+#' @param M           matrix of mediator values
+#' @param Y           matrix of outcome outcomes
+#' @param t.est       time points to make the estimation
+#' @param deltat      a small constant which controls the time-lag of the effect of the mediator on the outcome.
+#' @param replicates  number of replicates for bootstrapping confidence intervals.
+#' 
+#' @return {boot.se}{bootstrapped standard error for the estimated mediation effect}
+#' @return {CI.upper}{upper limit of confidence intervals for the estimated mediation effect}
+#' @return {CI.lower}{lower limit of confidence intervals for the estimated mediation effect}
+#' 
+#' @export
+#' 
 
 estBootCIs <- function(trt, t.seq, M, Y, t.est, deltat, replicates) {
   # Estimate bootstrap confidence intervals
