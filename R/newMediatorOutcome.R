@@ -3,9 +3,8 @@
 #' Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.
 #' 
 #' @param trt             numeric binary treatment schedule for each individual
-#' @param mediator        (t.seq x N) matrix where N = number of observations. Column 1 is mediator at time T-1. Column 2 is mediator at time T.
-#' @param outcome         (Nx1) matrix were N = number of observations. Column 1 is outcome at time T-1.
-#' @param centerOutcome   outcomes must be centered estimating coefficients and covariance of error terms.
+#' @param M              (t.seq x N) matrix where N = number of observations. Column 1 is mediator at time T-1. Column 2 is mediator at time T.
+#' @param Y              (Nx1) matrix were N = number of observations. Column 1 is outcome at time T-1.
 #' 
 #' @return \item{newMO}{list containing new mediators, outcomes, and index of complete cases}
 #' 

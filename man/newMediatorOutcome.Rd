@@ -9,11 +9,9 @@ newMediatorOutcome(trt, M, Y)
 \arguments{
 \item{trt}{numeric binary treatment schedule for each individual}
 
-\item{mediator}{(t.seq x N) matrix where N = number of observations. Column 1 is mediator at time T-1. Column 2 is mediator at time T.}
+\item{M}{(t.seq x N) matrix where N = number of observations. Column 1 is mediator at time T-1. Column 2 is mediator at time T.}
 
-\item{outcome}{(Nx1) matrix were N = number of observations. Column 1 is outcome at time T-1.}
-
-\item{centerOutcome}{outcomes must be centered estimating coefficients and covariance of error terms.}
+\item{Y}{(Nx1) matrix were N = number of observations. Column 1 is outcome at time T-1.}
 }
 \value{
 \item{newMO}{list containing new mediators, outcomes, and index of complete cases}

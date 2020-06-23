@@ -114,11 +114,11 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   cts <- class(t.seq)
   flag <- 0
   
-  if(ctm != "matrix"){
+  if(ctm[1] != "matrix"){
     print("Error: `mediator` is not of class type `matrix`.")
     flag <- flag + 1
   }
-  if(cto != "matrix"){
+  if(cto[1] != "matrix"){
     print("Error: `outcome` is not of class type `matrix`.")
     flag <- flag + 1
   }
