@@ -53,12 +53,12 @@ tvmcurve_3trt<-function(NRT1, NRT2, t.seq, x, y, t.est)
     t.coeff=cbind(t.coeff, coeff(l, NRT1, NRT2, x, y)$coeff.est)
   }
   
-  bw_alpha1 <- thumbBw(t.seq[-1], t.coeff[1,], deg=1, kernel=gaussK)
-  bw_alpha2 <- thumbBw(t.seq[-1], t.coeff[2,], deg=1, kernel=gaussK)
-  bw_beta3 <- thumbBw(t.seq[-1], t.coeff[5,], deg=1, kernel=gaussK)
-  hat.alpha.1=locPolSmootherC(t.seq[-1], t.coeff[1,], t.est-deltat, bw_alpha1, deg=1, kernel=gaussK)$beta0
-  hat.alpha.2=locPolSmootherC(t.seq[-1], t.coeff[2,], t.est-deltat, bw_alpha2, deg=1, kernel=gaussK)$beta0
-  hat.beta.3=locPolSmootherC(t.seq[-1], t.coeff[5,], t.est, bw_beta3, deg=1, kernel=gaussK)$beta0
+  bw_alpha1 <- locpol::thumbBw(t.seq[-1], t.coeff[1,], deg=1, kernel=gaussK)
+  bw_alpha2 <- locpol::thumbBw(t.seq[-1], t.coeff[2,], deg=1, kernel=gaussK)
+  bw_beta3 <- locpol::thumbBw(t.seq[-1], t.coeff[5,], deg=1, kernel=gaussK)
+  hat.alpha.1=locpol::locPolSmootherC(t.seq[-1], t.coeff[1,], t.est-deltat, bw_alpha1, deg=1, kernel=gaussK)$beta0
+  hat.alpha.2=locpol::locPolSmootherC(t.seq[-1], t.coeff[2,], t.est-deltat, bw_alpha2, deg=1, kernel=gaussK)$beta0
+  hat.beta.3=locpol::locPolSmootherC(t.seq[-1], t.coeff[5,], t.est, bw_beta3, deg=1, kernel=gaussK)$beta0
   
   list(hat.alpha1 = hat.alpha.1, hat.alpha2 = hat.alpha.2, hat.beta3 = hat.beta.3,
        hat.mediation1=hat.alpha.1*hat.beta.3, hat.mediation2=hat.alpha.2*hat.beta.3)
