@@ -37,6 +37,7 @@
 #' }
 #' 
 #' @examples
+#' install.packages("tvmediation", dependencies = TRUE)
 #' data(smoker)
 #' 
 #' smoker.parsed <- smoker

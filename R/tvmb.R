@@ -37,6 +37,7 @@
 #' @note *Currently supports 2 treatment options. Future releases may expand number of treatment options.
 #' 
 #' @examples
+#' install.packages("tvmediation", dependencies = TRUE)
 #' data(smoker)
 #' 
 #' # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
