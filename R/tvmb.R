@@ -67,7 +67,6 @@
 #' }
 #' 
 #' @export
-#' @importFrom magrittr %>%
 #' @import tidyverse
 #' @import dplyr
 #' @import ggplot2
