@@ -37,7 +37,6 @@
 #' @note *Currently supports 2 treatment options. Future releases may expand number of treatment options.
 #' 
 #' @examples
-#' install.packages("tvmediation", dependencies = TRUE)
 #' data(smoker)
 #' 
 #' # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
@@ -68,7 +67,16 @@
 #' }
 #' 
 #' @export
-#' 
+#' @importFrom magrittr %>%
+#' @import tidyverse
+#' @import dplyr
+#' @import ggplot2
+#' @import ggpubr
+#' @import Hmisc
+#' @import kedd
+#' @import locpol
+#' @import reshape2
+
 
 tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
 {

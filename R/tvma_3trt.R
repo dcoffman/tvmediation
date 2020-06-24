@@ -37,7 +37,6 @@
 #' }
 #' 
 #' @examples
-#' install.packages("tvmediation", dependencies = TRUE)
 #' data(smoker)
 #' 
 #' smoker.parsed <- smoker
@@ -69,6 +68,15 @@
 #' }
 #' 
 #' @export
+#' @importFrom magrittr %>%
+#' @import tidyverse
+#' @import dplyr
+#' @import ggplot2
+#' @import ggpubr
+#' @import Hmisc
+#' @import kedd
+#' @import locpol
+#' @import reshape2
 
 tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
   {
