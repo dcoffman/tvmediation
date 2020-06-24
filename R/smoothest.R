@@ -31,12 +31,12 @@ smoothest <- function(t.seq, t.coeff, t.est, deltat) {
   ##
   
   # Equations 4 & 5
-  bw_alpha1 <- locpol::thumbBw(t.seq[-1], t.coeff[1, ], deg = 1, kernel = gaussK)
-  bw_beta2 <- locpol::thumbBw(t.seq[-1], t.coeff[3, ], deg = 1, kernel = gaussK)
+  bw_alpha1 <- locpol::thumbBw(t.seq[-1], t.coeff[1, ], deg = 1, kernel = locpol::gaussK)
+  bw_beta2 <- locpol::thumbBw(t.seq[-1], t.coeff[3, ], deg = 1, kernel = locpol::gaussK)
   hat.alpha.1 = locpol::locPolSmootherC(t.seq[-1], t.coeff[1, ], t.est - deltat,
-                                bw_alpha1, deg = 1, kernel = gaussK)$beta0
+                                bw_alpha1, deg = 1, kernel = locpol::gaussK)$beta0
   hat.beta.2 = locpol::locPolSmootherC(t.seq[-1], t.coeff[3, ], t.est, bw_beta2,
-                               deg = 1, kernel = gaussK)$beta0
+                               deg = 1, kernel = locpol::gaussK)$beta0
   
   return(list(bw_alpha1 = bw_alpha1, bw_beta2 = bw_beta2,
               hat.alpha.1 = hat.alpha.1, hat.beta.2 = hat.beta.2,
