@@ -35,32 +35,33 @@ tvmb(
 \value{
 \item{timeseq}{time points of estimation}
 
-\item{alpha1_hat}{exposure effect on mediator (indirect effect)}
+\item{alpha1_hat}{estimated exposure effect on mediator (indirect effect component)}
 
-\item{CI.lower.a1}{lower confidence intervals for alpha1_hat}
+\item{CI.lower.a1}{lower limit of confidence intervals for alpha1_hat}
 
-\item{CI.upper.a1}{upper confidence intervals for alpha1_hat}
+\item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
 
-\item{beta2_hat}{estimated mediation effect on outcome (indirect effect)}
+\item{beta1_hat}{estimated exposure effect on outcome (direct effect)}
 
-\item{CI.lower.b2}{lower confidence intervals for beta2_hat}
+\item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
 
-\item{CI.upper.b2}{upper confidence intervals for beta2_hat}
+\item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
 
-\item{b1All}{estimated exposure effect on outcome (direct effect)}
+\item{beta2_hat}{estimated mediator effect on outcome (indirect effect component)}
 
-\item{cAll}{estimated effect of exposure on outcome (total effect)}
+\item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
 
-\item{medDiff}{time varying mediation effect (difference term)}
+\item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
 
-\item{medEffect}{time varying mediation effect (product term)}
+\item{medEffect}{time varying mediation effect (estimate by product method)}
 
-\item{CI.low}{lower confidence intervals for medEffect}
+\item{CI.low}{lower limit of confidence intervals for medEffect}
 
-\item{CI.upper}{upper confidence intervals for medEffect}
+\item{CI.upper}{upper limit of confidence intervals for medEffect}
 }
 \description{
 Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and binary outcome.
+# ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().
 }
 \note{
 *Currently supports 2 treatment options. Future releases may expand number of treatment options.
@@ -69,7 +70,8 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 
 \enumerate{
 \item{\code{plot1_a1 }}{plot for alpha1_hat with CIs across timeseq}
-\item{\code{plot2_b2 }}{plot for beta2_hat with CIs across timeseq}
+\item{\code{plot2_b1 }}{plot for beta1_hat with CIs across timeseq}
+\item{\code{plot3_b2 }}{plot for beta2_hat with CIs across timeseq}
 \item{\code{MedEff }}{plot for mediation effects (difference and product) across timeseq}
 \item{\code{MedEff_CI }}{plot for CIs of medEffect}
 \item{\code{bootstrap }}{plot for estimated medEffects from bootstrapped samples across timeseq}
