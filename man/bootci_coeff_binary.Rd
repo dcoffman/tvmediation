@@ -24,6 +24,10 @@ bootci_coeff_binary(treatment, t.seq, m, outcome, replicates = 1000)
 
 \item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
 
+\item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
+
+\item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
+
 \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
 
 \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}

@@ -222,29 +222,29 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         smoothb1 = loess(b1All ~ t.seq.b[1:length(t.seq.b)], span = 0.2, degree = 1)
         smoothb2 = loess(b2All ~ t.seq.b[1:length(t.seq.b)], span = 0.2, degree = 1)
         
-        
-        # regress outcome(y) on exposure(x) at each time point to use in difference method
-        cAll = vector()
-        
-        for(i in 2:nm){
-          
-          fit3 = glm(outcome[i,]~treatment, family="binomial",na.action=na.omit)
-          cHat = fit3$coefficients[[2]]
-          
-          sd1 = sqrt(cHat^2*var(treatment,na.rm=TRUE)+(pi^2/3))
-          
-          # append standardized coefficient to list of all coefficients
-          cAll = append(cAll,cHat/sd1)
-        }
-        
-        # smooth
-        smoothc = loess(cAll ~ t.seq.b[1:length(t.seq.b)], span = 0.2, degree = 1)
+        ## excluded because of not estimating mediation effect with difference method
+        # # regress outcome(y) on exposure(x) at each time point to use in difference method
+        # cAll = vector()
+        # 
+        # for(i in 2:nm){
+        #   
+        #   fit3 = glm(outcome[i,]~treatment, family="binomial",na.action=na.omit)
+        #   cHat = fit3$coefficients[[2]]
+        #   
+        #   sd1 = sqrt(cHat^2*var(treatment,na.rm=TRUE)+(pi^2/3))
+        #   
+        #   # append standardized coefficient to list of all coefficients
+        #   cAll = append(cAll,cHat/sd1)
+        # }
+        # 
+        # # smooth
+        # smoothc = loess(cAll ~ t.seq.b[1:length(t.seq.b)], span = 0.2, degree = 1)
         
         # creating a dataframe with the time sequences, b2 and smoothened coefficients
-        test2 <- data.frame(cbind(t.seq.b, b1All, smoothb1$fitted, b2All, smoothb2$fitted, cAll, smoothc$fitted))
+        test2 <- data.frame(cbind(t.seq.b, b1All, smoothb1$fitted, b2All, smoothb2$fitted))
         names(test2)[3] <- "smoothb1"
         names(test2)[5] <- "smoothb2"
-        names(test2)[7] <- "smoothc"
+        # names(test2)[7] <- "smoothc"
         
         ##### *********************************************************************** #####
         ##### Bootstrapping samples to estimate confidence intervals for coefficients #####
@@ -261,9 +261,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         coeff_data2 <- merge(coeff_data1, coeff_CI, by.x = "t.seq")
         coeff_data <- coeff_data2[c("t.seq","a1All","smootha1", "CI.lower.a1", "CI.upper.a1",
                                             "b1All", "smoothb1", "CI.lower.b1", "CI.upper.b1",
-                                            "b2All", "smoothb2", "CI.lower.b2", "CI.upper.b2",
-                                            "cAll", "smoothc", "CI.lower.c", "CI.upper.c")]
-        
+                                            "b2All", "smoothb2", "CI.lower.b2", "CI.upper.b2")]
         
         
         #calculate mediation effects
@@ -303,7 +301,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         coeff_data <- merge(coeff_data, test_a, by.x = "t.seq", by.y = "t.seq.b",
                             all.x = TRUE) %>%
                             select(-med_pt, -type)
-        names(coeff_data)[19] <- "smooth_medProd"
+        names(coeff_data)[15] <- "smooth_medProd"
         
         ##exclusion of mediation effects estimate through difference method
         # coeff_data <- merge(coeff_data, test_b, by.x = "t.seq", by.y = "t.seq.b",
@@ -321,7 +319,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
           IE_t <- list_all$bootstrap_result
           final_dat <- list_all$all_results
           final_dat1 <- final_dat %>%
-            select(- c(a1All, b1All, b2All, cAll, smoothc, CI.lower.c, CI.upper.c, medProd))
+            select(- c(a1All, b1All, b2All, medProd))
           final_results <- final_dat1
           names(final_results)[c(1, 2, 5, 8, 11)] <- c("timeseq", "alpha1_hat", "beta1_hat", "beta2_hat", "medEffect")
         }else{

@@ -11,6 +11,8 @@
 #' @return \item{t.seq}{time points of estimation}
 #' @return \item{CI.lower.a1}{lower limit of confidence intervals for alpha1_hat}
 #' @return \item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
+#' @return \item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
+#' @return \item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
 #' @return \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
 #' @return \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
 #' 
@@ -35,7 +37,7 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
   IE_a1 = matrix(NA, nrow = reps, ncol = nm)
   IE_b1 = matrix(NA, nrow = reps, ncol = nm)
   IE_b2 = matrix(NA, nrow = reps, ncol = nm)
-  IE_c = matrix(NA, nrow = reps, ncol = nm)
+  # IE_c = matrix(NA, nrow = reps, ncol = nm)
   
   #take 1000 or replicates number of bootstrap samples
   for(i in 1:reps){
@@ -51,7 +53,7 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
     a1AllTemp = vector()
     b1AllTemp = vector()
     b2AllTemp = vector()
-    cAllTemp = vector()
+    # cAllTemp = vector()
     
     #fit mediator(m)~exposure(x) for first t.seq time points and extract slope
     for(k in 1:nm){
@@ -73,17 +75,18 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
       b2AllTemp = append(b2AllTemp,b2Hat/sd2)
     }
     
-    # regress outcome(y) on exposure(x) at each time point to use in difference method
-    for(l in 2:nm){
-      
-      fit3 = glm(outcome[l,index1] ~ treatment[index1], family="binomial",na.action=na.omit)
-      cHat = fit3$coefficients[[2]]
-      
-      sd1 = sqrt(cHat^2*var(treatment[index1],na.rm=TRUE)+(pi^2/3))
-      
-      # append standardized coefficient to list of all coefficients
-      cAllTemp = append(cAllTemp,cHat/sd1)
-    }
+    ## excluded because of not estimating the mediation effect with difference method
+    # # regress outcome(y) on exposure(x) at each time point to use in difference method
+    # for(l in 2:nm){
+    #   
+    #   fit3 = glm(outcome[l,index1] ~ treatment[index1], family="binomial",na.action=na.omit)
+    #   cHat = fit3$coefficients[[2]]
+    #   
+    #   sd1 = sqrt(cHat^2*var(treatment[index1],na.rm=TRUE)+(pi^2/3))
+    #   
+    #   # append standardized coefficient to list of all coefficients
+    #   cAllTemp = append(cAllTemp,cHat/sd1)
+    # }
     
     t.seq.b <- t.seq
     t.seq.b <- t.seq.b[-1]
@@ -94,19 +97,19 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
     coeff_a1_temp <- cbind(t.seq, a1AllTemp)
     coeff_b1_temp <- cbind(t.seq.b2, b1AllTemp)
     coeff_b2_temp <- cbind(t.seq.b2, b2AllTemp)
-    coeff_c_temp <- cbind(t.seq.b2, cAllTemp)
+    # coeff_c_temp <- cbind(t.seq.b2, cAllTemp)
     
     coeff_dat1 <- merge(coeff_a1_temp, coeff_b2_temp, by.x = "t.seq", by.y = "t.seq.b2",
                         all.x = TRUE)
-    coeff_dat2 <- merge(coeff_dat1, coeff_b1_temp, by.x = "t.seq", by.y = "t.seq.b2",
+    coeff_dat <- merge(coeff_dat1, coeff_b1_temp, by.x = "t.seq", by.y = "t.seq.b2",
                        all.x = TRUE)
-    coeff_dat <- merge(coeff_dat2, coeff_c_temp, by.x = "t.seq", by.y = "t.seq.b2",
-                       all.x = TRUE)
+    # coeff_dat <- merge(coeff_dat2, coeff_c_temp, by.x = "t.seq", by.y = "t.seq.b2",
+    #                    all.x = TRUE)
     
     smootha1 = loess(a1AllTemp ~ t.seq[1:length(t.seq)], span = 0.3, degree = 1)
     smoothb1 = loess(b1AllTemp ~ t.seq.b[1:length(t.seq.b2)], span = 0.2, degree = 1)
     smoothb2 = loess(b2AllTemp ~ t.seq.b[1:length(t.seq.b2)], span = 0.2, degree = 1)
-    smoothc = loess(cAllTemp ~ t.seq.b[1:length(t.seq.b2)], span = 0.2, degree = 1)
+    # smoothc = loess(cAllTemp ~ t.seq.b[1:length(t.seq.b2)], span = 0.2, degree = 1)
     
     
     pred_a1 = predict(smootha1,t.seq[1:nm])
@@ -118,15 +121,15 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
     pred_b2 = predict(smoothb2,t.seq[1:nm])
     IE_b2[i,] = pred_b2
     
-    pred_c = predict(smoothc,t.seq[1:nm])
-    IE_c[i,] = pred_c
+    # pred_c = predict(smoothc,t.seq[1:nm])
+    # IE_c[i,] = pred_c
   }
   
   #calculate and smooth 2.5 and 97.5 quantiles from bootstrapping
   quantiles_a1 = matrix(NA, nrow=2, ncol=nm)
   quantiles_b1 = matrix(NA, nrow=2, ncol=nm)
   quantiles_b2 = matrix(NA, nrow=2, ncol=nm)
-  quantiles_c = matrix(NA, nrow=2, ncol=nm)
+  # quantiles_c = matrix(NA, nrow=2, ncol=nm)
   lower = 0.025
   upper = 1 - lower
   
@@ -145,10 +148,11 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
     quantiles_b2[2,i] = quantile(IE_b2[,i], c(upper),na.rm=TRUE)
   }
   
-  for(i in 1:nm){
-    quantiles_c[1,i] = quantile(IE_c[,i], c(lower),na.rm=TRUE)
-    quantiles_c[2,i] = quantile(IE_c[,i], c(upper),na.rm=TRUE)
-  }
+  ## excluded becuase of not estimating the mediation effect with difference method
+  # for(i in 1:nm){
+  #   quantiles_c[1,i] = quantile(IE_c[,i], c(lower),na.rm=TRUE)
+  #   quantiles_c[2,i] = quantile(IE_c[,i], c(upper),na.rm=TRUE)
+  # }
   
   smoothLow_a1 = loess(quantiles_a1[1,] ~ t.seq[1:nm], span = 0.1,degree=1)
   smoothUp_a1 = loess(quantiles_a1[2,] ~ t.seq[1:nm], span = 0.1,degree=1)
@@ -159,23 +163,24 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
   smoothLow_b2 = loess(quantiles_b2[1,] ~ t.seq[1:nm], span = 0.1,degree=1)
   smoothUp_b2 = loess(quantiles_b2[2,] ~ t.seq[1:nm], span = 0.1,degree=1)
   
-  smoothLow_c = loess(quantiles_c[1,] ~ t.seq[1:nm], span = 0.1,degree=1)
-  smoothUp_c = loess(quantiles_c[2,] ~ t.seq[1:nm], span = 0.1,degree=1)
+  ## excluded becuase of not estimating the mediation effect with difference method
+  # smoothLow_c = loess(quantiles_c[1,] ~ t.seq[1:nm], span = 0.1,degree=1)
+  # smoothUp_c = loess(quantiles_c[2,] ~ t.seq[1:nm], span = 0.1,degree=1)
   
   #creating a dataframe with the time sequences, mediation effect and quantiles
   test_t1 <- data.frame(cbind(t.seq, smoothLow_a1$fitted, smoothUp_a1$fitted))
   test_t2 <- data.frame(cbind(t.seq.b2, smoothLow_b1$fitted, smoothUp_b1$fitted))
   test_t3 <- data.frame(cbind(t.seq.b2, smoothLow_b2$fitted, smoothUp_b2$fitted))
-  test_t4 <- data.frame(cbind(t.seq.b2, smoothLow_c$fitted, smoothUp_c$fitted))
+  # test_t4 <- data.frame(cbind(t.seq.b2, smoothLow_c$fitted, smoothUp_c$fitted))
   
   names(test_t1) <- c("t.seq", "CI.lower.a1", "CI.upper.a1")
   names(test_t2) <- c("t.seq", "CI.lower.b1", "CI.upper.b1")
   names(test_t3) <- c("t.seq", "CI.lower.b2", "CI.upper.b2")
-  names(test_t4) <- c("t.seq", "CI.lower.c", "CI.upper.c")
+  # names(test_t4) <- c("t.seq", "CI.lower.c", "CI.upper.c")
   
   coeff_all1 <- merge(test_t1, test_t2, all.x = TRUE)
-  coeff_all2 <- merge(coeff_all1, test_t3, all.x = TRUE)
-  coeff_all <- merge(coeff_all2, test_t4, all.x = TRUE)
+  coeff_all <- merge(coeff_all1, test_t3, all.x = TRUE)
+  # coeff_all <- merge(coeff_all2, test_t4, all.x = TRUE)
   
   end.time <- Sys.time()
   total.time <- end.time - start.time
