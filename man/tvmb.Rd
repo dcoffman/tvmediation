@@ -61,10 +61,12 @@ tvmb(
 }
 \description{
 Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and binary outcome.
-# ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().
 }
 \note{
-*Currently supports 2 treatment options. Future releases may expand number of treatment options.
+\enumerate{
+\item{Currently supports 2 treatment options. Future releases may expand number of treatment options.}
+\item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().}
+}
 }
 \section{Plot Returns}{
 

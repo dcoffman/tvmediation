@@ -1,7 +1,6 @@
 #' Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups
 #' 
 #' Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and binary outcome.
-#' # ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().
 #' 
 #' @param treatment   a vector with treatment values
 #' @param t.seq       a vector of unique time points for each observation
@@ -36,8 +35,12 @@
 #' \item{\code{bootstrap }}{plot for estimated medEffects from bootstrapped samples across timeseq}
 #' }
 #' 
-#' @note *Currently supports 2 treatment options. Future releases may expand number of treatment options.
-#' 
+#' @note
+#' \enumerate{
+#' \item{Currently supports 2 treatment options. Future releases may expand number of treatment options.}
+#' \item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().}
+#' }
+#'  
 #' @examples
 #' data(smoker)
 #' 
@@ -58,8 +61,6 @@
 #' 
 #' # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 #' results <- tvmb(trt, t.seq, mediator, outcome)
-#' 
-#' # ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().
 #' 
 #' @references 
 #' \enumerate{

@@ -13,12 +13,12 @@
 #' @return \item{alpha1_hat}{exposure effect on mediator (indirect effect)}
 #' @return \item{CI.lower.a1}{lower limit of confidence intervals for alpha1_hat}
 #' @return \item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
+#' @return \item{beta1_hat}{estimated exposure effect on outcome (direct effect)}
+#' @return \item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
+#' @return \item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
 #' @return \item{beta2_hat}{estimated mediation effect on outcome (indirect effect)}
 #' @return \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
 #' @return \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
-#' @return \item{b1All}{estimated exposure effect on outcome (direct effect)}
-#' @return \item{cAll}{estimated effect of exposure on outcome (total effect)}
-#' @return \item{medDiff}{time varying mediation effect (difference term)}
 #' @return \item{medEffect}{time varying mediation effect (product term)}
 #' @return \item{CI.low}{lower limit of confidence intervals for medEffect}
 #' @return \item{CI.upper}{upper limit of confidence intervals for medEffect}

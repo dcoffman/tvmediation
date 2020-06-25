@@ -28,17 +28,17 @@ bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates = 1000)
 
 \item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
 
+\item{beta1_hat}{estimated exposure effect on outcome (direct effect)}
+
+\item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
+
+\item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
+
 \item{beta2_hat}{estimated mediation effect on outcome (indirect effect)}
 
 \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
 
 \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
-
-\item{b1All}{estimated exposure effect on outcome (direct effect)}
-
-\item{cAll}{estimated effect of exposure on outcome (total effect)}
-
-\item{medDiff}{time varying mediation effect (difference term)}
 
 \item{medEffect}{time varying mediation effect (product term)}
 
