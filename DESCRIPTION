@@ -13,12 +13,10 @@ Authors@R: as.person(c(
 	"Yajnaseni Chakraborti <yajnaseni.chakraborti@temple.edu> [ctb]"
 	))
 RoxygenNote: 7.1.0
-Depends: R (>= 4.0.2)
+Depends: R (>= 4.0.0)
 Imports:
     dplyr (>= 1.0.0),
     ggplot2 (>= 3.3.1),
-    ggpubr (>= 0.3.0),
-    Hmisc (>= 4.4-0),
     kedd (>= 1.0.3),
     locpol (>= 0.7-0),
     reshape2 (>= 1.4.4),
