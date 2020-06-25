@@ -29,7 +29,7 @@ pre code {
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
-library(tidyverse)  # NEED TO LOAD tidyverse BEFORE Hmisc!
+library(tidyverse)
 library(locpol)
 library(tvmediation)
 library(dplyr)

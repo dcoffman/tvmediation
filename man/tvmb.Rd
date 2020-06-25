@@ -101,8 +101,6 @@ t.seq <- sort(unique(smoker.parsed$timeseq))
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 results <- tvmb(trt, t.seq, mediator, outcome)
 
-# ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().
-
 }
 \references{
 \enumerate{
