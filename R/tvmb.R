@@ -72,8 +72,6 @@
 #' @import tidyverse
 #' @import dplyr
 #' @import ggplot2
-#' @import ggpubr
-#' @import Hmisc
 #' @import kedd
 #' @import locpol
 #' @import reshape2
