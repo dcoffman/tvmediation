@@ -36,25 +36,31 @@ tvma(
 \item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL ARGUMENT)}
 }
 \value{
-\item{hat.alpha.1}{estimated treatment effect on mediator}
+\item{hat.alpha.1}{estimated treatment effect on mediator (indirect effect component)}
 
-\item{hat.beta.2}{estimated mediator effect on outcome}
+\item{CI.lower.alpha1}{lower limit of confidence intervals for coefficient alpha1}
+
+\item{CI.upper.alpha1}{upper limit of confidence intervals for coefficient alpha1}
+
+\item{hat.beta.1}{estimated treatment effect on outcome (direct effect)}
+
+\item{CI.lower.beta1}{lower limit of confidence intervals for coefficient beta1}
+
+\item{CI.upper.beta1}{upper limit of confidence intervals for coefficient beta1}
+
+\item{hat.beta.2}{estimated mediator effect on outcome (indirect effect component)}
+
+\item{CI.lower.beta2}{lower limit of confidence intervals for coefficient beta2}
+
+\item{CI.upper.beta2}{upper limit of confidence intervals for coefficient beta2}
 
 \item{est.M}{time varying mediation effect}
 
-\item{CI.upper.alpha}{upper limit of confidence intervals for coefficient alpha1}
-
-\item{CI.lower.alpha}{lower limit of confidence intervals for coefficient alpha1}
-
-\item{CI.upper.beta}{upper limit of confidence intervals for coefficient beta2}
-
-\item{CI.lower.beta}{lower limit of confidence intervals for coefficient beta2}
-
 \item{boot.se.m}{estimated standard error of the time varying mediation effect}
 
-\item{CI.upper}{upper limit of confidence intervals of the time varying mediation effect}
-
 \item{CI.lower}{lower limit of confidence intervals of the time varying mediation effect}
+
+\item{CI.upper}{upper limit of confidence intervals of the time varying mediation effect}
 }
 \description{
 Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and continuous outcome.
@@ -65,8 +71,9 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{Alpha_CI }}{plot for hat.alpha.1 across t.seq with CI}
-\item{\code{Beta_CI }}{plot for hat.beta.2 across t.seq with CI}
+\item{\code{Alpha1_CI }}{plot for hat.alpha.1 across t.seq with CI}
+\item{\code{Beta1_CI }}{plot for hat.beta.1 across t.seq with CI}
+\item{\code{Beta2_CI }}{plot for hat.beta.2 across t.seq with CI}
 \item{\code{MedEff }}{plot for mediation.effect across t.seq}
 \item{\code{MedEff_CI }}{plot for CIs of mediation.effect across t.seq}
 }

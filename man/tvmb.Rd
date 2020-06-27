@@ -55,7 +55,7 @@ tvmb(
 
 \item{medEffect}{time varying mediation effect (estimate by product method)}
 
-\item{CI.low}{lower limit of confidence intervals for medEffect}
+\item{CI.lower}{lower limit of confidence intervals for medEffect}
 
 \item{CI.upper}{upper limit of confidence intervals for medEffect}
 }

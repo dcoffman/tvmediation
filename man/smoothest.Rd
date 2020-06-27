@@ -18,9 +18,13 @@ smoothest(t.seq, t.coeff, t.est, deltat)
 \value{
 \item{bw_alpha1}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for alpha1 coefficient.}
 
+\item{bw_beta1}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta1 coefficient.}
+
 \item{bw_beta2}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta2 coefficient.}
 
 \item{hat.alpha.1}{estimated treatment effect on mediator}
+
+\item{hat.beta.1}{estimated treatment effect on outcome}
 
 \item{hat.beta.2}{estimated mediator effect on outcome}
 

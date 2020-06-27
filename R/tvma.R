@@ -12,21 +12,25 @@
 #' @param replicates  Number of replicates for bootstrapping confidence intervals.    Default = 1000 (OPTIONAL ARGUMENT)
 #' @param verbose     TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL ARGUMENT)
 #' 
-#' @return \item{hat.alpha.1}{estimated treatment effect on mediator}
-#' @return \item{hat.beta.2}{estimated mediator effect on outcome}
+#' @return \item{hat.alpha.1}{estimated treatment effect on mediator (indirect effect component)}
+#' @return \item{CI.lower.alpha1}{lower limit of confidence intervals for coefficient alpha1}
+#' @return \item{CI.upper.alpha1}{upper limit of confidence intervals for coefficient alpha1}
+#' @return \item{hat.beta.1}{estimated treatment effect on outcome (direct effect)}
+#' @return \item{CI.lower.beta1}{lower limit of confidence intervals for coefficient beta1}
+#' @return \item{CI.upper.beta1}{upper limit of confidence intervals for coefficient beta1}
+#' @return \item{hat.beta.2}{estimated mediator effect on outcome (indirect effect component)}
+#' @return \item{CI.lower.beta2}{lower limit of confidence intervals for coefficient beta2}
+#' @return \item{CI.upper.beta2}{upper limit of confidence intervals for coefficient beta2}
 #' @return \item{est.M}{time varying mediation effect}
-#' @return \item{CI.upper.alpha}{upper limit of confidence intervals for coefficient alpha1}
-#' @return \item{CI.lower.alpha}{lower limit of confidence intervals for coefficient alpha1}
-#' @return \item{CI.upper.beta}{upper limit of confidence intervals for coefficient beta2}
-#' @return \item{CI.lower.beta}{lower limit of confidence intervals for coefficient beta2}
 #' @return \item{boot.se.m}{estimated standard error of the time varying mediation effect}
-#' @return \item{CI.upper}{upper limit of confidence intervals of the time varying mediation effect}
 #' @return \item{CI.lower}{lower limit of confidence intervals of the time varying mediation effect}
+#' @return \item{CI.upper}{upper limit of confidence intervals of the time varying mediation effect}
 #' 
 #' @section Plot Returns:
 #' \enumerate{
-#' \item{\code{Alpha_CI }}{plot for hat.alpha.1 across t.seq with CI}
-#' \item{\code{Beta_CI }}{plot for hat.beta.2 across t.seq with CI}
+#' \item{\code{Alpha1_CI }}{plot for hat.alpha.1 across t.seq with CI}
+#' \item{\code{Beta1_CI }}{plot for hat.beta.1 across t.seq with CI}
+#' \item{\code{Beta2_CI }}{plot for hat.beta.2 across t.seq with CI}
 #' \item{\code{MedEff }}{plot for mediation.effect across t.seq}
 #' \item{\code{MedEff_CI }}{plot for CIs of mediation.effect across t.seq}
 #' }
@@ -94,17 +98,21 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       ### Dataframe 'final_results' with the following elements
       #
       #   hat.alpha.1       -->   estimated treatment effect on mediator
+      #   CI.lower.alpha1   -->   lower limit of confidence intervals for coefficient alpha1
+      #   CI.upper.alpha1   -->   upper limit of confidence intervals for coefficient alpha1
+      #   hat.beta.1        -->   estimated treatment effect on outcome (direct effect)
+      #   CI.lower.beta1    -->   lower limit of confidence intervals for coefficient beta1
+      #   CI.upper.beta1    -->   upper limit of confidence intervals for coefficient beta1
       #   hat.beta.2        -->   estimated mediation effect on outcome
+      #   CI.lower.beta2    -->   lower limit of confidence intervals for coefficient beta2
+      #   CI.upper.beta2    -->   upper limit of confidence intervals for coefficient beta2
       #   est.M             -->   time varying mediation effect
-      #   CI.upper.alpha    -->   Upper confidence intervals for coefficient alpha1
-      #   CI.lower.alpha    -->   Lower confidence intervals for coefficient alpha1
-      #   CI.upper.beta     -->   Upper confidence intervals for coefficient beta2
-      #   CI.lower.beta     -->   Lower confidence intervals for coefficient beta2
+  
       # 
       # Optional results based on user argument CI = "boot" passed
       #   boot.se.m         -->   estimated standard error of the mediation effect
-      #   CI.upper          -->   Upper confidence intervals
-      #   CI.lower          -->   Lower confidence intervals
+      #   CI.lower          -->   lower limit of confidence intervals
+      #   CI.upper          -->   upper limit of confidence intervals
       #  
       ### Optional plot results
       #
@@ -180,14 +188,24 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         
         final_dat <- merge(test1, test2, all.x = TRUE)
         final_results <- final_dat %>%
-          select(-bw_alpha1, -bw_beta2)
-        names(final_results)[9] <- c("boot.se.m")
+          select(-bw_alpha1, -bw_beta1, -bw_beta2)
+        final_results <- final_results[c("t.est","hat.alpha.1","CI.lower.alpha1","CI.upper.alpha1",
+                                         "hat.beta.1", "CI.lower.beta1", "CI.upper.beta1",
+                                         "hat.beta.2", "CI.lower.beta2", "CI.upper.beta2",
+                                         "est.M", "boot.se", "CI.lower", "CI.upper")]
+        
+        names(final_results)[12] <- c("boot.se.m")
       }
       else{
         final_results <- test1 %>%
-          select(-bw_alpha1, -bw_beta2)
+          select(-bw_alpha1, -bw_beta1, -bw_beta2)
+        final_results <- final_results[c("t.est","hat.alpha.1","CI.lower.alpha1","CI.upper.alpha1",
+                                         "hat.beta.1", "CI.lower.beta1", "CI.upper.beta1",
+                                         "hat.beta.2", "CI.lower.beta2", "CI.upper.beta2",
+                                         "est.M")]
       }
       
+     
       #### Plot construction ####
       if(plot == TRUE){
         
@@ -214,25 +232,35 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         # First Plot: plotting alpha1 coefficients across time using ggplot
         plot1_a1 <- ggplot(data = final_results, aes(t.est,hat.alpha.1)) +
           geom_line(color = "red", size = 0.75) +
-          geom_line(aes(t.est, CI.lower.alpha), size = 0.8, color = "blue", linetype = "dashed") +
-          geom_line(aes(t.est, CI.upper.alpha), size = 0.8, color = "blue", linetype = "dashed") +
+          geom_line(aes(t.est, CI.lower.alpha1), size = 0.8, color = "blue", linetype = "dashed") +
+          geom_line(aes(t.est, CI.upper.alpha1), size = 0.8, color = "blue", linetype = "dashed") +
           labs(title = "Plotting the alpha1 coefficients",
                x = "Time (in days)",
                y = "Alpha1") +
           scale_x_continuous(breaks = seq(l, u, i))
         
-        # Second plot: plotting beta2 coefficients across time using ggplot
-        plot2_b2 <- ggplot(data = final_results, aes(t.est,hat.beta.2)) +
+        # Second plot: plotting beta1 coefficients across time using ggplot
+        plot2_b1 <- ggplot(data = final_results, aes(t.est,hat.beta.1)) +
           geom_line(color = "red", size = 0.75) +
-          geom_line(aes(t.est, CI.lower.beta), size = 0.8, color = "blue", linetype = "dashed") +
-          geom_line(aes(t.est, CI.upper.beta), size = 0.8, color = "blue", linetype = "dashed") +
+          geom_line(aes(t.est, CI.lower.beta1), size = 0.8, color = "blue", linetype = "dashed") +
+          geom_line(aes(t.est, CI.upper.beta1), size = 0.8, color = "blue", linetype = "dashed") +
+          labs(title = "Plotting the beta1 coefficients",
+               x = "Time (in days)",
+               y = "Beta1") +
+          scale_x_continuous(breaks = seq(l, u, i))
+        
+        # Third plot: plotting beta2 coefficients across time using ggplot
+        plot3_b2 <- ggplot(data = final_results, aes(t.est,hat.beta.2)) +
+          geom_line(color = "red", size = 0.75) +
+          geom_line(aes(t.est, CI.lower.beta2), size = 0.8, color = "blue", linetype = "dashed") +
+          geom_line(aes(t.est, CI.upper.beta2), size = 0.8, color = "blue", linetype = "dashed") +
           labs(title = "Plotting the beta2 coefficients",
                x = "Time (in days)",
                y = "Beta2") +
           scale_x_continuous(breaks = seq(l, u, i))
         
-        # Third plot: plotting the mediation effect of treatment arm
-        plot3 <- ggplot(data = final_results, aes(t.est,est.M)) +
+        # Fourth plot: plotting the mediation effect of treatment arm
+        plot4 <- ggplot(data = final_results, aes(t.est,est.M)) +
           geom_line(color = "red", size = 0.75) +
           labs(title = "Plotting the time-varying mediation effect",
                x = "Time (in days)",
@@ -241,8 +269,8 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         
         if(CI == "boot"){
           
-          # Fourth plot: plotting the mediation effect of treatment with 95% CIs
-          plot4 <- ggplot(data = final_results, aes(t.est, est.M)) +
+          # Fifth plot: plotting the mediation effect of treatment with 95% CIs
+          plot5 <- ggplot(data = final_results, aes(t.est, est.M)) +
             geom_line(size = 1, color = "red") +
             geom_line(aes(t.est, CI.lower), size = 0.8, color = "blue", linetype = "dashed") +
             geom_line(aes(t.est, CI.upper), size = 0.8, color = "blue", linetype = "dashed") +
@@ -253,14 +281,16 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
             theme(legend.position = "none") +
             scale_x_continuous(breaks = seq(l, u, i))   
           
-          plot_results <- list("Alpha_CI" = plot1_a1,
-                               "Beta_CI" = plot2_b2,
-                               "MedEff" = plot3,
-                               "MedEff_CI" = plot4)
+          plot_results <- list("Alpha1_CI" = plot1_a1,
+                               "Beta1_CI" = plot2_b1,
+                               "Beta2_CI" = plot3_b2,
+                               "MedEff" = plot4,
+                               "MedEff_CI" = plot5)
         }else{
-          plot_results <- list("Alpha_CI" = plot1_a1,
-                               "Beta_CI" = plot2_b2,
-                               "MedEff" = plot3)
+          plot_results <- list("Alpha1_CI" = plot1_a1,
+                               "Beta1_CI" = plot2_b1,
+                               "Beta2_CI" = plot3_b2,
+                               "MedEff" = plot4)
         }
       }
       
@@ -278,16 +308,18 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       ## Enclosing all the plots in a list object to return ##
       if(plot == TRUE & CI == "boot"){
         results <- list("Estimates" = final_results,
-                        "Alpha_CI" = plot1_a1,
-                        "Beta_CI" = plot2_b2,
-                        "MedEff" = plot3,
-                        "MedEff_CI" = plot4)
+                        "Alpha1_CI" = plot1_a1,
+                        "Beta1_CI" = plot2_b1,
+                        "Beta2_CI" = plot3_b2,
+                        "MedEff" = plot4,
+                        "MedEff_CI" = plot5)
       }
       else if(plot == TRUE & CI != "boot"){
         results <- list("Estimates" = final_results,
-                        "Alpha_CI" = plot1_a1,
-                        "Beta_CI" = plot2_b2,
-                        "MedEff" = plot3)  
+                        "Alpha1_CI" = plot1_a1,
+                        "Beta1_CI" = plot2_b1,
+                        "Beta2_CI" = plot3_b2,
+                        "MedEff" = plot4)  
       }
       else{
         results <- list("Estimates" = final_results)

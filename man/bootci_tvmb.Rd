@@ -42,7 +42,7 @@ bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates = 1000)
 
 \item{medEffect}{time varying mediation effect (product term)}
 
-\item{CI.low}{lower limit of confidence intervals for medEffect}
+\item{CI.lower}{lower limit of confidence intervals for medEffect}
 
 \item{CI.upper}{upper limit of confidence intervals for medEffect}
 }

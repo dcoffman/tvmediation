@@ -22,13 +22,17 @@ bootci_coeff_2trt(trt, t.seq, M, Y, t.est, deltat, replicates)
 \item{replicates}{number of replicates for bootstrapping confidence intervals.    Default = 1000}
 }
 \value{
-\item{CI.upper.alpha}{upper limit of confidence intervals for coefficient alpha1}
+\item{CI.upper.alpha1}{upper limit of confidence intervals for coefficient alpha1}
 
-\item{CI.lower.alpha}{lower limit of confidence intervals for coefficient alpha1}
+\item{CI.lower.alpha1}{lower limit of confidence intervals for coefficient alpha1}
 
-\item{CI.upper.beta}{upper limit of confidence intervals for coefficient beta2}
+\item{CI.upper.beta1}{upper limit of confidence intervals for coefficient beta1}
 
-\item{CI.lower.beta}{lower limit of confidence intervals for coefficient beta2}
+\item{CI.lower.beta1}{lower limit of confidence intervals for coefficient beta1}
+
+\item{CI.upper.beta2}{upper limit of confidence intervals for coefficient beta2}
+
+\item{CI.lower.beta2}{lower limit of confidence intervals for coefficient beta2}
 }
 \description{
 Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and two treatment (exposure) groups.

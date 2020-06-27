@@ -22,7 +22,7 @@
 #' @return \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
 #' @return \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
 #' @return \item{medEffect}{time varying mediation effect (estimate by product method)}
-#' @return \item{CI.low}{lower limit of confidence intervals for medEffect}
+#' @return \item{CI.lower}{lower limit of confidence intervals for medEffect}
 #' @return \item{CI.upper}{upper limit of confidence intervals for medEffect}
 #' 
 #' @section Plot Returns:
@@ -96,20 +96,20 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
   # Returns:
   #   timeseq          -->   time points of estimation
   #   alpha1_hat       -->   estimated exposure effect on mediator (indirect effect component)
-  #   CI.lower.a1      -->   Lower confidence intervals for alpha1_hat
-  #   CI.upper.a1      -->   Upper confidence intervals for alpha1_hat
+  #   CI.lower.a1      -->   lower limit of confidence intervals for alpha1_hat
+  #   CI.upper.a1      -->   upper limit of confidence intervals for alpha1_hat
   #   beta1_hat        -->   estimated exposure effect on outcome (direct effect)
-  #   CI.lower.b1      -->   Lower confidence intervals for beta1_hat
-  #   CI.upper.b1      -->   Upper confidence intervals for beta1_hat
+  #   CI.lower.b1      -->   lower limit of confidence intervals for beta1_hat
+  #   CI.upper.b1      -->   upper limit of confidence intervals for beta1_hat
   #   beta2_hat        -->   estimated mediator effect on outcome (indirect effect component)
-  #   CI.lower.b2      -->   Lower confidence intervals for beta2_hat
-  #   CI.upper.b2      -->   Upper confidence intervals for beta2_hat
+  #   CI.lower.b2      -->   lower limit of confidence intervals for beta2_hat
+  #   CI.upper.b2      -->   upper limit of confidence intervals for beta2_hat
   #   b1All            -->   estimated exposure effect on outcome (direct effect) ## excluded
   #   cAll             -->   estimated effect of exposure on outcome (total effect) ## excluded
   #   medDiff          -->   time varying mediation effect (difference term) ## excluded
   #   medEffect        -->   time varying mediation effect (product term)
-  #   CI.low           -->   Lower confidence intervals for medEffect
-  #   CI.upper         -->   Upper confidence intervals for medEffect
+  #   CI.lower         -->   lower limit of confidence intervals for medEffect
+  #   CI.upper         -->   upper limit of confidence intervals for medEffect
   #
   # Optional Returns:
   #   plot1_a1         -->   plot for alpha1_hat with CIs across t.seq
@@ -419,7 +419,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             # Fifth plot: plotting the mediation effect with 95% CIs
             plot5 <- ggplot(data = final_results, aes(timeseq, medEffect)) +
               geom_line(size = 1, color = "red") +
-              geom_line(aes(timeseq, CI.low), color = "blue", size = 0.8, linetype = "dashed") +
+              geom_line(aes(timeseq, CI.lower), color = "blue", size = 0.8, linetype = "dashed") +
               geom_line(aes(timeseq, CI.upper), color = "blue", size = 0.8, linetype = "dashed") +
               geom_line(aes(timeseq, 0)) +
               labs(title = "Mediation Effect with 95% CIs (computed with percentile bootstrap)",

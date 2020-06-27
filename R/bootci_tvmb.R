@@ -20,7 +20,7 @@
 #' @return \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
 #' @return \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
 #' @return \item{medEffect}{time varying mediation effect (product term)}
-#' @return \item{CI.low}{lower limit of confidence intervals for medEffect}
+#' @return \item{CI.lower}{lower limit of confidence intervals for medEffect}
 #' @return \item{CI.upper}{upper limit of confidence intervals for medEffect}
 #' 
 #' @export
@@ -129,7 +129,7 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 1
   # names(test4_1) <- c("t.seq", "medProd", "smoothProd")
   # test4 <- merge(test4_1, CI_1, by.x = "t.seq", by.y = "t.seq.b3", all.x = TRUE)
   
-  names(CI_1) <- c("t.seq", "CI.low", "CI.upper")
+  names(CI_1) <- c("t.seq", "CI.lower", "CI.upper")
   
   IE_t <- t(IE)
   IE_t <- data.frame(cbind(t.seq.b, IE_t))
