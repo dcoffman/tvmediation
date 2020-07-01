@@ -89,13 +89,17 @@ data(smoker)
 smoker.sub <- smoker[smoker$treatment != 4, ]
 
 # GENERATE WIDE FORMATTED MEDIATORS
-mediator <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$NegMoodLst15min)
+mediator <- LongToWide(smoker.sub$SubjectID,
+                       smoker.sub$timeseq,
+                       smoker.sub$NegMoodLst15min)
 
 # GENERATE WIDE FORMATTED OUTCOMES
-outcome <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$cessFatig)
+outcome <- LongToWide(smoker.sub$SubjectID,
+                      smoker.sub$timeseq,
+                      smoker.sub$cessFatig)
 
 # GENERATE A BINARY TREATMENT VARIABLE
-trt <- as.numeric(unique(smoker.sub[ , c("SubjectID","varenicline")])[ , 2])-1
+trt <- as.numeric(unique(smoker.sub[,c("SubjectID","varenicline")])[,2])-1
 
 # GENERATE A VECTOR OF UNIQUE TIME POINTS
 t.seq <- sort(unique(smoker.sub$timeseq))
@@ -104,7 +108,9 @@ t.seq <- sort(unique(smoker.sub$timeseq))
 results <- tvma(trt, t.seq, mediator, outcome)
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
-results <- tvma(trt, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
+results <- tvma(trt, t.seq, mediator, outcome,
+                t.est = c(0.2, 0.4, 0.6, 0.8),
+                replicates = 500)
 
 }
 \references{

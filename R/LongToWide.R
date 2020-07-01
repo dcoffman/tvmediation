@@ -14,22 +14,24 @@
 #' @examples 
 #' set.seed(4)
 #' # CREATING A TRANSPOSED DATASET FOR MEDIATOR `WantToSmokeLst15min`
-#' smoker.parsed <- smoker
-#' mat.wide <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$WantToSmokeLst15min)
+#' data(smoker)
+#' mat.wide <- LongToWide(smoker$SubjectID,
+#'                        smoker$timeseq,
+#'                        smoker$WantToSmokeLst15min)
 #' 
 #' @export
 #' 
 LongToWide <- function(subject.id, time.sequence, outcome, verbose = FALSE) {
   # Transpose data from Long to Wide format
   #
-  # Args:
+  # Arguments:
   #   subject.id    -->   a column of subject identifiers
   #   time.sequence -->   a column of time points
   #   outcome       -->   a column of measures to be transposed
   #
   # Optional:
   #   verbose       -->   TRUE or FALSE (default = FALSE)
-  #                       prints output to screen. Usefull for ensuring accuracy
+  #                       prints output to screen. Useful for ensuring accuracy
   #
   # Returns:
   #   mat.wide      -->  a matrix of data in short format

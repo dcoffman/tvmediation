@@ -48,10 +48,14 @@
 #' smoker.sub <- smoker[smoker$treatment != 4, ]
 #' 
 #' # GENERATE WIDE FORMATTED MEDIATORS
-#' mediator <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$NegMoodLst15min)
+#' mediator <- LongToWide(smoker.sub$SubjectID,
+#'                        smoker.sub$timeseq,
+#'                        smoker.sub$NegMoodLst15min)
 #' 
 #' # GENERATE WIDE FORMATTED OUTCOMES
-#' outcome <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$smoke_status)
+#' outcome <- LongToWide(smoker.sub$SubjectID,
+#'                       smoker.sub$timeseq,
+#'                       smoker.sub$smoke_status)
 #' 
 #' # GENERATE A BINARY TREATMENT VARIABLE
 #' trt <- as.numeric(unique(smoker.sub[ , c("SubjectID","varenicline")])[ , 2])-1
@@ -70,6 +74,8 @@
 #' }
 #' 
 #' @export
+#' 
+#' @importFrom stats complete.cases cov glm lm loess na.omit predict quantile sd var
 #' @import dplyr
 #' @import ggplot2
 #' @import kedd

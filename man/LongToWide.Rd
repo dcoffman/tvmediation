@@ -27,7 +27,9 @@ If data is not sorted by subject.id, a warning message will appear. The function
 \examples{
 set.seed(4)
 # CREATING A TRANSPOSED DATASET FOR MEDIATOR `WantToSmokeLst15min`
-smoker.parsed <- smoker
-mat.wide <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$WantToSmokeLst15min)
+data(smoker)
+mat.wide <- LongToWide(smoker$SubjectID,
+                       smoker$timeseq,
+                       smoker$WantToSmokeLst15min)
 
 }

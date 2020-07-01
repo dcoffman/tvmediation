@@ -29,9 +29,11 @@ pre code {
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
-library(locpol)
 library(dplyr)
 library(ggplot2)
+library(kedd)
+library(locpol)
+library(stats)
 library(tvmediation)
 ```
 
@@ -66,7 +68,7 @@ devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) # MAKE SUR
 library(tvmediation)
 ```
 
-In addition, you will want to install and load the `locpol`, `ggplot2` and `dplyr` packages which are necessary for certain functions to operate in the `tvmediation` package.
+In addition, you will want to install and load the `locpol`, `ggplot2`, `kedd`, `stats` and `dplyr` packages which are necessary for certain functions to operate in the `tvmediation` package.
 
 ## Formatting your data before calling the `tvma` function
 
