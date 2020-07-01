@@ -1,4 +1,4 @@
-#' Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups
+#' Time Varying Mediation Function: Binary Outcome and Two Treatment Arms (Exposure Groups)
 #' 
 #' Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and binary outcome.
 #' 
@@ -12,27 +12,27 @@
 #' @param verbose     TRUE or FALSE for printing results to screen.                   Default = "FALSE". (OPTIONAL ARGUMENT)
 #' 
 #' @return \item{timeseq}{time points of estimation}
-#' @return \item{alpha1_hat}{estimated exposure effect on mediator (indirect effect component)}
-#' @return \item{CI.lower.a1}{lower limit of confidence intervals for alpha1_hat}
-#' @return \item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
-#' @return \item{beta1_hat}{estimated exposure effect on outcome (direct effect)}
-#' @return \item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
-#' @return \item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
+#' @return \item{alpha1_hat}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
+#' @return \item{CI.lower.a1}{lower limit of confidence intervals for estimated coefficient alpha1_hat}
+#' @return \item{CI.upper.a1}{upper limit of confidence intervals for estimated coefficient alpha1_hat}
+#' @return \item{beta1_hat}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
+#' @return \item{CI.lower.b1}{lower limit of confidence intervals for estimated coefficient beta1_hat}
+#' @return \item{CI.upper.b1}{upper limit of confidence intervals for estimated coefficient beta1_hat}
 #' @return \item{beta2_hat}{estimated mediator effect on outcome (indirect effect component)}
-#' @return \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
-#' @return \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
-#' @return \item{medEffect}{time varying mediation effect (estimate by product method)}
+#' @return \item{CI.lower.b2}{lower limit of confidence intervals for estimated coefficient beta2_hat}
+#' @return \item{CI.upper.b2}{upper limit of confidence intervals for estimated coefficient beta2_hat}
+#' @return \item{medEffect}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome (estimated by product method)}
 #' @return \item{CI.lower}{lower limit of confidence intervals for medEffect}
 #' @return \item{CI.upper}{upper limit of confidence intervals for medEffect}
 #' 
 #' @section Plot Returns:
 #' \enumerate{
-#' \item{\code{plot1_a1 }}{plot for alpha1_hat with CIs across timeseq}
-#' \item{\code{plot2_b1 }}{plot for beta1_hat with CIs across timeseq}
-#' \item{\code{plot3_b2 }}{plot for beta2_hat with CIs across timeseq}
-#' \item{\code{MedEff }}{plot for mediation effects (difference and product) across timeseq}
-#' \item{\code{MedEff_CI }}{plot for CIs of medEffect}
-#' \item{\code{bootstrap }}{plot for estimated medEffects from bootstrapped samples across timeseq}
+#' \item{\code{plot1_a1 }}{plot for alpha1_hat across t.seq with CIs}
+#' \item{\code{plot2_b1 }}{plot for beta1_hat across t.seq with CIs}
+#' \item{\code{plot3_b2 }}{plot for beta2_hat across t.seq with CIs}
+#' \item{\code{MedEff }}{plot for medEffect across t.seq}
+#' \item{\code{MedEff_CI }}{plot for medEffect with CIs across t.seq}
+#' \item{\code{bootstrap }}{plot for estimated medEffect(s) from bootstrapped samples across t.seq}
 #' }
 #' 
 #' @note
@@ -45,19 +45,19 @@
 #' data(smoker)
 #' 
 #' # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
-#' smoker.parsed <- smoker[smoker$treatment != 4, ]
+#' smoker.sub <- smoker[smoker$treatment != 4, ]
 #' 
 #' # GENERATE WIDE FORMATTED MEDIATORS
-#' mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+#' mediator <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$NegMoodLst15min)
 #' 
 #' # GENERATE WIDE FORMATTED OUTCOMES
-#' outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$smoke_status)
+#' outcome <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$smoke_status)
 #' 
 #' # GENERATE A BINARY TREATMENT VARIABLE
-#' trt <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
+#' trt <- as.numeric(unique(smoker.sub[ , c("SubjectID","varenicline")])[ , 2])-1
 #' 
 #' # GENERATE A VECTOR OF UNIQUE TIME POINTS
-#' t.seq <- sort(unique(smoker.parsed$timeseq))
+#' t.seq <- sort(unique(smoker.sub$timeseq))
 #' 
 #' # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 #' results <- tvmb(trt, t.seq, mediator, outcome)
@@ -70,12 +70,10 @@
 #' }
 #' 
 #' @export
-#' @import tidyverse
 #' @import dplyr
 #' @import ggplot2
 #' @import kedd
 #' @import locpol
-#' @import reshape2
 
 
 tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
@@ -363,8 +361,8 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             geom_line(color = "red", size = 0.75) +
             geom_line(aes(timeseq, CI.lower.a1), color = "blue", size = 0.8, linetype = "dashed") +
             geom_line(aes(timeseq, CI.upper.a1), color = "blue", size = 0.8, linetype = "dashed") +
-            labs(title = "Plotting the alpha coefficients",
-                 x = "Time (in days)",
+            labs(title = "Plotting the alpha1 coefficients",
+                 x = "Time Sequence",
                  y = "Alpha1") +
             scale_x_continuous(breaks = seq(l, u, i))
           
@@ -375,7 +373,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             geom_line(aes(timeseq, CI.lower.b1), color = "blue", size = 0.8, linetype = "dashed") +
             geom_line(aes(timeseq, CI.upper.b1), color = "blue", size = 0.8, linetype = "dashed") +
             labs(title = "Plotting the beta1 coefficients",
-                 x = "Time (in days)",
+                 x = "Time Sequence",
                  y = "Beta1") +
             scale_x_continuous(breaks = seq(l, u, i))
           
@@ -386,7 +384,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             geom_line(aes(timeseq, CI.lower.b2), color = "blue", size = 0.8, linetype = "dashed") +
             geom_line(aes(timeseq, CI.upper.b2), color = "blue", size = 0.8, linetype = "dashed") +
             labs(title = "Plotting the beta2 coefficients",
-                 x = "Time (in days)",
+                 x = "Time Sequence",
                  y = "Beta2") +
             scale_x_continuous(breaks = seq(l, u, i))
           
@@ -410,8 +408,8 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
           
           plot4 <- ggplot(data = final_results, aes(timeseq, medEffect)) +
             geom_line(color = "red", size = 0.75) +
-            labs(title = "Plotting the mediation (product) effect",
-                 x = "Time (in days)",
+            labs(title = "Plotting the mediation effect (estimated via product method)",
+                 x = "Time Sequence",
                  y = "Mediation Effect") +
             scale_x_continuous(breaks = seq(l, u, i))
           
@@ -422,8 +420,8 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
               geom_line(aes(timeseq, CI.lower), color = "blue", size = 0.8, linetype = "dashed") +
               geom_line(aes(timeseq, CI.upper), color = "blue", size = 0.8, linetype = "dashed") +
               geom_line(aes(timeseq, 0)) +
-              labs(title = "Mediation Effect with 95% CIs (computed with percentile bootstrap)",
-                   x = "Time (in days)",
+              labs(title = "Mediation Effect (estimated via product method) with 95% CIs (computed with percentile bootstrap)",
+                   x = "Time Sequence",
                    y = "Mediation Effect") + 
               theme(legend.position = "none") +
               scale_x_continuous(breaks = seq(l, u, i))
@@ -431,8 +429,8 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
             # Sixth plot: plotting the mediation effect from bootstrap samples
             plot6 <- ggplot(data = IE_t, aes(t.seq.b, V2)) + 
               geom_line() + 
-              labs(title = "Bootstrap result of Mediation Effect",
-                   x = "Time (in days)",
+              labs(title = "Estimated Mediation Effect(s) from Bootstrapping",
+                   x = "Time Sequence",
                    y = "Mediation Effect") +
               scale_x_continuous(breaks = seq(l, u, i))
             for (i in 2:ncol(IE_t)) {

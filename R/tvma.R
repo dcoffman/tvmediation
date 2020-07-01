@@ -1,4 +1,4 @@
-#' Time Varying Mediation Analysis: Continuous Outcome and Two Treatment (Exposure) Groups
+#' Time Varying Mediation Analysis: Continuous Outcome and Two Treatment Arms (Exposure Groups)
 #' 
 #' Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and continuous outcome.
 #' 
@@ -6,62 +6,64 @@
 #' @param t.seq       a vector of time points for each observation
 #' @param mediator    matrix of mediator values in wide format
 #' @param outcome     matrix of outcome outcomes in wide format
-#' @param t.est       time points to make the estimation                              Default = t.seq (OPTIONAL ARGUMENT)
+#' @param t.est       a vector of time points to make the estimation                  Default = t.seq (OPTIONAL ARGUMENT)
 #' @param plot        TRUE or FALSE for plotting mediation effect                     Default = "FALSE" (OPTIONAL ARGUMENT)
 #' @param CI          "none" or "boot" method of deriving confidence intervals.       Default = "boot" (OPTIONAL ARGUMENT)
 #' @param replicates  Number of replicates for bootstrapping confidence intervals.    Default = 1000 (OPTIONAL ARGUMENT)
 #' @param verbose     TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL ARGUMENT)
 #' 
-#' @return \item{hat.alpha.1}{estimated treatment effect on mediator (indirect effect component)}
-#' @return \item{CI.lower.alpha1}{lower limit of confidence intervals for coefficient alpha1}
-#' @return \item{CI.upper.alpha1}{upper limit of confidence intervals for coefficient alpha1}
-#' @return \item{hat.beta.1}{estimated treatment effect on outcome (direct effect)}
-#' @return \item{CI.lower.beta1}{lower limit of confidence intervals for coefficient beta1}
-#' @return \item{CI.upper.beta1}{upper limit of confidence intervals for coefficient beta1}
+#' @return \item{hat.alpha.1}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
+#' @return \item{CI.lower.alpha1}{lower limit of confidence intervals for estimated coefficient hat.alpha.1}
+#' @return \item{CI.upper.alpha1}{upper limit of confidence intervals for estimated coefficient hat.alpha.1}
+#' @return \item{hat.beta.1}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
+#' @return \item{CI.lower.beta1}{lower limit of confidence intervals for estimated coefficient hat.beta.1}
+#' @return \item{CI.upper.beta1}{upper limit of confidence intervals for estimated coefficient hat.beta.1}
 #' @return \item{hat.beta.2}{estimated mediator effect on outcome (indirect effect component)}
-#' @return \item{CI.lower.beta2}{lower limit of confidence intervals for coefficient beta2}
-#' @return \item{CI.upper.beta2}{upper limit of confidence intervals for coefficient beta2}
-#' @return \item{est.M}{time varying mediation effect}
-#' @return \item{boot.se.m}{estimated standard error of the time varying mediation effect}
-#' @return \item{CI.lower}{lower limit of confidence intervals of the time varying mediation effect}
-#' @return \item{CI.upper}{upper limit of confidence intervals of the time varying mediation effect}
+#' @return \item{CI.lower.beta2}{lower limit of confidence intervals for estimated coefficient hat.beta.2}
+#' @return \item{CI.upper.beta2}{upper limit of confidence intervals for estimated coefficient hat.beta.2}
+#' @return \item{est.M}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome}
+#' @return \item{boot.se.m}{estimated standard error of est.M}
+#' @return \item{CI.lower}{lower limit of confidence intervals of est.M}
+#' @return \item{CI.upper}{upper limit of confidence intervals of est.M}
 #' 
 #' @section Plot Returns:
 #' \enumerate{
-#' \item{\code{Alpha1_CI }}{plot for hat.alpha.1 across t.seq with CI}
-#' \item{\code{Beta1_CI }}{plot for hat.beta.1 across t.seq with CI}
-#' \item{\code{Beta2_CI }}{plot for hat.beta.2 across t.seq with CI}
-#' \item{\code{MedEff }}{plot for mediation.effect across t.seq}
-#' \item{\code{MedEff_CI }}{plot for CIs of mediation.effect across t.seq}
+#' \item{\code{Alpha1_CI }}{plot for hat.alpha.1 across t.est with CIs}
+#' \item{\code{Beta1_CI }}{plot for hat.beta.1 across t.est with CIs}
+#' \item{\code{Beta2_CI }}{plot for hat.beta.2 across t.est with CIs}
+#' \item{\code{MedEff }}{plot for est.M across t.est}
+#' \item{\code{MedEff_CI }}{plot for est.M with CIs across t.est}
 #' }
 #' 
-#' @note *Currently supports 2 treatment options. See \code{tvma_3trt} function for three treatment options. Future releases may expand number of treatment options.
+#' @note
+#' \enumerate{
+#' \item{Currently supports 2 treatment options. Future releases may expand number of treatment options.}
+#' \item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().}
+#' }
 #' 
 #' @examples
 #' data(smoker)
 #' 
 #' # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
-#' smoker.parsed <- smoker[smoker$treatment != 4, ]
+#' smoker.sub <- smoker[smoker$treatment != 4, ]
 #' 
 #' # GENERATE WIDE FORMATTED MEDIATORS
-#' mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+#' mediator <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$NegMoodLst15min)
 #' 
 #' # GENERATE WIDE FORMATTED OUTCOMES
-#' outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
+#' outcome <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$cessFatig)
 #' 
 #' # GENERATE A BINARY TREATMENT VARIABLE
-#' trt <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
+#' trt <- as.numeric(unique(smoker.sub[ , c("SubjectID","varenicline")])[ , 2])-1
 #' 
 #' # GENERATE A VECTOR OF UNIQUE TIME POINTS
-#' t.seq <- sort(unique(smoker.parsed$timeseq))
+#' t.seq <- sort(unique(smoker.sub$timeseq))
 #' 
 #' # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 #' results <- tvma(trt, t.seq, mediator, outcome)
 #' 
 #' # COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
 #' results <- tvma(trt, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
-#' 
-#' # ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorials for tvma() and tvmb().
 #' 
 #' @references 
 #' \enumerate{
@@ -71,12 +73,10 @@
 #' }
 #' 
 #' @export
-#' @import tidyverse
 #' @import dplyr
 #' @import ggplot2
 #' @import kedd
 #' @import locpol
-#' @import reshape2
 
 tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
   {
@@ -87,7 +87,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       #   t.seq       -->   a vector of time points for each observation
       #   mediator    -->   matrix of mediator values in wide format
       #   outcome     -->   matrix of outcome outcomes in wide format
-      #   t.est       -->   time points to make the estimation                              Default = t.seq
+      #   t.est       -->   a vector of time points to make the estimation                  Default = t.seq
       #   plot        -->   TRUE or FALSE for plotting mediation effect                     Default = "FALSE"
       #   CI          -->   "none" or "boot" method of deriving confidence intervals.       Default = "boot"
       #   replicates  -->   Number of replicates for bootstrapping confidence intervals.    Default = 1000
@@ -97,29 +97,30 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       #
       ### Dataframe 'final_results' with the following elements
       #
-      #   hat.alpha.1       -->   estimated treatment effect on mediator
-      #   CI.lower.alpha1   -->   lower limit of confidence intervals for coefficient alpha1
-      #   CI.upper.alpha1   -->   upper limit of confidence intervals for coefficient alpha1
+      #   hat.alpha.1       -->   estimated treatment effect on mediator (indirect effect component)
+      #   CI.lower.alpha1   -->   lower limit of confidence intervals for coefficient hat.alpha.1
+      #   CI.upper.alpha1   -->   upper limit of confidence intervals for coefficient hat.alpha.1
       #   hat.beta.1        -->   estimated treatment effect on outcome (direct effect)
-      #   CI.lower.beta1    -->   lower limit of confidence intervals for coefficient beta1
-      #   CI.upper.beta1    -->   upper limit of confidence intervals for coefficient beta1
-      #   hat.beta.2        -->   estimated mediation effect on outcome
-      #   CI.lower.beta2    -->   lower limit of confidence intervals for coefficient beta2
-      #   CI.upper.beta2    -->   upper limit of confidence intervals for coefficient beta2
+      #   CI.lower.beta1    -->   lower limit of confidence intervals for coefficient hat.beta.1
+      #   CI.upper.beta1    -->   upper limit of confidence intervals for coefficient hat.beta.1
+      #   hat.beta.2        -->   estimated mediation effect on outcome (indirect effect component)
+      #   CI.lower.beta2    -->   lower limit of confidence intervals for coefficient hat.beta.2
+      #   CI.upper.beta2    -->   upper limit of confidence intervals for coefficient hat.beta.2
       #   est.M             -->   time varying mediation effect
   
       # 
       # Optional results based on user argument CI = "boot" passed
-      #   boot.se.m         -->   estimated standard error of the mediation effect
-      #   CI.lower          -->   lower limit of confidence intervals
-      #   CI.upper          -->   upper limit of confidence intervals
+      #   boot.se.m         -->   estimated standard error of est.M
+      #   CI.lower          -->   lower limit of confidence intervals of est.M
+      #   CI.upper          -->   upper limit of confidence intervals of est.M
       #  
       ### Optional plot results
       #
-      #   Alpha_CI          -->   plot for hat.alpha.1 across t.seq with CI
-      #   Beta_CI           -->   plot for hat.beta.2 across t.seq with CI
-      #   MedEff            -->   plot for mediation.effect across t.seq
-      #   MedEff_CI         -->   plot for CIs of mediation.effect across t.seq
+      #   Alpha1_CI          -->   plot for hat.alpha.1 across t.est with CI
+      #   Beta1_CI           -->   plot for hat.beta.1 across t.est with CI
+      #   Beta2_CI           -->   plot for hat.beta.2 across t.est with CI
+      #   MedEff             -->   plot for est.M across t.est
+      #   MedEff_CI          -->   plot for est.M with CIs across t.est
       #
       ##
   
@@ -235,7 +236,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
           geom_line(aes(t.est, CI.lower.alpha1), size = 0.8, color = "blue", linetype = "dashed") +
           geom_line(aes(t.est, CI.upper.alpha1), size = 0.8, color = "blue", linetype = "dashed") +
           labs(title = "Plotting the alpha1 coefficients",
-               x = "Time (in days)",
+               x = "Time Sequence",
                y = "Alpha1") +
           scale_x_continuous(breaks = seq(l, u, i))
         
@@ -245,7 +246,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
           geom_line(aes(t.est, CI.lower.beta1), size = 0.8, color = "blue", linetype = "dashed") +
           geom_line(aes(t.est, CI.upper.beta1), size = 0.8, color = "blue", linetype = "dashed") +
           labs(title = "Plotting the beta1 coefficients",
-               x = "Time (in days)",
+               x = "Time Sequence",
                y = "Beta1") +
           scale_x_continuous(breaks = seq(l, u, i))
         
@@ -255,7 +256,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
           geom_line(aes(t.est, CI.lower.beta2), size = 0.8, color = "blue", linetype = "dashed") +
           geom_line(aes(t.est, CI.upper.beta2), size = 0.8, color = "blue", linetype = "dashed") +
           labs(title = "Plotting the beta2 coefficients",
-               x = "Time (in days)",
+               x = "Time Sequence",
                y = "Beta2") +
           scale_x_continuous(breaks = seq(l, u, i))
         
@@ -263,7 +264,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         plot4 <- ggplot(data = final_results, aes(t.est,est.M)) +
           geom_line(color = "red", size = 0.75) +
           labs(title = "Plotting the time-varying mediation effect",
-               x = "Time (in days)",
+               x = "Time Sequence",
                y = "Mediation Effect") +
           scale_x_continuous(breaks = seq(l, u, i))
         
@@ -276,7 +277,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
             geom_line(aes(t.est, CI.upper), size = 0.8, color = "blue", linetype = "dashed") +
             # geom_line(aes(t.est, 0)) +
             labs(title = "Mediation Effect with 95% CIs (computed with percentile bootstrap)",
-                 x = "Time (in days)",
+                 x = "Time Sequence",
                  y = "Mediation Effect") + 
             theme(legend.position = "none") +
             scale_x_continuous(breaks = seq(l, u, i))   

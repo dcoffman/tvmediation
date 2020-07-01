@@ -1,5 +1,5 @@
 ---
-title: "Time Varying Mediation Analysis: Continuous Outcome and Two Treatment (Exposure) Groups"
+title: "Time Varying Mediation Analysis: Continuous Outcome and Two Treatment Arms (Exposure Groups)"
 author:
 - name: Donna L. Coffman
   email: donna.coffman@temple.edu
@@ -12,7 +12,7 @@ author:
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Time Varying Mediation Analysis: Continuous Outcome and Two Treatment (Exposure) Groups}
+  %\VignetteIndexEntry{Time Varying Mediation Analysis: Continuous Outcome and Two Treatment Arms (Exposure Groups)}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -29,12 +29,10 @@ pre code {
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
-library(tidyverse)  # NEED TO LOAD tidyverse BEFORE Hmisc!
-library(Hmisc)
 library(locpol)
-library(tvmediation)
 library(dplyr)
 library(ggplot2)
+library(tvmediation)
 ```
 
 <div style="text-align: justify">
@@ -68,7 +66,7 @@ devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) # MAKE SUR
 library(tvmediation)
 ```
 
-In addition, you will want to install and load the `locpol` package which is necessary for certain functions in the `tvmediation` package.
+In addition, you will want to install and load the `locpol`, `ggplot2` and `dplyr` packages which are necessary for certain functions to operate in the `tvmediation` package.
 
 ## Formatting your data before calling the `tvma` function
 
@@ -77,7 +75,7 @@ Once installed, you can type `?tvmediation` in the console to view the package d
 The `tvma` function requires 4 necessary and 5 optional input variables/arguments.
 
 1. `treatment` A binary vector with treatment schedule
-2. `t.seq` The time sequence of the measures
+2. `t.seq` A vector of the time sequence of the measures
 3. `mediator` The matrix of mediator values in wide format
 4. `outcome` The matrix of outcome values in wide format
 
@@ -131,16 +129,16 @@ Now your dataset might not always be in long format which requires to be convert
 The function still requires 2 more variables that we have not yet created:
 
 1. `treatment` A binary vector with treatment schedule
-2. `t.seq` The time sequence of the measures.
+2. `t.seq` A vector of the time sequence of the measures.
 
 We can create these variables in the following way. For `treatment` we looked at only one instance of each subject's response for `varenicline`, converted it to a numeric value, and subtracted 1 to yield a vector of zeros and ones.
 
 ```{r}
-# Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to recieving varenicline. The data is still in dataframe format.
+# Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to receiving varenicline. The data is still in dataframe format.
 trt1 <- unique(smoker[ , c("SubjectID","varenicline")])
 trt1[1:10,]
 
-# Step 2: `2` to those subjects who recieved `varenicline` and `1` to the rest. The data is now in vector format.
+# Step 2: `2` to those subjects who received `varenicline` and `1` to the rest. The data is now in vector format.
 trt2 <- as.numeric(trt1[ , 2])
 trt2[1:10]
 
@@ -170,7 +168,7 @@ We are now ready to perform our time varying mediation analysis.
 As discussed earlier, the `tvma` function requires 4 necessary and 5 optional input variables/arguments.
 
 1. `treatment` A binary vector with treatment schedule
-2. `t.seq` The time sequence of the measures
+2. `t.seq` A vector of the time sequence of the measures
 3. `mediator` The matrix of mediator values in wide format
 4. `outcome` The matrix of outcome values in wide format
 
@@ -192,22 +190,22 @@ results <- tvma(treatment, t.seq, mediator, outcome, plot = TRUE)
 
 The `tvma` function returns a list of results that include:
 
-1. `hat.alpha.1` the estimated treatment effect on mediator
-2. `CI.lower.alpha1` the lower limit of confidence intervals for coefficient alpha1
-3. `CI.upper.alpha1` the upper limit of confidence intervals for coefficient alpha1
-4. `hat.beta.1` the estimated treatment effect on outcome
-5. `CI.lower.beta1` the lower limit of confidence intervals for coefficient beta1
-6. `CI.upper.beta1` the upper limit of confidence intervals for coefficient beta1
+1. `hat.alpha.1` the estimated main treatment arm (exposure group) of interest effect on mediator
+2. `CI.lower.alpha1` the lower limit of confidence intervals for coefficient hat.alpha.1
+3. `CI.upper.alpha1` the upper limit of confidence intervals for coefficient hat.alpha.1
+4. `hat.beta.1` the estimated main treatment arm (exposure group) of interest effect on outcome
+5. `CI.lower.beta1` the lower limit of confidence intervals for coefficient hat.beta.1
+6. `CI.upper.beta1` the upper limit of confidence intervals for coefficient hat.beta.1
 7. `hat.beta.2` the estimated mediator effect on outcome
-8. `CI.lower.beta2` the lower limit of confidence intervals for coefficient beta2
-9. `CI.upper.beta2` the upper limit of confidence intervals for coefficient beta2
-10. `est.M` the time varying mediation effect
+8. `CI.lower.beta2` the lower limit of confidence intervals for coefficient hat.beta.2
+9. `CI.upper.beta2` the upper limit of confidence intervals for coefficient hat.beta.2
+10. `est.M` the time varying mediation effect - main treatment arm (exposure group) of interest on outcome
 
 Optional returns based on arguments `CI = "boot"` include:
 
-11. `boot.se.m` the estimated standard error of the time varying mediation effect
-12. `CI.lower` the lower limit of confidence intervals of the time varying mediation effect
-13. `CI.upper` the upper limit of confidence intervals of the time varying mediation effect
+11. `boot.se.m` the estimated standard error of the time varying mediation effect `est.M`
+12. `CI.lower` the lower limit of confidence intervals of the time varying mediation effect `est.M`
+13. `CI.upper` the upper limit of confidence intervals of the time varying mediation effect `est.M`
 
 ```{r}
 results$Estimates
@@ -217,11 +215,11 @@ At each time point of interest `t.est` which in this case is equal to `t.seq`, t
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
-14. `Alpha1_CI` plot for hat.alpha.1 across timeseq (`t.seq`) with CI
-15. `Beta1_CI` plot for hat.beta.1 across timeseq (`t.seq`) with CI
-16. `Beta2_CI` plot for hat.beta.2 across timeseq (`t.seq`) with CI
-17. `MedEff` plot for mediation.effect across timeseq (`t.seq`)
-18. `MedEff_CI` plot for CIs of mediation.effect across timeseq (`t.seq`)
+14. `Alpha1_CI` plot for `hat.alpha.1` with 95% CIs across timeseq
+15. `Beta1_CI` plot for `hat.beta.1` with 95% CIs across timeseq
+16. `Beta2_CI` plot for `hat.beta.2` with 95% CIs across timeseq
+17. `MedEff` plot for `est.M` across timeseq
+18. `MedEff_CI` plot for `est.M` with 95% CIs across timeseq
 
 We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone.
 

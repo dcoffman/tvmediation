@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvmcurve_3trt.R
 \name{tvmcurve_3trt}
 \alias{tvmcurve_3trt}
-\title{Main function for time varying mediation function for continuous Outcome and three treatment (Exposure) Groups}
+\title{Main function for time varying mediation function for continuous Outcome and three treatment arms (Exposure Groups)}
 \usage{
 tvmcurve_3trt(NRT1, NRT2, t.seq, x, y, t.est)
 }
@@ -20,15 +20,19 @@ tvmcurve_3trt(NRT1, NRT2, t.seq, x, y, t.est)
 \item{t.est}{time points to make the estimation             Default = t.seq.}
 }
 \value{
-\item{hat.alpha1}{estimated NRT1 effect on mediator}
+\item{hat.alpha1}{estimated NRT1 (treatment arm 1) effect on mediator}
 
-\item{hat.alpha2}{estimated NRT2 effect on mediator}
+\item{hat.alpha2}{estimated NRT2 (treatment arm 2) effect on mediator}
 
-\item{hat.beta3}{estimated mediation effect on outcome}
+\item{hat.beta1}{estimated NRT1 (treatment arm 1) effect on outcome}
 
-\item{hat.mediation1}{time varying mediation effect - NRT1 on outcome}
+\item{hat.beta2}{estimated NRT2 (treatment arm 2) effect on outcome}
 
-\item{hat.mediation2}{time varying mediation effect - NRT2 on outcome}
+\item{hat.beta3}{estimated mediator effect on outcome}
+
+\item{hat.mediation1}{time varying mediation effect - NRT1 (treatment arm 1) on outcome}
+
+\item{hat.mediation2}{time varying mediation effect - NRT2 (treatment arm 2) on outcome}
 }
 \description{
 Part of the set of internal functions to estimate the time-varying mediation effect and bootstrap standard errors, involving three treatment groups and continuous outcome.

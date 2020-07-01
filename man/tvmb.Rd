@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvmb.R
 \name{tvmb}
 \alias{tvmb}
-\title{Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups}
+\title{Time Varying Mediation Function: Binary Outcome and Two Treatment Arms (Exposure Groups)}
 \usage{
 tvmb(
   treatment,
@@ -35,25 +35,25 @@ tvmb(
 \value{
 \item{timeseq}{time points of estimation}
 
-\item{alpha1_hat}{estimated exposure effect on mediator (indirect effect component)}
+\item{alpha1_hat}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
 
-\item{CI.lower.a1}{lower limit of confidence intervals for alpha1_hat}
+\item{CI.lower.a1}{lower limit of confidence intervals for estimated coefficient alpha1_hat}
 
-\item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
+\item{CI.upper.a1}{upper limit of confidence intervals for estimated coefficient alpha1_hat}
 
-\item{beta1_hat}{estimated exposure effect on outcome (direct effect)}
+\item{beta1_hat}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
 
-\item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
+\item{CI.lower.b1}{lower limit of confidence intervals for estimated coefficient beta1_hat}
 
-\item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
+\item{CI.upper.b1}{upper limit of confidence intervals for estimated coefficient beta1_hat}
 
 \item{beta2_hat}{estimated mediator effect on outcome (indirect effect component)}
 
-\item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
+\item{CI.lower.b2}{lower limit of confidence intervals for estimated coefficient beta2_hat}
 
-\item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
+\item{CI.upper.b2}{upper limit of confidence intervals for estimated coefficient beta2_hat}
 
-\item{medEffect}{time varying mediation effect (estimate by product method)}
+\item{medEffect}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome (estimated by product method)}
 
 \item{CI.lower}{lower limit of confidence intervals for medEffect}
 
@@ -71,12 +71,12 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{plot1_a1 }}{plot for alpha1_hat with CIs across timeseq}
-\item{\code{plot2_b1 }}{plot for beta1_hat with CIs across timeseq}
-\item{\code{plot3_b2 }}{plot for beta2_hat with CIs across timeseq}
-\item{\code{MedEff }}{plot for mediation effects (difference and product) across timeseq}
-\item{\code{MedEff_CI }}{plot for CIs of medEffect}
-\item{\code{bootstrap }}{plot for estimated medEffects from bootstrapped samples across timeseq}
+\item{\code{plot1_a1 }}{plot for alpha1_hat across t.seq with CIs}
+\item{\code{plot2_b1 }}{plot for beta1_hat across t.seq with CIs}
+\item{\code{plot3_b2 }}{plot for beta2_hat across t.seq with CIs}
+\item{\code{MedEff }}{plot for medEffect across t.seq}
+\item{\code{MedEff_CI }}{plot for medEffect with CIs across t.seq}
+\item{\code{bootstrap }}{plot for estimated medEffect(s) from bootstrapped samples across t.seq}
 }
 }
 
@@ -84,19 +84,19 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 data(smoker)
 
 # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
-smoker.parsed <- smoker[smoker$treatment != 4, ]
+smoker.sub <- smoker[smoker$treatment != 4, ]
 
 # GENERATE WIDE FORMATTED MEDIATORS
-mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+mediator <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$NegMoodLst15min)
 
 # GENERATE WIDE FORMATTED OUTCOMES
-outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$smoke_status)
+outcome <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$smoke_status)
 
 # GENERATE A BINARY TREATMENT VARIABLE
-trt <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
+trt <- as.numeric(unique(smoker.sub[ , c("SubjectID","varenicline")])[ , 2])-1
 
 # GENERATE A VECTOR OF UNIQUE TIME POINTS
-t.seq <- sort(unique(smoker.parsed$timeseq))
+t.seq <- sort(unique(smoker.sub$timeseq))
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 results <- tvmb(trt, t.seq, mediator, outcome)

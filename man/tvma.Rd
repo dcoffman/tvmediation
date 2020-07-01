@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvma.R
 \name{tvma}
 \alias{tvma}
-\title{Time Varying Mediation Analysis: Continuous Outcome and Two Treatment (Exposure) Groups}
+\title{Time Varying Mediation Analysis: Continuous Outcome and Two Treatment Arms (Exposure Groups)}
 \usage{
 tvma(
   treatment,
@@ -25,7 +25,7 @@ tvma(
 
 \item{outcome}{matrix of outcome outcomes in wide format}
 
-\item{t.est}{time points to make the estimation                              Default = t.seq (OPTIONAL ARGUMENT)}
+\item{t.est}{a vector of time points to make the estimation                  Default = t.seq (OPTIONAL ARGUMENT)}
 
 \item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE" (OPTIONAL ARGUMENT)}
 
@@ -36,46 +36,49 @@ tvma(
 \item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL ARGUMENT)}
 }
 \value{
-\item{hat.alpha.1}{estimated treatment effect on mediator (indirect effect component)}
+\item{hat.alpha.1}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
 
-\item{CI.lower.alpha1}{lower limit of confidence intervals for coefficient alpha1}
+\item{CI.lower.alpha1}{lower limit of confidence intervals for estimated coefficient hat.alpha.1}
 
-\item{CI.upper.alpha1}{upper limit of confidence intervals for coefficient alpha1}
+\item{CI.upper.alpha1}{upper limit of confidence intervals for estimated coefficient hat.alpha.1}
 
-\item{hat.beta.1}{estimated treatment effect on outcome (direct effect)}
+\item{hat.beta.1}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
 
-\item{CI.lower.beta1}{lower limit of confidence intervals for coefficient beta1}
+\item{CI.lower.beta1}{lower limit of confidence intervals for estimated coefficient hat.beta.1}
 
-\item{CI.upper.beta1}{upper limit of confidence intervals for coefficient beta1}
+\item{CI.upper.beta1}{upper limit of confidence intervals for estimated coefficient hat.beta.1}
 
 \item{hat.beta.2}{estimated mediator effect on outcome (indirect effect component)}
 
-\item{CI.lower.beta2}{lower limit of confidence intervals for coefficient beta2}
+\item{CI.lower.beta2}{lower limit of confidence intervals for estimated coefficient hat.beta.2}
 
-\item{CI.upper.beta2}{upper limit of confidence intervals for coefficient beta2}
+\item{CI.upper.beta2}{upper limit of confidence intervals for estimated coefficient hat.beta.2}
 
-\item{est.M}{time varying mediation effect}
+\item{est.M}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome}
 
-\item{boot.se.m}{estimated standard error of the time varying mediation effect}
+\item{boot.se.m}{estimated standard error of est.M}
 
-\item{CI.lower}{lower limit of confidence intervals of the time varying mediation effect}
+\item{CI.lower}{lower limit of confidence intervals of est.M}
 
-\item{CI.upper}{upper limit of confidence intervals of the time varying mediation effect}
+\item{CI.upper}{upper limit of confidence intervals of est.M}
 }
 \description{
 Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and continuous outcome.
 }
 \note{
-*Currently supports 2 treatment options. See \code{tvma_3trt} function for three treatment options. Future releases may expand number of treatment options.
+\enumerate{
+\item{Currently supports 2 treatment options. Future releases may expand number of treatment options.}
+\item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().}
+}
 }
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{Alpha1_CI }}{plot for hat.alpha.1 across t.seq with CI}
-\item{\code{Beta1_CI }}{plot for hat.beta.1 across t.seq with CI}
-\item{\code{Beta2_CI }}{plot for hat.beta.2 across t.seq with CI}
-\item{\code{MedEff }}{plot for mediation.effect across t.seq}
-\item{\code{MedEff_CI }}{plot for CIs of mediation.effect across t.seq}
+\item{\code{Alpha1_CI }}{plot for hat.alpha.1 across t.est with CIs}
+\item{\code{Beta1_CI }}{plot for hat.beta.1 across t.est with CIs}
+\item{\code{Beta2_CI }}{plot for hat.beta.2 across t.est with CIs}
+\item{\code{MedEff }}{plot for est.M across t.est}
+\item{\code{MedEff_CI }}{plot for est.M with CIs across t.est}
 }
 }
 
@@ -83,27 +86,25 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 data(smoker)
 
 # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
-smoker.parsed <- smoker[smoker$treatment != 4, ]
+smoker.sub <- smoker[smoker$treatment != 4, ]
 
 # GENERATE WIDE FORMATTED MEDIATORS
-mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+mediator <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$NegMoodLst15min)
 
 # GENERATE WIDE FORMATTED OUTCOMES
-outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
+outcome <- LongToWide(smoker.sub$SubjectID, smoker.sub$timeseq, smoker.sub$cessFatig)
 
 # GENERATE A BINARY TREATMENT VARIABLE
-trt <- as.numeric(unique(smoker.parsed[ , c("SubjectID","varenicline")])[ , 2])-1
+trt <- as.numeric(unique(smoker.sub[ , c("SubjectID","varenicline")])[ , 2])-1
 
 # GENERATE A VECTOR OF UNIQUE TIME POINTS
-t.seq <- sort(unique(smoker.parsed$timeseq))
+t.seq <- sort(unique(smoker.sub$timeseq))
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 results <- tvma(trt, t.seq, mediator, outcome)
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
 results <- tvma(trt, t.seq, mediator, outcome, t.est = c(0.2, 0.4, 0.6, 0.8), replicates = 500)
-
-# ** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorials for tvma() and tvmb().
 
 }
 \references{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvma_3trt.R
 \name{tvma_3trt}
 \alias{tvma_3trt}
-\title{Time Varying Mediation Function: Continuous Outcome and Three Treatment (Exposure) Groups}
+\title{Time Varying Mediation Function: Continuous Outcome and Three Treatment Arms (Exposure Groups)}
 \usage{
 tvma_3trt(
   NRT1,
@@ -14,13 +14,14 @@ tvma_3trt(
   plot = FALSE,
   CI = "boot",
   replicates = 1000,
+  grpname = "NRT",
   verbose = FALSE
 )
 }
 \arguments{
-\item{NRT1}{a vector with treatment arm 1 values}
+\item{NRT1}{a vector with treatment arm 1 (exposure group 1) values}
 
-\item{NRT2}{a vector with treatment arm 2 values}
+\item{NRT2}{a vector with treatment arm 2 (exposure group 2) values}
 
 \item{t.seq}{a vector of time points for each observation}
 
@@ -28,72 +29,98 @@ tvma_3trt(
 
 \item{outcome}{matrix of outcome outcomes in wide format}
 
-\item{t.est}{time points to make the estimation                              Default = t.seq. (OPTIONAL ARGUMENT)}
+\item{t.est}{a vector of time points to make the estimation                                  Default = t.seq. (OPTIONAL ARGUMENT)}
 
-\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE". (OPTIONAL ARGUMENT)}
+\item{plot}{TRUE or FALSE for plotting mediation effect                                     Default = "FALSE". (OPTIONAL ARGUMENT)}
 
-\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot". (OPTIONAL ARGUMENT)}
+\item{CI}{"none" or "boot" method of deriving confidence intervals.                       Default = "boot". (OPTIONAL ARGUMENT)}
 
-\item{replicates}{number of replicates for bootstrapping confidence intervals.    Default = 1000. (OPTIONAL ARGUMENT)}
+\item{replicates}{number of replicates for bootstrapping confidence intervals.                    Default = 1000. (OPTIONAL ARGUMENT)}
 
-\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE". (OPTIONAL ARGUMENT)}
+\item{grpname}{name of the treatment arms (exposure groups) to be displayed in the results.    Default = "NRT". (OPTIONAL ARGUMENT)}
+
+\item{verbose}{TRUE or FALSE for printing results to screen.                                   Default = "FALSE". (OPTIONAL ARGUMENT)}
 }
 \value{
-\item{hat.alpha1}{estimated NRT1 effect on mediator}
+\item{hat.alpha1}{estimated effect of treatment arm 1 (exposure group 1) on mediator (indirect effect component)}
 
-\item{hat.alpha2}{estimated NRT2 effect on mediator}
+\item{CI.lower.alpha1}{lower limit of confidence intervals for estimated coefficient hat.alpha1}
 
-\item{hat.beta3}{estimated mediation effect on outcome}
+\item{CI.upper.alpha1}{upper limit of confidence intervals for estimated coefficient hat.alpha1}
 
-\item{hat.mediation1}{time varying mediation effect - NRT1 on outcome}
+\item{hat.alpha2}{estimated effect of treatment arm 2 (exposure group 2) on mediator (indirect effect component)}
 
-\item{hat.mediation2}{time varying mediation effect - NRT2 on outcome}
+\item{CI.lower.alpha2}{lower limit of confidence intervals for estimated coefficient hat.alpha2}
 
-\item{CI.upper.NRT1}{upper limit of confidence intervals for NRT1}
+\item{CI.upper.alpha2}{upper limit of confidence intervals for estimated coefficient hat.alpha2}
 
-\item{CI.lower.NRT1}{lower limit of confidence intervals for NRT1}
+\item{hat.beta1}{estimated effect of treatment arm 1 (exposure group 1) on outcome (direct effect)}
 
-\item{CI.upper.NRT2}{upper limit of confidence intervals for NRT2}
+\item{CI.lower.beta1}{lower limit of confidence intervals for estimated coefficient hat.beta1}
 
-\item{CI.lower.NRT2}{lower limit of confidence intervals for NRT2}
+\item{CI.upper.beta1}{upper limit of confidence intervals for estimated coefficient hat.beta1}
 
-\item{SE_MedEff1}{estimated standard errors of the mediation effect for NRT1}
+\item{hat.beta2}{estimated effect of treatment arm 2 (exposure group 2) on outcome (direct effect)}
 
-\item{SE_MedEff2}{estimated standard errors of the mediation effect for NRT2}
+\item{CI.lower.beta2}{lower limit of confidence intervals for estimated coefficient hat.beta2}
+
+\item{CI.upper.beta2}{upper limit of confidence intervals for estimated coefficient hat.beta2}
+
+\item{hat.beta3}{estimated mediator effect on outcome (indirect effect component)}
+
+\item{CI.lower.beta3}{lower limit of confidence intervals for estimated coefficient hat.beta3}
+
+\item{CI.upper.beta3}{upper limit of confidence intervals for estimated coefficient hat.beta3}
+
+\item{hat.mediation1}{time varying mediation effect - treatment arm 1 (exposure group 1) on outcome}
+
+\item{SE_MedEff1}{estimated standard errors of hat.mediation1}
+
+\item{CI.upper.NRT1}{upper limit of confidence intervals for hat.mediation1}
+
+\item{CI.lower.NRT1}{lower limit of confidence intervals for hat.mediation1}
+
+\item{hat.mediation2}{time varying mediation effect - treatment arm 2 (exposure group 2) on outcome}
+
+\item{SE_MedEff2}{estimated standard errors of hat.mediation2}
+
+\item{CI.upper.NRT2}{upper limit of confidence intervals for hat.mediation2}
+
+\item{CI.lower.NRT2}{lower limit of confidence intervals for hat.mediation2}
 }
 \description{
-Function to estimate the time-varying mediation effect and bootstrap standard errors, involving three treatment groups and continuous outcome.
+Function to estimate the time-varying mediation effect and bootstrap standard errors, involving three treatment/exposure groups and continuous outcome.
 }
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{plot1_a1 }}{plot for hat.alpha1 across t.seq with CI}
-\item{\code{plot2_a2 }}{plot for hat.alpha2 across t.seq with CI}
-\item{\code{plot3_b3 }}{plot for hat.beta3 across t.seq with CI}
-\item{\code{MedEff_NRT1 }}{plot for hat.mediation1 across t.seq}
-\item{\code{MedEff_NRT2 }}{plot for hat.mediation2 across t.seq}
-\item{\code{MedEff_CI_NRT1 }}{plot for CIs of medEffect for NRT1}
-\item{\code{MedEff_CI_NRT2 }}{plot for CIs of medEffect for NRT2}
+\item{\code{plot1_a1 }}{plot for hat.alpha1 across t.est with CIs}
+\item{\code{plot2_a2 }}{plot for hat.alpha2 across t.est with CIs}
+\item{\code{plot3_b1 }}{plot for hat.beta1 across t.est with CIs}
+\item{\code{plot4_b2 }}{plot for hat.beta2 across t.est with CIs}
+\item{\code{plot5_b3 }}{plot for hat.beta3 across t.est with CIs}
+\item{\code{MedEff_NRT1 }}{plot for hat.mediation1 across t.est}
+\item{\code{MedEff_NRT2 }}{plot for hat.mediation2 across t.est}
+\item{\code{MedEff_CI_NRT1 }}{plot for hat.mediation1 with CIs across t.est}
+\item{\code{MedEff_CI_NRT2 }}{plot for hat.mediation2 with CIs across t.est}
 }
 }
 
 \examples{
 data(smoker)
 
-smoker.parsed <- smoker
-
 # GENERATE WIDE FORMATTED MEDIATORS
-mediator <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$NegMoodLst15min)
+mediator <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$NegMoodLst15min)
 
 # GENERATE WIDE FORMATTED OUTCOMES
-outcome <- LongToWide(smoker.parsed$SubjectID, smoker.parsed$timeseq, smoker.parsed$cessFatig)
+outcome <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$cessFatig)
 
 # GENERATE TWO BINARY TREATMENT VARIABLES
-NRT1 <- as.numeric(unique(smoker.parsed[ ,c("SubjectID","varenicline")])[,2])-1
-NRT2 <- as.numeric(unique(smoker.parsed[ ,c("SubjectID","comboNRT")])[,2])-1
+NRT1 <- as.numeric(unique(smoker[ ,c("SubjectID","varenicline")])[,2])-1
+NRT2 <- as.numeric(unique(smoker[ ,c("SubjectID","comboNRT")])[,2])-1
 
 # GENERATE A VECTOR OF UNIQUE TIME POINTS
-t.seq <- sort(unique(smoker.parsed$timeseq))
+t.seq <- sort(unique(smoker$timeseq))
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bootci_coeff_3trt.R
 \name{bootci_coeff_3trt}
 \alias{bootci_coeff_3trt}
-\title{Bootstrapping samples to estimate confidence intervals for coefficients of continuous outcome and three treatment (exposure) groups}
+\title{Bootstrapping samples to estimate confidence intervals for coefficients of continuous outcome and three treatment arms (exposure groups)}
 \usage{
 bootci_coeff_3trt(
   NRT1,
@@ -33,18 +33,26 @@ bootci_coeff_3trt(
 \item{boot.sample}{number of replicates for bootstrapping confidence intervals.    Default = 1000.}
 }
 \value{
-\item{alw1}{lower limit of confidence intervals for estimated NRT1 effect on mediator}
+\item{alw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on mediator}
 
-\item{aup1}{upper limit of confidence intervals for estimated NRT1 effect on mediator}
+\item{aup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on mediator}
 
-\item{alw2}{lower limit of confidence intervals for estimated NRT2 effect on mediator}
+\item{alw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on mediator}
 
-\item{aup2}{upper limit of confidence intervals for estimated NRT2 effect on mediator}
+\item{aup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on mediator}
+
+\item{blw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
+
+\item{bup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
+
+\item{blw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
+
+\item{bup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
 
 \item{blw3}{lower limit of confidence intervals for estimated effect of mediator on outcome}
 
 \item{bup3}{upper limit of confidence intervals for estimated effect of mediator on outcome}
 }
 \description{
-Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and three treatment (exposure) groups.
+Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and three treatment arms (exposure groups).
 }

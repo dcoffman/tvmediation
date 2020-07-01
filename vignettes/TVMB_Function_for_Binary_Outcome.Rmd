@@ -1,5 +1,5 @@
 ---
-title: "Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups"
+title: "Time Varying Mediation Function: Binary Outcome and Two Treatment Arms (Exposure Groups)"
 author:
 - name: Donna L. Coffman
   email: donna.coffman@temple.edu
@@ -12,7 +12,7 @@ author:
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Time Varying Mediation Function: Binary Outcome and Two Treatment (Exposure) Groups}
+  %\VignetteIndexEntry{Time Varying Mediation Function: Binary Outcome and Two Treatment Arms (Exposure Groups)}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -29,11 +29,10 @@ pre code {
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
-library(tidyverse)
 library(locpol)
-library(tvmediation)
 library(dplyr)
 library(ggplot2)
+library(tvmediation)
 ```
 
 <div style="text-align: justify">
@@ -67,7 +66,7 @@ devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) # MAKE SUR
 library(tvmediation)
 ```
 
-In addition, you will want to install and load the `locpol` package which is necessary for certain functions in the `tvmediation` package.
+In addition, you will want to install and load the `locpol`, `ggplot2` and `dplyr` packages which are necessary for certain functions to operate in the `tvmediation` package.
 
 ## Formatting your data before calling the `tvmb` function
 
@@ -133,14 +132,14 @@ The function still requires 2 more variables that we have not yet created:
 
 If there are two treatment groups, create a `treatment` variable with the following assignment: `1` for the comparator group and `0` for the placebo group. If there are three treatment groups, two dummy variables clearly indicating `treatment1`, `treatment2` and `placebo` need to be created. An example is given as follows. In the `smoker.rda` dataset, three columns indicating the assignment of the three treatments are present.
 
-Creating two dummy variables to indicate whether a particpant was given `varenicline` or `combination NRT`. `NRT1` indicates whether a subject recieved `varenicline` or not. `NRT2` indicates whether a subject recieved `combination NRT` or not. Each subject's response for the treatment group (e.g. `varenicline`) was converted to a numeric value, and 1 was subtracted to yield a vector of zeros and ones.
+Creating two dummy variables to indicate whether a participant was given `varenicline` or `combination NRT`. `NRT1` indicates whether a subject received `varenicline` or not. `NRT2` indicates whether a subject received `combination NRT` or not. Each subject's response for the treatment group (e.g. `varenicline`) was converted to a numeric value, and 1 was subtracted to yield a vector of zeros and ones.
 
 ```{r}
-# Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to recieving varenicline. The data is still in dataframe format.
+# Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to receiving varenicline. The data is still in dataframe format.
 trtv <- unique(smoker[ , c("SubjectID","varenicline")])
 trtv[1:10,]
 
-# Step 2: `2` to those subjects who recieved `varenicline` and `1` to the rest. The data is now in vector format.
+# Step 2: `2` to those subjects who received `varenicline` and `1` to the rest. The data is now in vector format.
 trtv2 <- as.numeric(trtv[ , 2])
 trtv2[1:10]
 
@@ -150,11 +149,11 @@ NRT1[1:10]
 ```
 
 ```{r}
-# Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to recieving varenicline. The data is still in dataframe format.
+# Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to receiving `combination NRT`. The data is still in dataframe format.
 trtc <- unique(smoker[ , c("SubjectID","comboNRT")])
 trtc[1:10,]
 
-# Step 2: `2` to those subjects who recieved `varenicline` and `1` to the rest. The data is now in vector format.
+# Step 2: `2` to those subjects who received `combination NRT` and `1` to the rest. The data is now in vector format.
 trtc2 <- as.numeric(trtc[ , 2])
 trtc2[1:10]
 
@@ -224,21 +223,21 @@ results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, plot = TRUE)
 
 The `tvmb` function returns a list of results including:
 
-1.  `alpha1_hat` the estimated effect of the intervention on the mediator 
-2.  `CI.lower.a1` the lower limit of confidence intervals for alpha1_hat
-3.  `CI.upper.a1` the upper limit of confidence intervals for alpha1_hat
-4.  `beta1_hat` the estimated effect of the intervention on the outcome
-5.  `CI.lower.b1` the lower limit of confidence intervals for beta1_hat
-6.  `CI.upper.b1` the upper limit of confidence intervals for beta1_hat
+1.  `alpha1_hat` the estimated main treatment arm (exposure group) of interest effect on mediator 
+2.  `CI.lower.a1` the lower limit of confidence intervals for coefficient alpha1_hat
+3.  `CI.upper.a1` the upper limit of confidence intervals for coefficient alpha1_hat
+4.  `beta1_hat` the estimated main treatment arm (exposure group) of interest effect on outcome
+5.  `CI.lower.b1` the lower limit of confidence intervals for coefficient beta1_hat
+6.  `CI.upper.b1` the upper limit of confidence intervals for coefficient beta1_hat
 7.  `beta2_hat` the estimated effect of the mediator on the outcome
-8.  `CI.lower.b2` the lower limit of confidence intervals for beta2_hat
-9.  `CI.upper.b2` the upper limit of confidence intervals for beta2_hat
-10. `medEffect` the time varying mediation effect (estimated via product method)
+8.  `CI.lower.b2` the lower limit of confidence intervals for coefficient beta2_hat
+9.  `CI.upper.b2` the upper limit of confidence intervals for coefficient beta2_hat
+10. `medEffect` the time varying mediation effect - main treatment arm (exposure group) of interest on outcome (estimated via product method)
 
 Optional returns based on arguments `CI = "boot"` passed by the user include:
 
-11. `CI.low` the lower limit of confidence intervals of the time varying mediation effect
-12. `CI.upper` the upper limit of confidence intervals of the time varying mediation effect
+11. `CI.low` the lower limit of confidence intervals of the time varying mediation effect `medEffect`
+12. `CI.upper` the upper limit of confidence intervals of the time varying mediation effect `medEffect`
 
 ```{r}
 results_tvmb$Estimates
@@ -248,44 +247,44 @@ At each time point of interest `timeseq = t.seq`, the effects of the treatment (
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
-13. `plot1_a1` plot for alpha1_hat across `timeseq` (`= t.seq`)
-14. `plot2_b1` plot for beta1_hat across `timeseq` (`= t.seq`)
-15. `plot3_b2` plot for beta2_hat across `timeseq` (`= t.seq`)
-15. `MedEff` plot for mediation effect estimated via product method across `timeseq` (`= t.seq`)
-16. `MedEff_CI` plot for `medEffect` along with confidence intervals (estimated via bootstrap) across `timeseq` (`= t.seq`)
-17. `bootstrap` plot for estimated mediation effects from bootstrapped samples across `timeseq` (`= t.seq`)
+13. `plot1_a1` plot for `alpha1_hat` with 95% CIs across timeseq (`= t.seq`)
+14. `plot2_b1` plot for `beta1_hat` with 95% CIs across timeseq (`= t.seq`)
+15. `plot3_b2` plot for `beta2_hat` with 95% CIs across timeseq (`= t.seq`)
+15. `MedEff` plot for `medEffect` across timeseq (`= t.seq`)
+16. `MedEff_CI` plot for `medEffect` with 95% CIs across timeseq (`= t.seq`)
+17. `bootstrap` plot for estimated `medEffect`(s) from bootstrapped samples across timeseq (`= t.seq`)
 
 We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone.
 
 
-```{r, fig.width = 10, fig.height = 5, echo = FALSE}
+```{r, fig.width = 10, fig.height = 5}
 results_tvmb$plot1_a1
 ```
 
 In the above plot, the effect of `varenicline` on subjects' feeling of `negative mood in the last fifteen minutes` follows a mostly decreasing trend over time with occasional spikes, hovering between a range of -0.05 and 0.06; i.e. from a weak effect to an absence or some presence of an effect. The estimated 95% CI covers 0 (no effect).
 
-```{r, fig.width = 10, fig.height = 5, echo = FALSE}
+```{r, fig.width = 10, fig.height = 5}
 results_tvmb$plot2_b1
 ```
 The above plot shows the direct effect of `varenicline` on the outcome subjects' `daily smoking status` which follows a sinusoidal trend over time with occasional spikes around the end of weeks 1, 2 and 4. The estimated 95% CI covers 0 (no effect).
 
-```{r, fig.width = 10, fig.height = 5, echo = FALSE}
+```{r, fig.width = 10, fig.height = 5}
 results_tvmb$plot3_b2
 ```
 
 In the above plot, the effect of subjects' `negative mood in the last fifteen minutes` on the outcome subjects' `daily smoking status` follows a sinusoidal trend over time with occasional spikes around day 6-7 (end of week 1) and day 14 (end of week 3). 
 
-```{r, fig.width = 10, fig.height = 5, echo = FALSE}
+```{r, fig.width = 10, fig.height = 5}
 results_tvmb$MedEff
 ```
 
 In the above plot, the effect of `varenicline` on `daily smoking status` that is mediated by the `negative mood in the last fifteen minutes` (using the product method of estimating mediation effect) shows that the effect  of `varenicline` on `daily smoking status` compared to `nicotine patch only` decreases rapidly in the first 2 weeks hovering mostly around 0 (no effect), then decreases sharply around day 14 before increasing again till day 21 and decreasing thereafter. The effect is extremely erratic and given that the confidence intervals cross zero for the estimated mediation effect, we can conclude that this effect is not statistically significant. See the below plot `MedEff_CI`.
 
-```{r, fig.width = 10, fig.height = 5, echo = FALSE}
+```{r, fig.width = 10, fig.height = 5}
 results_tvmb$MedEff_CI
 ```
 
-```{r, fig.width = 10, fig.height = 5, echo = FALSE}
+```{r, fig.width = 10, fig.height = 5}
 results_tvmb$bootstrap
 ```
 
