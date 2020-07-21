@@ -41,17 +41,17 @@ bootci_coeff_3trt(
 
 \item{aup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on mediator}
 
-\item{blw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
+\item{glw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
 
-\item{bup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
+\item{gup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
 
-\item{blw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
+\item{glw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
 
-\item{bup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
+\item{gup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
 
-\item{blw3}{lower limit of confidence intervals for estimated effect of mediator on outcome}
+\item{blw}{lower limit of confidence intervals for estimated effect of mediator on outcome}
 
-\item{bup3}{upper limit of confidence intervals for estimated effect of mediator on outcome}
+\item{bup}{upper limit of confidence intervals for estimated effect of mediator on outcome}
 }
 \description{
 Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and three treatment arms (exposure groups).

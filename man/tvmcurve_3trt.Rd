@@ -24,11 +24,11 @@ tvmcurve_3trt(NRT1, NRT2, t.seq, x, y, t.est)
 
 \item{hat.alpha2}{estimated NRT2 (treatment arm 2) effect on mediator}
 
-\item{hat.beta1}{estimated NRT1 (treatment arm 1) effect on outcome}
+\item{hat.gamma1}{estimated NRT1 (treatment arm 1) effect on outcome}
 
-\item{hat.beta2}{estimated NRT2 (treatment arm 2) effect on outcome}
+\item{hat.gamma2}{estimated NRT2 (treatment arm 2) effect on outcome}
 
-\item{hat.beta3}{estimated mediator effect on outcome}
+\item{hat.beta}{estimated mediator effect on outcome}
 
 \item{hat.mediation1}{time varying mediation effect - NRT1 (treatment arm 1) on outcome}
 

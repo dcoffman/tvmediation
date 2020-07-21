@@ -54,23 +54,23 @@ tvma_3trt(
 
 \item{CI.upper.alpha2}{upper limit of confidence intervals for estimated coefficient hat.alpha2}
 
-\item{hat.beta1}{estimated effect of treatment arm 1 (exposure group 1) on outcome (direct effect)}
+\item{hat.gamma1}{estimated effect of treatment arm 1 (exposure group 1) on outcome (direct effect)}
 
-\item{CI.lower.beta1}{lower limit of confidence intervals for estimated coefficient hat.beta1}
+\item{CI.lower.gamma1}{lower limit of confidence intervals for estimated coefficient hat.gamma1}
 
-\item{CI.upper.beta1}{upper limit of confidence intervals for estimated coefficient hat.beta1}
+\item{CI.upper.gamma1}{upper limit of confidence intervals for estimated coefficient hat.gamma1}
 
-\item{hat.beta2}{estimated effect of treatment arm 2 (exposure group 2) on outcome (direct effect)}
+\item{hat.gamma2}{estimated effect of treatment arm 2 (exposure group 2) on outcome (direct effect)}
 
-\item{CI.lower.beta2}{lower limit of confidence intervals for estimated coefficient hat.beta2}
+\item{CI.lower.gamma2}{lower limit of confidence intervals for estimated coefficient hat.gamma2}
 
-\item{CI.upper.beta2}{upper limit of confidence intervals for estimated coefficient hat.beta2}
+\item{CI.upper.gamma2}{upper limit of confidence intervals for estimated coefficient hat.gamma2}
 
-\item{hat.beta3}{estimated mediator effect on outcome (indirect effect component)}
+\item{hat.beta}{estimated mediator effect on outcome (indirect effect component)}
 
-\item{CI.lower.beta3}{lower limit of confidence intervals for estimated coefficient hat.beta3}
+\item{CI.lower.beta}{lower limit of confidence intervals for estimated coefficient hat.beta}
 
-\item{CI.upper.beta3}{upper limit of confidence intervals for estimated coefficient hat.beta3}
+\item{CI.upper.beta}{upper limit of confidence intervals for estimated coefficient hat.beta}
 
 \item{hat.mediation1}{time varying mediation effect - treatment arm 1 (exposure group 1) on outcome}
 
@@ -96,9 +96,9 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 \enumerate{
 \item{\code{plot1_a1 }}{plot for hat.alpha1 across t.est with CIs}
 \item{\code{plot2_a2 }}{plot for hat.alpha2 across t.est with CIs}
-\item{\code{plot3_b1 }}{plot for hat.beta1 across t.est with CIs}
-\item{\code{plot4_b2 }}{plot for hat.beta2 across t.est with CIs}
-\item{\code{plot5_b3 }}{plot for hat.beta3 across t.est with CIs}
+\item{\code{plot3_g1 }}{plot for hat.gamma1 across t.est with CIs}
+\item{\code{plot4_g2 }}{plot for hat.gamma2 across t.est with CIs}
+\item{\code{plot5_b }}{plot for hat.beta across t.est with CIs}
 \item{\code{MedEff_NRT1 }}{plot for hat.mediation1 across t.est}
 \item{\code{MedEff_NRT2 }}{plot for hat.mediation2 across t.est}
 \item{\code{MedEff_CI_NRT1 }}{plot for hat.mediation1 with CIs across t.est}

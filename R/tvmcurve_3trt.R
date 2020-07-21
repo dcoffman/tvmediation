@@ -11,9 +11,9 @@
 #' 
 #' @return \item{hat.alpha1}{estimated NRT1 (treatment arm 1) effect on mediator}
 #' @return \item{hat.alpha2}{estimated NRT2 (treatment arm 2) effect on mediator}
-#' @return \item{hat.beta1}{estimated NRT1 (treatment arm 1) effect on outcome}
-#' @return \item{hat.beta2}{estimated NRT2 (treatment arm 2) effect on outcome}
-#' @return \item{hat.beta3}{estimated mediator effect on outcome}
+#' @return \item{hat.gamma1}{estimated NRT1 (treatment arm 1) effect on outcome}
+#' @return \item{hat.gamma2}{estimated NRT2 (treatment arm 2) effect on outcome}
+#' @return \item{hat.beta}{estimated mediator effect on outcome}
 #' @return \item{hat.mediation1}{time varying mediation effect - NRT1 (treatment arm 1) on outcome}
 #' @return \item{hat.mediation2}{time varying mediation effect - NRT2 (treatment arm 2) on outcome}
 #' 
@@ -36,9 +36,9 @@ tvmcurve_3trt<-function(NRT1, NRT2, t.seq, x, y, t.est)
   # Returns:
   #   hat.alpha1        -->   estimated NRT1 (treatment) effect on mediator
   #   hat.alpha2        -->   estimated NRT2 (treatment) effect on mediator
-  #   hat.beta1         -->   estimated NRT1 (treatment) effect on outcome
-  #   hat.beta2         -->   estimated NRT2 (treatment) effect on outcome
-  #   hat.beta3         -->   estimated mediator effect on outcome
+  #   hat.gamma1        -->   estimated NRT1 (treatment) effect on outcome
+  #   hat.gamma2        -->   estimated NRT2 (treatment) effect on outcome
+  #   hat.beta          -->   estimated mediator effect on outcome
   #   hat.mediation1    -->   time varying mediation effect - NRT1 on outcome
   #   hat.mediation2    -->   time varying mediation effect - NRT2 on outcome
   #
@@ -54,17 +54,17 @@ tvmcurve_3trt<-function(NRT1, NRT2, t.seq, x, y, t.est)
   
   bw_alpha1 <- locpol::thumbBw(t.seq[-1], t.coeff[1,], deg=1, kernel= locpol::gaussK)
   bw_alpha2 <- locpol::thumbBw(t.seq[-1], t.coeff[2,], deg=1, kernel= locpol::gaussK)
-  bw_beta1 <- locpol::thumbBw(t.seq[-1], t.coeff[3,], deg=1, kernel= locpol::gaussK)
-  bw_beta2 <- locpol::thumbBw(t.seq[-1], t.coeff[4,], deg=1, kernel= locpol::gaussK)
-  bw_beta3 <- locpol::thumbBw(t.seq[-1], t.coeff[5,], deg=1, kernel= locpol::gaussK)
+  bw_gamma1 <- locpol::thumbBw(t.seq[-1], t.coeff[3,], deg=1, kernel= locpol::gaussK)
+  bw_gamma2 <- locpol::thumbBw(t.seq[-1], t.coeff[4,], deg=1, kernel= locpol::gaussK)
+  bw_beta <- locpol::thumbBw(t.seq[-1], t.coeff[5,], deg=1, kernel= locpol::gaussK)
   
   hat.alpha.1=locpol::locPolSmootherC(t.seq[-1], t.coeff[1,], t.est-deltat, bw_alpha1, deg=1, kernel= locpol::gaussK)$beta0
   hat.alpha.2=locpol::locPolSmootherC(t.seq[-1], t.coeff[2,], t.est-deltat, bw_alpha2, deg=1, kernel= locpol::gaussK)$beta0
-  hat.beta.1=locpol::locPolSmootherC(t.seq[-1], t.coeff[3,], t.est, bw_beta1, deg=1, kernel= locpol::gaussK)$beta0
-  hat.beta.2=locpol::locPolSmootherC(t.seq[-1], t.coeff[4,], t.est, bw_beta2, deg=1, kernel= locpol::gaussK)$beta0
-  hat.beta.3=locpol::locPolSmootherC(t.seq[-1], t.coeff[5,], t.est, bw_beta3, deg=1, kernel= locpol::gaussK)$beta0
+  hat.gamma.1=locpol::locPolSmootherC(t.seq[-1], t.coeff[3,], t.est, bw_gamma1, deg=1, kernel= locpol::gaussK)$beta0
+  hat.gamma.2=locpol::locPolSmootherC(t.seq[-1], t.coeff[4,], t.est, bw_gamma2, deg=1, kernel= locpol::gaussK)$beta0
+  hat.beta=locpol::locPolSmootherC(t.seq[-1], t.coeff[5,], t.est, bw_beta, deg=1, kernel= locpol::gaussK)$beta0
   
   list(hat.alpha1 = hat.alpha.1, hat.alpha2 = hat.alpha.2,
-       hat.beta1 = hat.beta.1, hat.beta2 = hat.beta.2, hat.beta3 = hat.beta.3,
-       hat.mediation1=hat.alpha.1*hat.beta.3, hat.mediation2=hat.alpha.2*hat.beta.3)
+       hat.gamma1 = hat.gamma.1, hat.gamma2 = hat.gamma.2, hat.beta = hat.beta,
+       hat.mediation1=hat.alpha.1*hat.beta, hat.mediation2=hat.alpha.2*hat.beta)
 }

@@ -15,12 +15,12 @@
 #' @return \item{aup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on mediator}
 #' @return \item{alw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on mediator}
 #' @return \item{aup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on mediator}
-#' @return \item{blw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
-#' @return \item{bup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
-#' @return \item{blw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
-#' @return \item{bup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
-#' @return \item{blw3}{lower limit of confidence intervals for estimated effect of mediator on outcome}
-#' @return \item{bup3}{upper limit of confidence intervals for estimated effect of mediator on outcome}
+#' @return \item{glw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
+#' @return \item{gup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
+#' @return \item{glw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
+#' @return \item{gup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
+#' @return \item{blw}{lower limit of confidence intervals for estimated effect of mediator on outcome}
+#' @return \item{bup}{upper limit of confidence intervals for estimated effect of mediator on outcome}
 #' 
 #' @export
 #' 
@@ -33,9 +33,9 @@ bootci_coeff_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est, origi
 {
   original.alpha1<-(original.coeff$hat.alpha1)
   original.alpha2<-(original.coeff$hat.alpha2)
-  original.beta1<-(original.coeff$hat.beta1)
-  original.beta2<-(original.coeff$hat.beta2)
-  original.beta3<-(original.coeff$hat.beta3)
+  original.gamma1<-(original.coeff$hat.gamma1)
+  original.gamma2<-(original.coeff$hat.gamma2)
+  original.beta<-(original.coeff$hat.beta)
   
   N=length(NRT1)
   x=mediator
@@ -69,9 +69,9 @@ bootci_coeff_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est, origi
     result.boot<-tvmcurve_3trt(NRT1.boot, NRT2.boot, t.seq, x.boot, y.boot, t.est)
     storage.boot1[c1,]<-result.boot$hat.alpha1
     storage.boot2[c1,]<-result.boot$hat.alpha2
-    storage.boot3[c1,]<-result.boot$hat.beta1
-    storage.boot4[c1,]<-result.boot$hat.beta2
-    storage.boot5[c1,]<-result.boot$hat.beta3
+    storage.boot3[c1,]<-result.boot$hat.gamma1
+    storage.boot4[c1,]<-result.boot$hat.gamma2
+    storage.boot5[c1,]<-result.boot$hat.beta
   }
   
   orig.se1.all<-apply(storage.boot1, 2, sd)
@@ -85,12 +85,12 @@ bootci_coeff_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est, origi
   alpha.upper.1<-rep(0,t.length)
   alpha.lower.2<-rep(0,t.length)
   alpha.upper.2<-rep(0,t.length)
-  beta.lower.1<-rep(0,t.length)
-  beta.upper.1<-rep(0,t.length)
-  beta.lower.2<-rep(0,t.length)
-  beta.upper.2<-rep(0,t.length)
-  beta.lower.3<-rep(0,t.length)
-  beta.upper.3<-rep(0,t.length)
+  gamma.lower.1<-rep(0,t.length)
+  gamma.upper.1<-rep(0,t.length)
+  gamma.lower.2<-rep(0,t.length)
+  gamma.upper.2<-rep(0,t.length)
+  beta.lower<-rep(0,t.length)
+  beta.upper<-rep(0,t.length)
   
   for(c2 in 1:(dim(storage.boot1)[2])) # run through different time points 
   {
@@ -102,9 +102,9 @@ bootci_coeff_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est, origi
     
     orig.est1 <- original.alpha1[c2]
     orig.est2 <- original.alpha2[c2]
-    orig.est3 <- original.beta1[c2]
-    orig.est4 <- original.beta2[c2]
-    orig.est5 <- original.beta3[c2]
+    orig.est3 <- original.gamma1[c2]
+    orig.est4 <- original.gamma2[c2]
+    orig.est5 <- original.beta[c2]
     
     ###percentile bootstrap method 
     alpha.lower.1[c2]=quantile(temp1,0.975)
@@ -113,20 +113,20 @@ bootci_coeff_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est, origi
     alpha.lower.2[c2]=quantile(temp2,0.975)
     alpha.upper.2[c2]=quantile(temp2,0.025)
     
-    beta.lower.1[c2]=quantile(temp3,0.975)
-    beta.upper.1[c2]=quantile(temp3,0.025)
+    gamma.lower.1[c2]=quantile(temp3,0.975)
+    gamma.upper.1[c2]=quantile(temp3,0.025)
     
-    beta.lower.2[c2]=quantile(temp4,0.975)
-    beta.upper.2[c2]=quantile(temp4,0.025)
+    gamma.lower.2[c2]=quantile(temp4,0.975)
+    gamma.upper.2[c2]=quantile(temp4,0.025)
     
-    beta.lower.3[c2]=quantile(temp5,0.975)
-    beta.upper.3[c2]=quantile(temp5,0.025)
+    beta.lower[c2]=quantile(temp5,0.975)
+    beta.upper[c2]=quantile(temp5,0.025)
     
   }
   
   coeff_CI <- list(alw1 = alpha.lower.1, aup1 = alpha.upper.1, alw2 = alpha.lower.2, aup2 = alpha.upper.2,
-                   blw1 = beta.lower.1, bup1 = beta.upper.1, blw2 = beta.lower.2, bup2 = beta.upper.2,
-                   blw3 = beta.lower.3, bup3 = beta.upper.3)
+                   glw1 = gamma.lower.1, gup1 = gamma.upper.1, glw2 = gamma.lower.2, gup2 = gamma.upper.2,
+                   blw = beta.lower, bup = beta.upper)
   
   end.time <- Sys.time()
   total.time <- end.time - start.time

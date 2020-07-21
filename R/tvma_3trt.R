@@ -20,15 +20,15 @@
 #' @return \item{hat.alpha2}{estimated effect of treatment arm 2 (exposure group 2) on mediator (indirect effect component)}
 #' @return \item{CI.lower.alpha2}{lower limit of confidence intervals for estimated coefficient hat.alpha2}
 #' @return \item{CI.upper.alpha2}{upper limit of confidence intervals for estimated coefficient hat.alpha2}
-#' @return \item{hat.beta1}{estimated effect of treatment arm 1 (exposure group 1) on outcome (direct effect)}
-#' @return \item{CI.lower.beta1}{lower limit of confidence intervals for estimated coefficient hat.beta1}
-#' @return \item{CI.upper.beta1}{upper limit of confidence intervals for estimated coefficient hat.beta1}
-#' @return \item{hat.beta2}{estimated effect of treatment arm 2 (exposure group 2) on outcome (direct effect)}
-#' @return \item{CI.lower.beta2}{lower limit of confidence intervals for estimated coefficient hat.beta2}
-#' @return \item{CI.upper.beta2}{upper limit of confidence intervals for estimated coefficient hat.beta2}
-#' @return \item{hat.beta3}{estimated mediator effect on outcome (indirect effect component)}
-#' @return \item{CI.lower.beta3}{lower limit of confidence intervals for estimated coefficient hat.beta3}
-#' @return \item{CI.upper.beta3}{upper limit of confidence intervals for estimated coefficient hat.beta3}
+#' @return \item{hat.gamma1}{estimated effect of treatment arm 1 (exposure group 1) on outcome (direct effect)}
+#' @return \item{CI.lower.gamma1}{lower limit of confidence intervals for estimated coefficient hat.gamma1}
+#' @return \item{CI.upper.gamma1}{upper limit of confidence intervals for estimated coefficient hat.gamma1}
+#' @return \item{hat.gamma2}{estimated effect of treatment arm 2 (exposure group 2) on outcome (direct effect)}
+#' @return \item{CI.lower.gamma2}{lower limit of confidence intervals for estimated coefficient hat.gamma2}
+#' @return \item{CI.upper.gamma2}{upper limit of confidence intervals for estimated coefficient hat.gamma2}
+#' @return \item{hat.beta}{estimated mediator effect on outcome (indirect effect component)}
+#' @return \item{CI.lower.beta}{lower limit of confidence intervals for estimated coefficient hat.beta}
+#' @return \item{CI.upper.beta}{upper limit of confidence intervals for estimated coefficient hat.beta}
 #' @return \item{hat.mediation1}{time varying mediation effect - treatment arm 1 (exposure group 1) on outcome}
 #' @return \item{SE_MedEff1}{estimated standard errors of hat.mediation1}
 #' @return \item{CI.upper.NRT1}{upper limit of confidence intervals for hat.mediation1}
@@ -42,9 +42,9 @@
 #' \enumerate{
 #' \item{\code{plot1_a1 }}{plot for hat.alpha1 across t.est with CIs}
 #' \item{\code{plot2_a2 }}{plot for hat.alpha2 across t.est with CIs}
-#' \item{\code{plot3_b1 }}{plot for hat.beta1 across t.est with CIs}
-#' \item{\code{plot4_b2 }}{plot for hat.beta2 across t.est with CIs}
-#' \item{\code{plot5_b3 }}{plot for hat.beta3 across t.est with CIs}
+#' \item{\code{plot3_g1 }}{plot for hat.gamma1 across t.est with CIs}
+#' \item{\code{plot4_g2 }}{plot for hat.gamma2 across t.est with CIs}
+#' \item{\code{plot5_b }}{plot for hat.beta across t.est with CIs}
 #' \item{\code{MedEff_NRT1 }}{plot for hat.mediation1 across t.est}
 #' \item{\code{MedEff_NRT2 }}{plot for hat.mediation2 across t.est}
 #' \item{\code{MedEff_CI_NRT1 }}{plot for hat.mediation1 with CIs across t.est}
@@ -123,15 +123,15 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
       #   hat.alpha2        -->   estimated NRT2 (treatment) effect on mediator
       #   CI.lower.alpha2   -->   lower limit of 95% confidence intervals for hat.alpha2
       #   CI.upper.alpha2   -->   upper limit of 95% confidence intervals for hat.alpha2
-      #   hat.beta1         -->   estimated NRT1 (treatment) effect on outcome
-      #   CI.lower.beta1    -->   lower limit of 95% confidence intervals for hat.beta1
-      #   CI.upper.beta1    -->   upper limit of 95% confidence intervals for hat.beta1
-      #   hat.beta2         -->   estimated NRT2 (treatment) effect on outcome
-      #   CI.lower.beta2    -->   lower limit of 95% confidence intervals for hat.beta2
-      #   CI.upper.beta2    -->   upper limit of 95% confidence intervals for hat.beta2
-      #   hat.beta3         -->   estimated mediator effect on outcome
-      #   CI.lower.beta3    -->   lower limit of 95% confidence intervals for hat.beta3
-      #   CI.upper.beta3    -->   upper limit of 95% confidence intervals for hat.beta3
+      #   hat.gamma1        -->   estimated NRT1 (treatment) effect on outcome
+      #   CI.lower.gamma1   -->   lower limit of 95% confidence intervals for hat.gamma1
+      #   CI.upper.gamma1   -->   upper limit of 95% confidence intervals for hat.gamma1
+      #   hat.gamma2        -->   estimated NRT2 (treatment) effect on outcome
+      #   CI.lower.gamma2   -->   lower limit of 95% confidence intervals for hat.gamma2
+      #   CI.upper.gamma2   -->   upper limit of 95% confidence intervals for hat.gamma2
+      #   hat.beta          -->   estimated mediator effect on outcome
+      #   CI.lower.beta     -->   lower limit of 95% confidence intervals for hat.beta
+      #   CI.upper.beta     -->   upper limit of 95% confidence intervals for hat.beta
       #   hat.mediation1    -->   time varying mediation effect - NRT1 on outcome
       #   hat.mediation2    -->   time varying mediation effect - NRT2 on outcome
       #
@@ -148,9 +148,9 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
       #
       # `plot1_a1` plot for `hat.alpha1` with 95% CIs across `timeseq`
       # `plot2_a2` plot for `hat.alpha2` with 95% CIs across `timeseq`
-      # `plot3_b1` plot for `hat.beta1` with 95% CIs across `timeseq`
-      # `plot4_b2` plot for `hat.beta2` with 95% CIs across `timeseq`
-      # `plot5_b3` plot for `hat.beta3` with 95% CIs across `timeseq`
+      # `plot3_g1` plot for `hat.beta1` with 95% CIs across `timeseq`
+      # `plot4_g2` plot for `hat.beta2` with 95% CIs across `timeseq`
+      # `plot5_b` plot for `hat.beta3` with 95% CIs across `timeseq`
       # `MedEff_NRT1` plot for `hat.mediation1` across `timeseq`
       # `MedEff_NRT2` plot for `hat.mediation2` across `timeseq`
       # `MedEff_CI_NRT1` plot for `hat.mediation1` with 95% CIs across `timeseq`
@@ -191,7 +191,7 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
           results_me <- tvmcurve_3trt(NRT1, NRT2, t.seq, mediator, outcome, t.est)
           alldata <- list(NRT1 = NRT1, NRT2 = NRT2, x = mediator, y = outcome, t.seq = t.seq)
           original.coeff <- list(hat.alpha1 = results_me$hat.alpha1, hat.alpha2 = results_me$hat.alpha2,
-                                 hat.beta1 = results_me$hat.beta1, hat.beta2 = results_me$hat.beta2, hat.beta3 = results_me$hat.beta3)
+                                 hat.gamma1 = results_me$hat.gamma1, hat.gamma2 = results_me$hat.gamma2, hat.beta = results_me$hat.beta)
           
           #### Computing CI for coefficients irrespective of user choice of bootstrapping ####
           bootcoeff_CI <- bootci_coeff_3trt(NRT1, NRT2, t.seq, mediator, outcome, t.est, original.coeff, replicates)
@@ -210,17 +210,17 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
             names(final_results)[c(1,9:18,23:24)] <- c("timeseq",
                                                  "CI.lower.alpha1", "CI.upper.alpha1",
                                                  "CI.lower.alpha2", "CI.upper.alpha2",
-                                                 "CI.lower.beta1", "CI.upper.beta1",
-                                                 "CI.lower.beta2", "CI.upper.beta2",
-                                                 "CI.lower.beta3", "CI.upper.beta3",
+                                                 "CI.lower.gamma1", "CI.upper.gamma1",
+                                                 "CI.lower.gamma2", "CI.upper.gamma2",
+                                                 "CI.lower.beta", "CI.upper.beta",
                                                  "SE_MedEff1","SE_MedEff2")
 
             final_results <- final_results[c("timeseq",
                                              "hat.alpha1", "CI.lower.alpha1", "CI.upper.alpha1",
                                              "hat.alpha2", "CI.lower.alpha2", "CI.upper.alpha2",
-                                             "hat.beta1", "CI.lower.beta1", "CI.upper.beta1",
-                                             "hat.beta2", "CI.lower.beta2", "CI.upper.beta2",
-                                             "hat.beta3", "CI.lower.beta3", "CI.upper.beta3",
+                                             "hat.gamma1", "CI.lower.gamma1", "CI.upper.gamma1",
+                                             "hat.gamma2", "CI.lower.gamma2", "CI.upper.gamma2",
+                                             "hat.beta", "CI.lower.beta", "CI.upper.beta",
                                              "hat.mediation1", "SE_MedEff1", "plw1", "pup1",
                                              "hat.mediation2", "SE_MedEff2", "plw2", "pup2")]
             
@@ -233,16 +233,16 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
             final_results <- test1
             names(final_results)[8:18] <- c( "CI.lower.alpha1", "CI.upper.alpha1",
                                              "CI.lower.alpha2", "CI.upper.alpha2",
-                                             "CI.lower.beta1", "CI.upper.beta1",
-                                             "CI.lower.beta2", "CI.upper.beta2",
-                                             "CI.lower.beta3", "CI.upper.beta3",
+                                             "CI.lower.gamma1", "CI.upper.gamma1",
+                                             "CI.lower.gamma2", "CI.upper.gamma2",
+                                             "CI.lower.beta", "CI.upper.beta",
                                              "timeseq")
             final_results <- final_results[c("timeseq",
                                              "hat.alpha1", "CI.lower.alpha1", "CI.upper.alpha1",
                                              "hat.alpha2", "CI.lower.alpha2", "CI.upper.alpha2",
-                                             "hat.beta1", "CI.lower.beta1", "CI.upper.beta1",
-                                             "hat.beta2", "CI.lower.beta2", "CI.upper.beta2",
-                                             "hat.beta3", "CI.lower.beta3", "CI.upper.beta3",
+                                             "hat.gamma1", "CI.lower.gamma1", "CI.upper.gamma1",
+                                             "hat.gamma2", "CI.lower.gamma2", "CI.upper.gamma2",
+                                             "hat.beta", "CI.lower.beta", "CI.upper.beta",
                                              "hat.mediation1", "hat.mediation2")]
           }
           
@@ -289,34 +289,34 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                                      y = "Alpha2") +
                                 scale_x_continuous(breaks = seq(l, u, i))
             
-            # Third plot: plotting beta1 coefficients across time using ggplot
-            plot3_b1 <- ggplot(data = final_results, aes(timeseq, hat.beta1)) +
+            # Third plot: plotting gamma1 coefficients across time using ggplot
+            plot3_g1 <- ggplot(data = final_results, aes(timeseq, hat.gamma1)) +
                                 geom_line(color = "red", size = 0.75) +
-                                geom_line(aes(timeseq, CI.lower.beta1), size = 0.8, color = "blue", linetype = "dashed") +
-                                geom_line(aes(timeseq, CI.upper.beta1), size = 0.8, color = "blue", linetype = "dashed") +
-                                labs(title = "Plotting the beta1 coefficients",
+                                geom_line(aes(timeseq, CI.lower.gamma1), size = 0.8, color = "blue", linetype = "dashed") +
+                                geom_line(aes(timeseq, CI.upper.gamma1), size = 0.8, color = "blue", linetype = "dashed") +
+                                labs(title = "Plotting the gamma1 coefficients",
                                      x = "Time Sequence",
-                                     y = "Beta1") +
+                                     y = "Gamma1") +
                                 scale_x_continuous(breaks = seq(l, u, i))
             
-            # Fourth plot: plotting beta2 coefficients across time using ggplot
-            plot4_b2 <- ggplot(data = final_results, aes(timeseq, hat.beta2)) +
+            # Fourth plot: plotting gamma2 coefficients across time using ggplot
+            plot4_g2 <- ggplot(data = final_results, aes(timeseq, hat.gamma2)) +
                                 geom_line(color = "red", size = 0.75) +
-                                geom_line(aes(timeseq, CI.lower.beta2), size = 0.8, color = "blue", linetype = "dashed") +
-                                geom_line(aes(timeseq, CI.upper.beta2), size = 0.8, color = "blue", linetype = "dashed") +
-                                labs(title = "Plotting the beta2 coefficients",
+                                geom_line(aes(timeseq, CI.lower.gamma2), size = 0.8, color = "blue", linetype = "dashed") +
+                                geom_line(aes(timeseq, CI.upper.gamma2), size = 0.8, color = "blue", linetype = "dashed") +
+                                labs(title = "Plotting the gamma2 coefficients",
                                      x = "Time Sequence",
-                                     y = "Beta2") +
+                                     y = "Gamma2") +
                                 scale_x_continuous(breaks = seq(l, u, i))
             
-            # Fifth plot: plotting beta3 coefficients across time using ggplot
-            plot5_b3 <- ggplot(data = final_results, aes(timeseq, hat.beta3)) +
+            # Fifth plot: plotting beta coefficients across time using ggplot
+            plot5_b <- ggplot(data = final_results, aes(timeseq, hat.beta)) +
                                 geom_line(color = "red", size = 0.75) +
-                                geom_line(aes(timeseq, CI.lower.beta3), size = 0.8, color = "blue", linetype = "dashed") +
-                                geom_line(aes(timeseq, CI.upper.beta3), size = 0.8, color = "blue", linetype = "dashed") +
-                                labs(title = "Plotting the beta3 coefficients",
+                                geom_line(aes(timeseq, CI.lower.beta), size = 0.8, color = "blue", linetype = "dashed") +
+                                geom_line(aes(timeseq, CI.upper.beta), size = 0.8, color = "blue", linetype = "dashed") +
+                                labs(title = "Plotting the beta coefficients",
                                      x = "Time Sequence",
-                                     y = "Beta3") +
+                                     y = "Beta") +
                                 scale_x_continuous(breaks = seq(l, u, i))
             
             # Sixth plot: plotting the mediation effect of treatment arm1
@@ -368,9 +368,9 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
               
               plot_results <- list("plot1_a1" = plot1_a1,
                                    "plot2_a2" = plot2_a2,
-                                   "plot3_b1" = plot3_b1,
-                                   "plot4_b2" = plot4_b2,
-                                   "plot5_b3" = plot5_b3,
+                                   "plot3_g1" = plot3_g1,
+                                   "plot4_g2" = plot4_g2,
+                                   "plot5_b" = plot5_b,
                                    "MedEff_NRT1" = plot6,
                                    "MedEff_NRT2" = plot7,
                                    "MedEff_CI_NRT1" = plot8,
@@ -378,9 +378,9 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
             }else{
               plot_results <- list("plot1_a1" = plot1_a1,
                                    "plot2_a2" = plot2_a2,
-                                   "plot3_b1" = plot3_b1,
-                                   "plot4_b2" = plot4_b2,
-                                   "plot5_b3" = plot5_b3,
+                                   "plot3_g1" = plot3_g1,
+                                   "plot4_g2" = plot4_g2,
+                                   "plot5_b" = plot5_b,
                                    "MedEff_NRT1" = plot6,
                                    "MedEff_NRT2" = plot7)
             }
@@ -401,9 +401,9 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
             results <- list("Estimates" = final_results,
                             "plot1_a1" = plot1_a1,
                             "plot2_a2" = plot2_a2,
-                            "plot3_b1" = plot3_b1,
-                            "plot4_b2" = plot4_b2,
-                            "plot5_b3" = plot5_b3,
+                            "plot3_g1" = plot3_g1,
+                            "plot4_g2" = plot4_g2,
+                            "plot5_b" = plot5_b,
                             "MedEff_NRT1" = plot6,
                             "MedEff_NRT2" = plot7,
                             "MedEff_CI_NRT1" = plot8,
@@ -413,9 +413,9 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
             results <- list("Estimates" = final_results,
                             "plot1_a1" = plot1_a1,
                             "plot2_a2" = plot2_a2,
-                            "plot3_b1" = plot3_b1,
-                            "plot4_b2" = plot4_b2,
-                            "plot5_b3" = plot5_b3,
+                            "plot3_g1" = plot3_g1,
+                            "plot4_g2" = plot4_g2,
+                            "plot5_b" = plot5_b,
                             "MedEff_NRT1" = plot6,
                             "MedEff_NRT2" = plot7)  
           }

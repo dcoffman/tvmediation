@@ -192,15 +192,15 @@ results <- tvma(treatment, t.seq, mediator, outcome, plot = TRUE)
 
 The `tvma` function returns a list of results that include:
 
-1. `hat.alpha.1` the estimated main treatment arm (exposure group) of interest effect on mediator
-2. `CI.lower.alpha1` the lower limit of confidence intervals for coefficient hat.alpha.1
-3. `CI.upper.alpha1` the upper limit of confidence intervals for coefficient hat.alpha.1
-4. `hat.beta.1` the estimated main treatment arm (exposure group) of interest effect on outcome
-5. `CI.lower.beta1` the lower limit of confidence intervals for coefficient hat.beta.1
-6. `CI.upper.beta1` the upper limit of confidence intervals for coefficient hat.beta.1
-7. `hat.beta.2` the estimated mediator effect on outcome
-8. `CI.lower.beta2` the lower limit of confidence intervals for coefficient hat.beta.2
-9. `CI.upper.beta2` the upper limit of confidence intervals for coefficient hat.beta.2
+1. `hat.alpha` the estimated main treatment arm (exposure group) of interest effect on mediator
+2. `CI.lower.alpha` the lower limit of confidence intervals for coefficient hat.alpha
+3. `CI.upper.alpha` the upper limit of confidence intervals for coefficient hat.alpha
+4. `hat.gamma` the estimated main treatment arm (exposure group) of interest effect on outcome
+5. `CI.lower.gamma` the lower limit of confidence intervals for coefficient hat.gamma
+6. `CI.upper.gamma` the upper limit of confidence intervals for coefficient hat.gamma
+7. `hat.beta` the estimated mediator effect on outcome
+8. `CI.lower.beta` the lower limit of confidence intervals for coefficient hat.beta
+9. `CI.upper.beta` the upper limit of confidence intervals for coefficient hat.beta
 10. `est.M` the time varying mediation effect - main treatment arm (exposure group) of interest on outcome
 
 Optional returns based on arguments `CI = "boot"` include:
@@ -213,32 +213,32 @@ Optional returns based on arguments `CI = "boot"` include:
 results$Estimates
 ```
 
-At each time point of interest `t.est` which in this case is equal to `t.seq`, the effects of treatment (exposure) on mediator, treatment on outcome and mediator on outcome are estimated along with the respective 95% CIs. The CIs are computed via non-parametric bootstrap method \texttt{(Efron and Tibshirani, 1986)}, drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha` and `beta` coefficients `(hat.alpha.1, hat.beta.1, hat.beta.2)` are computed regardless of the value of `CI` argument in the function. `est.M` is the estimated mediation effect of `varenicline` compared to the other two treatment groups, that varies over `t.est`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the standard error of the estimated mediation effect and 95% CI is estimated via similar bootstrapping technique described earlier for the coefficients. 
+At each time point of interest `t.est` which in this case is equal to `t.seq`, the effects of treatment (exposure) on mediator, treatment on outcome and mediator on outcome are estimated along with the respective 95% CIs. The CIs are computed via non-parametric bootstrap method \texttt{(Efron and Tibshirani, 1986)}, drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha` `gamma` and `beta` coefficients `(hat.alpha, hat.gamma, hat.beta)` are computed regardless of the value of `CI` argument in the function. `est.M` is the estimated mediation effect of `varenicline` compared to the other two treatment groups, that varies over `t.est`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the standard error of the estimated mediation effect and 95% CI is estimated via similar bootstrapping technique described earlier for the coefficients. 
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
-14. `Alpha1_CI` plot for `hat.alpha.1` with 95% CIs across timeseq
-15. `Beta1_CI` plot for `hat.beta.1` with 95% CIs across timeseq
-16. `Beta2_CI` plot for `hat.beta.2` with 95% CIs across timeseq
+14. `Alpha_CI` plot for `hat.alpha` with 95% CIs across timeseq
+15. `Gamma_CI` plot for `hat.gamma` with 95% CIs across timeseq
+16. `Beta_CI` plot for `hat.beta` with 95% CIs across timeseq
 17. `MedEff` plot for `est.M` across timeseq
 18. `MedEff_CI` plot for `est.M` with 95% CIs across timeseq
 
 We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone.
 
 ```{r, fig.width = 10, fig.height = 5}
-results$Alpha1_CI
+results$Alpha_CI
 ```
 
 In the above plot, the effect of `varenicline` on subjects' feeling of `negative mood in the last fifteen minutes` is weaker compared to the other two treatment groups and mostly stable with a slight decreasing trend over time.
 
 ```{r, fig.width = 10, fig.height = 5}
-results$Beta1_CI
+results$Gamma_CI
 ```
 
 The above plot shows the direct effect of `varenicline` on the outcome `cessation fatigue` which follows a sinusoidal trend over time with spikes around the days 2-4, 10-12 and 24. The direct effect is stronger in the `varenicline` group compared to the other two treatment groups. The estimated 95% CI covers 0 (no effect) in the beginning of the time scale (day 0 post target quit day), but excluded over time.
 
 ```{r, fig.width = 10, fig.height = 5}
-results$Beta2_CI
+results$Beta_CI
 ```
 
 In the above plot, the effect of subjects' `negative mood in the last fifteen minutes` on the outcome `cessation fatigue` is increasing initially and stabilizing over time with occasional spikes around day 6-7 (end of week 1) and day 20-21 (end of week 3).
