@@ -44,7 +44,7 @@ smoothest <- function(t.seq, t.coeff, t.est, deltat) {
   hat.beta  = locpol::locPolSmootherC(t.seq[-1], t.coeff[3, ], t.est, bw_beta, 
                                         deg = 1, kernel = locpol::gaussK)$beta0
   
-  return(list(bw_alpha = bw_alpha, bw_beta = bw_beta, bw_beta = bw_beta,
+  return(list(bw_alpha = bw_alpha, bw_gamma = bw_gamma, bw_beta = bw_beta,
               hat.alpha = hat.alpha, hat.gamma = hat.gamma, hat.beta = hat.beta,
               est.M = hat.alpha*hat.beta))
 }

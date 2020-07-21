@@ -36,23 +36,23 @@ tvma(
 \item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL ARGUMENT)}
 }
 \value{
-\item{hat.alpha.1}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
+\item{hat.alpha}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
 
-\item{CI.lower.alpha1}{lower limit of confidence intervals for estimated coefficient hat.alpha.1}
+\item{CI.lower.alpha}{lower limit of confidence intervals for estimated coefficient hat.alpha}
 
-\item{CI.upper.alpha1}{upper limit of confidence intervals for estimated coefficient hat.alpha.1}
+\item{CI.upper.alpha}{upper limit of confidence intervals for estimated coefficient hat.alpha}
 
-\item{hat.beta.1}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
+\item{hat.gamma}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
 
-\item{CI.lower.beta1}{lower limit of confidence intervals for estimated coefficient hat.beta.1}
+\item{CI.lower.gamma}{lower limit of confidence intervals for estimated coefficient hat.gamma}
 
-\item{CI.upper.beta1}{upper limit of confidence intervals for estimated coefficient hat.beta.1}
+\item{CI.upper.gamma}{upper limit of confidence intervals for estimated coefficient hat.gamma}
 
-\item{hat.beta.2}{estimated mediator effect on outcome (indirect effect component)}
+\item{hat.beta}{estimated mediator effect on outcome (indirect effect component)}
 
-\item{CI.lower.beta2}{lower limit of confidence intervals for estimated coefficient hat.beta.2}
+\item{CI.lower.beta}{lower limit of confidence intervals for estimated coefficient hat.beta}
 
-\item{CI.upper.beta2}{upper limit of confidence intervals for estimated coefficient hat.beta.2}
+\item{CI.upper.beta}{upper limit of confidence intervals for estimated coefficient hat.beta}
 
 \item{est.M}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome}
 
@@ -74,9 +74,9 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{Alpha1_CI }}{plot for hat.alpha.1 across t.est with CIs}
-\item{\code{Beta1_CI }}{plot for hat.beta.1 across t.est with CIs}
-\item{\code{Beta2_CI }}{plot for hat.beta.2 across t.est with CIs}
+\item{\code{Alpha_CI }}{plot for hat.alpha across t.est with CIs}
+\item{\code{Gamma_CI }}{plot for hat.gamma across t.est with CIs}
+\item{\code{Beta_CI }}{plot for hat.beta across t.est with CIs}
 \item{\code{MedEff }}{plot for est.M across t.est}
 \item{\code{MedEff_CI }}{plot for est.M with CIs across t.est}
 }

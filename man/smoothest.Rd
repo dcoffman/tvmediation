@@ -16,17 +16,17 @@ smoothest(t.seq, t.coeff, t.est, deltat)
 \item{deltat}{a small constant which controls the time-lag of the effect of the mediator on the outcome.}
 }
 \value{
-\item{bw_alpha1}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for alpha1 coefficient.}
+\item{bw_alpha}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for alpha1 coefficient.}
 
-\item{bw_beta1}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta1 coefficient.}
+\item{bw_gamma}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta1 coefficient.}
 
-\item{bw_beta2}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta2 coefficient.}
+\item{bw_beta}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta2 coefficient.}
 
-\item{hat.alpha.1}{estimated treatment effect on mediator}
+\item{hat.alpha}{estimated treatment effect on mediator}
 
-\item{hat.beta.1}{estimated treatment effect on outcome}
+\item{hat.gamma}{estimated treatment effect on outcome}
 
-\item{hat.beta.2}{estimated mediator effect on outcome}
+\item{hat.beta}{estimated mediator effect on outcome}
 
 \item{est.M}{estimated medition effect, product of hat.alpha.1 and hat.beta.2}
 }
