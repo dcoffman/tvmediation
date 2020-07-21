@@ -10,12 +10,12 @@
 #' @param deltat      a small constant which controls the time-lag of the effect of the mediator on the outcome.
 #' @param replicates  number of replicates for bootstrapping confidence intervals.    Default = 1000
 #' 
-#' @return \item{CI.upper.alpha1}{upper limit of confidence intervals for coefficient alpha1}
-#' @return \item{CI.lower.alpha1}{lower limit of confidence intervals for coefficient alpha1}
-#' @return \item{CI.upper.beta1}{upper limit of confidence intervals for coefficient beta1}
-#' @return \item{CI.lower.beta1}{lower limit of confidence intervals for coefficient beta1}
-#' @return \item{CI.upper.beta2}{upper limit of confidence intervals for coefficient beta2}
-#' @return \item{CI.lower.beta2}{lower limit of confidence intervals for coefficient beta2}
+#' @return \item{CI.upper.alpha}{upper limit of confidence intervals for coefficient hat.alpha}
+#' @return \item{CI.lower.alpha}{lower limit of confidence intervals for coefficient hat.alpha}
+#' @return \item{CI.upper.gamma}{upper limit of confidence intervals for coefficient hat.gamma}
+#' @return \item{CI.lower.gamma}{lower limit of confidence intervals for coefficient hat.gamma}
+#' @return \item{CI.upper.beta}{upper limit of confidence intervals for coefficient hat.beta}
+#' @return \item{CI.lower.beta}{lower limit of confidence intervals for coefficient hat.beta}
 #' 
 #' @export
 #' 
@@ -57,20 +57,20 @@ bootci_coeff_2trt <- function(trt, t.seq, M, Y, t.est, deltat, replicates) {
     }
     # Equations 4 & 5
     est.smooth.boot <- smoothest(t.seq, t.coeff.boot, t.est, deltat)
-    storage.boot.1[c1, ] <- est.smooth.boot$hat.alpha.1
-    storage.boot.2[c1, ] <- est.smooth.boot$hat.beta.1
-    storage.boot.3[c1, ] <- est.smooth.boot$hat.beta.2
+    storage.boot.1[c1, ] <- est.smooth.boot$hat.alpha
+    storage.boot.2[c1, ] <- est.smooth.boot$hat.gamma
+    storage.boot.3[c1, ] <- est.smooth.boot$hat.beta
   }
   
   # COMPUTE 2.5% AND 97.5% QUANTILES FOR EACH COLUMN
-  CI.alpha1 <- apply(storage.boot.1, 2, quantile, probs = c(0.025, 0.975))
-  CI.beta1 <- apply(storage.boot.2, 2, quantile, probs = c(0.025, 0.975))
-  CI.beta2 <- apply(storage.boot.3, 2, quantile, probs = c(0.025, 0.975))
+  CI.alpha <- apply(storage.boot.1, 2, quantile, probs = c(0.025, 0.975))
+  CI.gamma <- apply(storage.boot.2, 2, quantile, probs = c(0.025, 0.975))
+  CI.beta <- apply(storage.boot.3, 2, quantile, probs = c(0.025, 0.975))
   
   # GENERATE OUTPUT
-  results <- list(CI.upper.alpha1 = CI.alpha1[2, ], CI.lower.alpha1 = CI.alpha1[1, ],
-                  CI.upper.beta1 = CI.beta1[2, ], CI.lower.beta1 = CI.beta1[1, ],
-                  CI.upper.beta2 = CI.beta2[2, ], CI.lower.beta2 = CI.beta2[1, ])
+  results <- list(CI.upper.alpha = CI.alpha[2, ], CI.lower.alpha = CI.alpha[1, ],
+                  CI.upper.gamma = CI.gamma[2, ], CI.lower.gamma = CI.gamma[1, ],
+                  CI.upper.beta = CI.beta[2, ], CI.lower.beta = CI.beta[1, ])
   
   end.time <- Sys.time()
   total.time <- end.time - start.time
