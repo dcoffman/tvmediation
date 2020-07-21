@@ -46,23 +46,29 @@ tvmb(
 \value{
 \item{timeseq}{time points of estimation}
 
-\item{alpha1_hat}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
+\item{alpha_hat}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
 
-\item{CI.lower.a1}{lower limit of confidence intervals for estimated coefficient alpha1_hat}
+\item{CI.lower.a}{lower limit of confidence intervals for estimated coefficient alpha_hat}
 
-\item{CI.upper.a1}{upper limit of confidence intervals for estimated coefficient alpha1_hat}
+\item{CI.upper.a}{upper limit of confidence intervals for estimated coefficient alpha_hat}
 
-\item{beta1_hat}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
+\item{gamma_hat}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
 
-\item{CI.lower.b1}{lower limit of confidence intervals for estimated coefficient beta1_hat}
+\item{CI.lower.g}{lower limit of confidence intervals for estimated coefficient gamma_hat}
 
-\item{CI.upper.b1}{upper limit of confidence intervals for estimated coefficient beta1_hat}
+\item{CI.upper.g}{upper limit of confidence intervals for estimated coefficient gamma_hat}
 
-\item{beta2_hat}{estimated mediator effect on outcome (indirect effect component)}
+\item{beta_hat}{estimated mediator effect on outcome (indirect effect component)}
 
-\item{CI.lower.b2}{lower limit of confidence intervals for estimated coefficient beta2_hat}
+\item{CI.lower.b}{lower limit of confidence intervals for estimated coefficient beta_hat}
 
-\item{CI.upper.b2}{upper limit of confidence intervals for estimated coefficient beta2_hat}
+\item{CI.upper.b}{upper limit of confidence intervals for estimated coefficient beta_hat}
+
+\item{tao_hat}{estimated main treatment arm (exposure group) of interest effect on outcome, excluding adjustment for mediator (total effect)}
+
+\item{CI.lower.t}{lower limit of confidence intervals for estimated coefficient tao_hat}
+
+\item{CI.upper.t}{upper limit of confidence intervals for estimated coefficient tao_hat}
 
 \item{medEffect}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome (estimated by product method)}
 
@@ -115,9 +121,10 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{plot1_a1 }}{plot for alpha1_hat across t.seq with CIs}
-\item{\code{plot2_b1 }}{plot for beta1_hat across t.seq with CIs}
-\item{\code{plot3_b2 }}{plot for beta2_hat across t.seq with CIs}
+\item{\code{plot1_a }}{plot for alpha_hat across t.seq with CIs}
+\item{\code{plot2_g }}{plot for gamma_hat across t.seq with CIs}
+\item{\code{plot3_b }}{plot for beta_hat across t.seq with CIs}
+\item{\code{plot4_t }}{plot for tao_hat across t.seq with CIs}
 \item{\code{MedEff }}{plot for medEffect across t.seq}
 \item{\code{MedEff_CI }}{plot for medEffect with CIs across t.seq}
 \item{\code{bootstrap }}{plot for estimated medEffect(s) from bootstrapped samples across t.seq}

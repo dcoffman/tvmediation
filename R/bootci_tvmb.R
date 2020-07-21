@@ -10,15 +10,18 @@
 #' @param replicates   number of replicates for bootstrapping confidence intervals.    Default = 1000.
 #' 
 #' @return \item{timeseq}{time points of estimation}
-#' @return \item{alpha1_hat}{exposure effect on mediator (indirect effect)}
-#' @return \item{CI.lower.a1}{lower limit of confidence intervals for alpha1_hat}
-#' @return \item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
-#' @return \item{beta1_hat}{estimated exposure effect on outcome (direct effect)}
-#' @return \item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
-#' @return \item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
-#' @return \item{beta2_hat}{estimated mediation effect on outcome (indirect effect)}
-#' @return \item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
-#' @return \item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
+#' @return \item{alpha_hat}{estimated exposure effect on mediator (indirect effect)}
+#' @return \item{CI.lower.a}{lower limit of confidence intervals for estimated coefficient alpha_hat}
+#' @return \item{CI.upper.a}{upper limit of confidence intervals for estimated coefficient alpha_hat}
+#' @return \item{gamma_hat}{estimated exposure effect on outcome (direct effect)}
+#' @return \item{CI.lower.g}{lower limit of confidence intervals for estimated coefficient gamma_hat}
+#' @return \item{CI.upper.g}{upper limit of confidence intervals for estimated coefficient gamma_hat}
+#' @return \item{beta_hat}{estimated mediation effect on outcome (indirect effect)}
+#' @return \item{CI.lower.b}{lower limit of confidence intervals for estimated coefficient beta_hat}
+#' @return \item{CI.upper.b}{upper limit of confidence intervals for estimated coefficient beta_hat}
+#' @return \item{tao_hat}{estimated exposure effect on outcome, excluding adjustment for mediator (total effect)}
+#' @return \item{CI.lower.t}{lower limit of confidence intervals for estimated coefficient tao_hat}
+#' @return \item{CI.upper.t}{upper limit of confidence intervals for estimated coefficient tao_hat}
 #' @return \item{medEffect}{time varying mediation effect (product term)}
 #' @return \item{CI.lower}{lower limit of confidence intervals for medEffect}
 #' @return \item{CI.upper}{upper limit of confidence intervals for medEffect}
@@ -56,29 +59,29 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 1
     #get indexes to use for bootstrap sample
     index1 = sample(1:n,size=n,replace=TRUE)
     
-    a1AllTemp = vector()
-    b2AllTemp = vector()
+    aAllTemp = vector()
+    bAllTemp = vector()
     
     #fit m~x for first t.seq time points and extract slope
     for(k in 1:nm){
       fit1 <- lm((m[k,index1]) ~ treatment[index1],na.action=na.omit)
-      a1AllTemp = append(a1AllTemp,fit1$coefficients[[2]])
+      aAllTemp = append(aAllTemp,fit1$coefficients[[2]])
     }
     
     for(j in 2:nm){
       
       fit2 = glm(outcome[j,index1] ~ treatment[index1] + m[j-1,index1],family="binomial",na.action=na.omit)
-      b2Hat = fit2$coefficients[[3]]
-      b1Hat = fit2$coefficients[[2]]
+      bHat = fit2$coefficients[[3]]
+      gHat = fit2$coefficients[[2]]
       
-      sd2 = sqrt(b1Hat^2*var(treatment[index1],na.rm=TRUE)+b2Hat^2*var(m[(j-1),index1],na.rm=TRUE)+2*b1Hat*b2Hat*cov(treatment[index1],m[(j-1),index1],use="complete.obs")+(pi^2/3))
+      sd2 = sqrt(gHat^2*var(treatment[index1],na.rm=TRUE)+bHat^2*var(m[(j-1),index1],na.rm=TRUE)+2*gHat*bHat*cov(treatment[index1],m[(j-1),index1],use="complete.obs")+(pi^2/3))
       
       #append standardized coefficient
-      b2AllTemp = append(b2AllTemp,b2Hat/sd2)
+      bAllTemp = append(bAllTemp,bHat/sd2)
     }  
     
-    #calculate mediation effect for an individual at time points 2-50
-    #this is taking product of a1[t-1]*b2[t]
+    #calculate mediation effect for an individual at each time point
+    #this is taking product of a[t-1]*b[t]
     
     t.seq.b <- t.seq
     t.seq.b <- t.seq.b[-1]
@@ -86,16 +89,16 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 1
     t.seq.b2 <- t.seq
     t.seq.b2 <- t.seq.b2[-1]
     
-    coeff_a_temp <- cbind(t.seq, a1AllTemp)
-    coeff_b_temp <- cbind(t.seq.b2, b2AllTemp)
+    coeff_a_temp <- cbind(t.seq, aAllTemp)
+    coeff_b_temp <- cbind(t.seq.b2, bAllTemp)
     coeff_dat <- merge(coeff_a_temp, coeff_b_temp, by.x = "t.seq", by.y = "t.seq.b2",
                        all.x = TRUE)
     
     #calculate mediation effects
-    #really b2(t)*a1(t-1) because a1 starts at t=1 while b2 starts at t=2
+    #really b(t)*a(t-1) because `a` starts at t=1 while `b` starts at t=2
     for(l in 1:nrow(coeff_dat)){
-      if(!is.na(coeff_dat$b2AllTemp[l])){
-        coeff_dat$medProd[l] = coeff_dat$b2AllTemp[l]*coeff_dat$a1AllTemp[l-1]
+      if(!is.na(coeff_dat$bAllTemp[l])){
+        coeff_dat$medProd[l] = coeff_dat$bAllTemp[l]*coeff_dat$aAllTemp[l-1]
       }
     }
     

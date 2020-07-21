@@ -20,17 +20,21 @@ bootci_coeff_binary(treatment, t.seq, m, outcome, replicates = 1000)
 \value{
 \item{t.seq}{time points of estimation}
 
-\item{CI.lower.a1}{lower limit of confidence intervals for alpha1_hat}
+\item{CI.lower.a}{lower limit of confidence intervals for alpha_hat}
 
-\item{CI.upper.a1}{upper limit of confidence intervals for alpha1_hat}
+\item{CI.upper.a}{upper limit of confidence intervals for alpha_hat}
 
-\item{CI.lower.b1}{lower limit of confidence intervals for beta1_hat}
+\item{CI.lower.g}{lower limit of confidence intervals for gamma_hat}
 
-\item{CI.upper.b1}{upper limit of confidence intervals for beta1_hat}
+\item{CI.upper.g}{upper limit of confidence intervals for gamma_hat}
 
-\item{CI.lower.b2}{lower limit of confidence intervals for beta2_hat}
+\item{CI.lower.b}{lower limit of confidence intervals for beta_hat}
 
-\item{CI.upper.b2}{upper limit of confidence intervals for beta2_hat}
+\item{CI.upper.b}{upper limit of confidence intervals for beta_hat}
+
+\item{CI.lower.t}{lower limit of confidence intervals for tao_hat}
+
+\item{CI.upper.t}{upper limit of confidence intervals for tao_hat}
 }
 \description{
 Internal function for estimating bootstrapped confidence intervals for the coefficients of the mediation model for binary outcome.
