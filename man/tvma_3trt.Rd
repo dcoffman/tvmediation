@@ -66,6 +66,18 @@ tvma_3trt(
 
 \item{CI.upper.gamma2}{upper limit of confidence intervals for estimated coefficient hat.gamma2}
 
+\item{hat.tao1}{estimated effect of treatment arm 1 (exposure group 1) on outcome, excluding adjustment for mediator (total effect)}
+
+\item{CI.lower.tao1}{lower limit of confidence intervals for estimated coefficient hat.tao1}
+
+\item{CI.upper.tao1}{upper limit of confidence intervals for estimated coefficient hat.tao1}
+
+\item{hat.tao2}{estimated effect of treatment arm 2 (exposure group 2) on outcome, excluding adjustment for mediator (total effect)}
+
+\item{CI.lower.tao2}{lower limit of confidence intervals for estimated coefficient hat.tao2}
+
+\item{CI.upper.tao2}{upper limit of confidence intervals for estimated coefficient hat.tao2}
+
 \item{hat.beta}{estimated mediator effect on outcome (indirect effect component)}
 
 \item{CI.lower.beta}{lower limit of confidence intervals for estimated coefficient hat.beta}
@@ -98,7 +110,9 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 \item{\code{plot2_a2 }}{plot for hat.alpha2 across t.est with CIs}
 \item{\code{plot3_g1 }}{plot for hat.gamma1 across t.est with CIs}
 \item{\code{plot4_g2 }}{plot for hat.gamma2 across t.est with CIs}
-\item{\code{plot5_b }}{plot for hat.beta across t.est with CIs}
+\item{\code{plot5_t1 }}{plot for hat.tao1 across t.est with CIs}
+\item{\code{plot6_t2 }}{plot for hat.tao2 across t.est with CIs}
+\item{\code{plot7_b }}{plot for hat.beta across t.est with CIs}
 \item{\code{MedEff_NRT1 }}{plot for hat.mediation1 across t.est}
 \item{\code{MedEff_NRT2 }}{plot for hat.mediation2 across t.est}
 \item{\code{MedEff_CI_NRT1 }}{plot for hat.mediation1 with CIs across t.est}

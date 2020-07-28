@@ -49,6 +49,14 @@ bootci_coeff_3trt(
 
 \item{gup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
 
+\item{tlw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on outcome, excluding adjustment for mediator}
+
+\item{tup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on outcome, excluding adjustment for mediator}
+
+\item{tlw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on outcome, excluding adjustment for mediator}
+
+\item{tup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome, excluding adjustment for mediator}
+
 \item{blw}{lower limit of confidence intervals for estimated effect of mediator on outcome}
 
 \item{bup}{upper limit of confidence intervals for estimated effect of mediator on outcome}

@@ -26,6 +26,12 @@
 #' @return \item{hat.gamma2}{estimated effect of treatment arm 2 (exposure group 2) on outcome (direct effect)}
 #' @return \item{CI.lower.gamma2}{lower limit of confidence intervals for estimated coefficient hat.gamma2}
 #' @return \item{CI.upper.gamma2}{upper limit of confidence intervals for estimated coefficient hat.gamma2}
+#' @return \item{hat.tao1}{estimated effect of treatment arm 1 (exposure group 1) on outcome, excluding adjustment for mediator (total effect)}
+#' @return \item{CI.lower.tao1}{lower limit of confidence intervals for estimated coefficient hat.tao1}
+#' @return \item{CI.upper.tao1}{upper limit of confidence intervals for estimated coefficient hat.tao1}
+#' @return \item{hat.tao2}{estimated effect of treatment arm 2 (exposure group 2) on outcome, excluding adjustment for mediator (total effect)}
+#' @return \item{CI.lower.tao2}{lower limit of confidence intervals for estimated coefficient hat.tao2}
+#' @return \item{CI.upper.tao2}{upper limit of confidence intervals for estimated coefficient hat.tao2}
 #' @return \item{hat.beta}{estimated mediator effect on outcome (indirect effect component)}
 #' @return \item{CI.lower.beta}{lower limit of confidence intervals for estimated coefficient hat.beta}
 #' @return \item{CI.upper.beta}{upper limit of confidence intervals for estimated coefficient hat.beta}
@@ -44,7 +50,9 @@
 #' \item{\code{plot2_a2 }}{plot for hat.alpha2 across t.est with CIs}
 #' \item{\code{plot3_g1 }}{plot for hat.gamma1 across t.est with CIs}
 #' \item{\code{plot4_g2 }}{plot for hat.gamma2 across t.est with CIs}
-#' \item{\code{plot5_b }}{plot for hat.beta across t.est with CIs}
+#' \item{\code{plot5_t1 }}{plot for hat.tao1 across t.est with CIs}
+#' \item{\code{plot6_t2 }}{plot for hat.tao2 across t.est with CIs}
+#' \item{\code{plot7_b }}{plot for hat.beta across t.est with CIs}
 #' \item{\code{MedEff_NRT1 }}{plot for hat.mediation1 across t.est}
 #' \item{\code{MedEff_NRT2 }}{plot for hat.mediation2 across t.est}
 #' \item{\code{MedEff_CI_NRT1 }}{plot for hat.mediation1 with CIs across t.est}
@@ -129,6 +137,12 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
       #   hat.gamma2        -->   estimated NRT2 (treatment) effect on outcome
       #   CI.lower.gamma2   -->   lower limit of 95% confidence intervals for hat.gamma2
       #   CI.upper.gamma2   -->   upper limit of 95% confidence intervals for hat.gamma2
+      #   hat.tao1          -->   estimated NRT1 (treatment) effect on outcome, excluding adjustment for mediator
+      #   CI.lower.tao1     -->   lower limit of 95% confidence intervals for hat.tao1
+      #   CI.upper.tao1     -->   upper limit of 95% confidence intervals for hat.tao1
+      #   hat.tao2          -->   estimated NRT2 (treatment) effect on outcome, excluding adjustment for mediator
+      #   CI.lower.tao2     -->   lower limit of 95% confidence intervals for hat.tao2
+      #   CI.upper.tao2     -->   upper limit of 95% confidence intervals for hat.tao2
       #   hat.beta          -->   estimated mediator effect on outcome
       #   CI.lower.beta     -->   lower limit of 95% confidence intervals for hat.beta
       #   CI.upper.beta     -->   upper limit of 95% confidence intervals for hat.beta
@@ -148,9 +162,12 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
       #
       # `plot1_a1` plot for `hat.alpha1` with 95% CIs across `timeseq`
       # `plot2_a2` plot for `hat.alpha2` with 95% CIs across `timeseq`
-      # `plot3_g1` plot for `hat.beta1` with 95% CIs across `timeseq`
-      # `plot4_g2` plot for `hat.beta2` with 95% CIs across `timeseq`
-      # `plot5_b` plot for `hat.beta3` with 95% CIs across `timeseq`
+      # `plot3_g1` plot for `hat.gamma1` with 95% CIs across `timeseq`
+      # `plot4_g2` plot for `hat.gamma2` with 95% CIs across `timeseq`
+      # `plot5_t1` plot for `hat.tao1` with 95% CIs across `timeseq`
+      # `plot6_t2` plot for `hat.tao2` with 95% CIs across `timeseq`
+  
+      # `plot7_b` plot for `hat.beta` with 95% CIs across `timeseq`
       # `MedEff_NRT1` plot for `hat.mediation1` across `timeseq`
       # `MedEff_NRT2` plot for `hat.mediation2` across `timeseq`
       # `MedEff_CI_NRT1` plot for `hat.mediation1` with 95% CIs across `timeseq`
@@ -191,7 +208,9 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
           results_me <- tvmcurve_3trt(NRT1, NRT2, t.seq, mediator, outcome, t.est)
           alldata <- list(NRT1 = NRT1, NRT2 = NRT2, x = mediator, y = outcome, t.seq = t.seq)
           original.coeff <- list(hat.alpha1 = results_me$hat.alpha1, hat.alpha2 = results_me$hat.alpha2,
-                                 hat.gamma1 = results_me$hat.gamma1, hat.gamma2 = results_me$hat.gamma2, hat.beta = results_me$hat.beta)
+                                 hat.gamma1 = results_me$hat.gamma1, hat.gamma2 = results_me$hat.gamma2, 
+                                 hat.tao1 = results_me$hat.tao1, hat.tao2 = results_me$hat.tao2,
+                                 hat.beta = results_me$hat.beta)
           
           #### Computing CI for coefficients irrespective of user choice of bootstrapping ####
           bootcoeff_CI <- bootci_coeff_3trt(NRT1, NRT2, t.seq, mediator, outcome, t.est, original.coeff, replicates)
@@ -207,11 +226,13 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
             final_results <- final_dat %>%
               select(-orig.mediation1, -orig.mediation2)
             
-            names(final_results)[c(1,9:18,23:24)] <- c("timeseq",
+            names(final_results)[c(1,11:24,29:30)] <- c("timeseq",
                                                  "CI.lower.alpha1", "CI.upper.alpha1",
                                                  "CI.lower.alpha2", "CI.upper.alpha2",
                                                  "CI.lower.gamma1", "CI.upper.gamma1",
                                                  "CI.lower.gamma2", "CI.upper.gamma2",
+                                                 "CI.lower.tao1", "CI.upper.tao1",
+                                                 "CI.lower.tao2", "CI.upper.tao2",
                                                  "CI.lower.beta", "CI.upper.beta",
                                                  "SE_MedEff1","SE_MedEff2")
 
@@ -220,21 +241,25 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                                              "hat.alpha2", "CI.lower.alpha2", "CI.upper.alpha2",
                                              "hat.gamma1", "CI.lower.gamma1", "CI.upper.gamma1",
                                              "hat.gamma2", "CI.lower.gamma2", "CI.upper.gamma2",
+                                             "hat.tao1", "CI.lower.tao1", "CI.upper.tao1",
+                                             "hat.tao2", "CI.lower.tao2", "CI.upper.tao2",
                                              "hat.beta", "CI.lower.beta", "CI.upper.beta",
                                              "hat.mediation1", "SE_MedEff1", "plw1", "pup1",
                                              "hat.mediation2", "SE_MedEff2", "plw2", "pup2")]
             
-            names(final_results)[c(19)]<- paste("CI.lower.",grpname,"1", sep = "")
-            names(final_results)[c(20)]<- paste("CI.upper.",grpname,"1", sep = "")
-            names(final_results)[c(23)]<- paste("CI.lower.",grpname,"2", sep = "")
-            names(final_results)[c(24)]<- paste("CI.upper.",grpname,"2", sep = "")
+            names(final_results)[c(25)]<- paste("CI.lower.",grpname,"1", sep = "")
+            names(final_results)[c(26)]<- paste("CI.upper.",grpname,"1", sep = "")
+            names(final_results)[c(29)]<- paste("CI.lower.",grpname,"2", sep = "")
+            names(final_results)[c(30)]<- paste("CI.upper.",grpname,"2", sep = "")
           }
           else{
             final_results <- test1
-            names(final_results)[8:18] <- c( "CI.lower.alpha1", "CI.upper.alpha1",
+            names(final_results)[10:24] <- c( "CI.lower.alpha1", "CI.upper.alpha1",
                                              "CI.lower.alpha2", "CI.upper.alpha2",
                                              "CI.lower.gamma1", "CI.upper.gamma1",
                                              "CI.lower.gamma2", "CI.upper.gamma2",
+                                             "CI.lower.tao1", "CI.upper.tao1",
+                                             "CI.lower.tao2", "CI.upper.tao2",
                                              "CI.lower.beta", "CI.upper.beta",
                                              "timeseq")
             final_results <- final_results[c("timeseq",
@@ -242,6 +267,8 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                                              "hat.alpha2", "CI.lower.alpha2", "CI.upper.alpha2",
                                              "hat.gamma1", "CI.lower.gamma1", "CI.upper.gamma1",
                                              "hat.gamma2", "CI.lower.gamma2", "CI.upper.gamma2",
+                                             "hat.tao1", "CI.lower.tao1", "CI.upper.tao1",
+                                             "hat.tao2", "CI.lower.tao2", "CI.upper.tao2",
                                              "hat.beta", "CI.lower.beta", "CI.upper.beta",
                                              "hat.mediation1", "hat.mediation2")]
           }
@@ -309,8 +336,28 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                                      y = "Gamma2") +
                                 scale_x_continuous(breaks = seq(l, u, i))
             
-            # Fifth plot: plotting beta coefficients across time using ggplot
-            plot5_b <- ggplot(data = final_results, aes(timeseq, hat.beta)) +
+            # Fifth plot: plotting tao1 coefficients across time using ggplot
+            plot5_t1 <- ggplot(data = final_results, aes(timeseq, hat.tao1)) +
+              geom_line(color = "red", size = 0.75) +
+              geom_line(aes(timeseq, CI.lower.tao1), size = 0.8, color = "blue", linetype = "dashed") +
+              geom_line(aes(timeseq, CI.upper.tao1), size = 0.8, color = "blue", linetype = "dashed") +
+              labs(title = "Plotting the tao1 coefficients",
+                   x = "Time Sequence",
+                   y = "Tao1") +
+              scale_x_continuous(breaks = seq(l, u, i))
+            
+            # Sixth plot: plotting tao2 coefficients across time using ggplot
+            plot6_t2 <- ggplot(data = final_results, aes(timeseq, hat.tao2)) +
+              geom_line(color = "red", size = 0.75) +
+              geom_line(aes(timeseq, CI.lower.tao2), size = 0.8, color = "blue", linetype = "dashed") +
+              geom_line(aes(timeseq, CI.upper.tao2), size = 0.8, color = "blue", linetype = "dashed") +
+              labs(title = "Plotting the tao2 coefficients",
+                   x = "Time Sequence",
+                   y = "Tao2") +
+              scale_x_continuous(breaks = seq(l, u, i))
+            
+            # Seventh plot: plotting beta coefficients across time using ggplot
+            plot7_b <- ggplot(data = final_results, aes(timeseq, hat.beta)) +
                                 geom_line(color = "red", size = 0.75) +
                                 geom_line(aes(timeseq, CI.lower.beta), size = 0.8, color = "blue", linetype = "dashed") +
                                 geom_line(aes(timeseq, CI.upper.beta), size = 0.8, color = "blue", linetype = "dashed") +
@@ -319,16 +366,16 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                                      y = "Beta") +
                                 scale_x_continuous(breaks = seq(l, u, i))
             
-            # Sixth plot: plotting the mediation effect of treatment arm1
-            plot6 <- ggplot(data = final_results, aes(timeseq, hat.mediation1)) +
+            # Eighth plot: plotting the mediation effect of treatment arm1
+            plot8 <- ggplot(data = final_results, aes(timeseq, hat.mediation1)) +
                               geom_line(color = "red", size = 0.75) +
                               labs(title = paste("Plotting the time-varying mediation effect (",grpname,"1)", sep = ""),
                                    x = "Time Sequence",
                                    y = paste("Mediation Effect for",grpname,"1", sep = "")) +
                               scale_x_continuous(breaks = seq(l, u, i))
             
-            # Seventh plot: plotting the mediation effect of treatment arm2
-            plot7 <- ggplot(data = final_results, aes(timeseq, hat.mediation2)) +
+            # Ninth plot: plotting the mediation effect of treatment arm2
+            plot9 <- ggplot(data = final_results, aes(timeseq, hat.mediation2)) +
                               geom_line(color = "red", size = 0.75) +
                               labs(title = paste("Plotting the time-varying mediation effect (",grpname,"2)", sep = ""),
                                    x = "Time Sequence",
@@ -342,8 +389,8 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
               CI.lower.NRT2 <- paste("CI.lower.",grpname,"2", sep = "")
               CI.upper.NRT2 <- paste("CI.upper.",grpname,"2", sep = "")
               
-              # Eighth plot: plotting the mediation effect of treatment arm1 with 95% CIs
-              plot8 <- ggplot(data = final_results, aes(timeseq, hat.mediation1)) +
+              # Tenth plot: plotting the mediation effect of treatment arm1 with 95% CIs
+              plot10 <- ggplot(data = final_results, aes(timeseq, hat.mediation1)) +
                                 geom_line(size = 1, color = "red") +
                                 geom_line(aes_string("timeseq", CI.lower.NRT1), size = 0.8, color = "blue", linetype = "dashed") +
                                 geom_line(aes_string("timeseq", CI.upper.NRT1), size = 0.8, color = "blue", linetype = "dashed") +
@@ -354,8 +401,8 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                                 theme(legend.position = "none")  +
                                 scale_x_continuous(breaks = seq(l, u, i))  
               
-              # Ninth plot: plotting the mediation effect of treatment arm2 with 95% CIs
-              plot9 <- ggplot(data = final_results, aes(timeseq, hat.mediation2)) +
+              # Eleventh plot: plotting the mediation effect of treatment arm2 with 95% CIs
+              plot11 <- ggplot(data = final_results, aes(timeseq, hat.mediation2)) +
                                 geom_line(size = 1, color = "red") +
                                 geom_line(aes_string("timeseq", CI.lower.NRT2), size = 0.8, color = "blue", linetype = "dashed") +
                                 geom_line(aes_string("timeseq", CI.upper.NRT2), size = 0.8, color = "blue", linetype = "dashed") +
@@ -370,19 +417,23 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                                    "plot2_a2" = plot2_a2,
                                    "plot3_g1" = plot3_g1,
                                    "plot4_g2" = plot4_g2,
-                                   "plot5_b" = plot5_b,
-                                   "MedEff_NRT1" = plot6,
-                                   "MedEff_NRT2" = plot7,
-                                   "MedEff_CI_NRT1" = plot8,
-                                   "MedEff_CI_NRT2" = plot9)
+                                   "plot5_t1" = plot5_t1,
+                                   "plot6_t2" = plot6_t2,
+                                   "plot7_b" = plot7_b,
+                                   "MedEff_NRT1" = plot8,
+                                   "MedEff_NRT2" = plot9,
+                                   "MedEff_CI_NRT1" = plot10,
+                                   "MedEff_CI_NRT2" = plot11)
             }else{
               plot_results <- list("plot1_a1" = plot1_a1,
                                    "plot2_a2" = plot2_a2,
                                    "plot3_g1" = plot3_g1,
                                    "plot4_g2" = plot4_g2,
-                                   "plot5_b" = plot5_b,
-                                   "MedEff_NRT1" = plot6,
-                                   "MedEff_NRT2" = plot7)
+                                   "plot5_t1" = plot5_t1,
+                                   "plot6_t2" = plot6_t2,
+                                   "plot7_b" = plot7_b,
+                                   "MedEff_NRT1" = plot8,
+                                   "MedEff_NRT2" = plot9)
             }
           }
           
@@ -403,11 +454,13 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                             "plot2_a2" = plot2_a2,
                             "plot3_g1" = plot3_g1,
                             "plot4_g2" = plot4_g2,
-                            "plot5_b" = plot5_b,
-                            "MedEff_NRT1" = plot6,
-                            "MedEff_NRT2" = plot7,
-                            "MedEff_CI_NRT1" = plot8,
-                            "MedEff_CI_NRT2" = plot9)
+                            "plot5_t1" = plot5_t1,
+                            "plot6_t2" = plot6_t2,
+                            "plot7_b" = plot7_b,
+                            "MedEff_NRT1" = plot8,
+                            "MedEff_NRT2" = plot9,
+                            "MedEff_CI_NRT1" = plot10,
+                            "MedEff_CI_NRT2" = plot11)
           }
           else if(plot == TRUE & CI != "boot"){
             results <- list("Estimates" = final_results,
@@ -415,9 +468,11 @@ tvma_3trt <- function(NRT1, NRT2, t.seq, mediator, outcome, t.est = t.seq, plot 
                             "plot2_a2" = plot2_a2,
                             "plot3_g1" = plot3_g1,
                             "plot4_g2" = plot4_g2,
-                            "plot5_b" = plot5_b,
-                            "MedEff_NRT1" = plot6,
-                            "MedEff_NRT2" = plot7)  
+                            "plot5_t1" = plot5_t1,
+                            "plot6_t2" = plot6_t2,
+                            "plot7_b" = plot7_b,
+                            "MedEff_NRT1" = plot8,
+                            "MedEff_NRT2" = plot9)  
           }
           else{
             results <- list("Estimates" = final_results)
