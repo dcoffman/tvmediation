@@ -7,13 +7,15 @@
 #' @param t.est     time points to make the estimation
 #' @param deltat    a small constant which controls the time-lag of the effect of the mediator on the outcome.
 #' 
-#' @return \item{bw_alpha}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for alpha1 coefficient.}
-#' @return \item{bw_gamma}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta1 coefficient.}
-#' @return \item{bw_beta}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta2 coefficient.}
+#' @return \item{bw_alpha}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for alpha coefficient.}
+#' @return \item{bw_gamma}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for gamma coefficient.}
+#' @return \item{bw_beta}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta coefficient.}
+#' @return \item{bw_beta}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for tao coefficient.}
 #' @return \item{hat.alpha}{estimated treatment effect on mediator}
-#' @return \item{hat.gamma}{estimated treatment effect on outcome}
+#' @return \item{hat.gamma}{estimated treatment effect on outcome, adjusted for mediator}
 #' @return \item{hat.beta}{estimated mediator effect on outcome}
-#' @return \item{est.M}{estimated medition effect, product of hat.alpha.1 and hat.beta.2}
+#' @return \item{hat.tao}{estimated treatment effect on outcome, excluding adjustment for mediator}
+#' @return \item{est.M}{estimated medition effect, product of hat.alpha and hat.beta}
 #'
 #' @export
 #'
@@ -36,6 +38,7 @@ smoothest <- function(t.seq, t.coeff, t.est, deltat) {
   bw_alpha <- locpol::thumbBw(t.seq[-1], t.coeff[1, ], deg = 1, kernel = locpol::gaussK)
   bw_gamma <- locpol::thumbBw(t.seq[-1], t.coeff[2, ], deg = 1, kernel = locpol::gaussK)
   bw_beta  <- locpol::thumbBw(t.seq[-1], t.coeff[3, ], deg = 1, kernel = locpol::gaussK)
+  bw_tao   <- locpol::thumbBw(t.seq[-1], t.coeff[4, ], deg = 1, kernel = locpol::gaussK)
   
   hat.alpha = locpol::locPolSmootherC(t.seq[-1], t.coeff[1, ], t.est - deltat, bw_alpha,
                                         deg = 1, kernel = locpol::gaussK)$beta0
@@ -43,8 +46,11 @@ smoothest <- function(t.seq, t.coeff, t.est, deltat) {
                                         deg = 1, kernel = locpol::gaussK)$beta0
   hat.beta  = locpol::locPolSmootherC(t.seq[-1], t.coeff[3, ], t.est, bw_beta, 
                                         deg = 1, kernel = locpol::gaussK)$beta0
+  hat.tao  = locpol::locPolSmootherC(t.seq[-1], t.coeff[4, ], t.est, bw_tao, 
+                                      deg = 1, kernel = locpol::gaussK)$beta0
   
-  return(list(bw_alpha = bw_alpha, bw_gamma = bw_gamma, bw_beta = bw_beta,
-              hat.alpha = hat.alpha, hat.gamma = hat.gamma, hat.beta = hat.beta,
+  
+  return(list(bw_alpha = bw_alpha, bw_gamma = bw_gamma, bw_beta = bw_beta, bw_tao = bw_tao,
+              hat.alpha = hat.alpha, hat.gamma = hat.gamma, hat.beta = hat.beta, hat.tao = hat.tao,
               est.M = hat.alpha*hat.beta))
 }

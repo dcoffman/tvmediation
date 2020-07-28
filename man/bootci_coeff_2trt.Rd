@@ -33,6 +33,10 @@ bootci_coeff_2trt(trt, t.seq, M, Y, t.est, deltat, replicates)
 \item{CI.upper.beta}{upper limit of confidence intervals for coefficient hat.beta}
 
 \item{CI.lower.beta}{lower limit of confidence intervals for coefficient hat.beta}
+
+\item{CI.upper.tao}{upper limit of confidence intervals for coefficient hat.tao}
+
+\item{CI.lower.tao}{lower limit of confidence intervals for coefficient hat.tao}
 }
 \description{
 Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and two treatment (exposure) groups.

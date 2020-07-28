@@ -54,6 +54,12 @@ tvma(
 
 \item{CI.upper.beta}{upper limit of confidence intervals for estimated coefficient hat.beta}
 
+\item{hat.tao}{estimated main treatment arm (exposure group) of interest effect on outcome, excluding adjustment for mediator (total effect)}
+
+\item{CI.lower.tao}{lower limit of confidence intervals for estimated coefficient hat.tao}
+
+\item{CI.upper.tao}{upper limit of confidence intervals for estimated coefficient hat.tao}
+
 \item{est.M}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome}
 
 \item{boot.se.m}{estimated standard error of est.M}
@@ -67,7 +73,6 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 }
 \note{
 \enumerate{
-\item{Currently supports 2 treatment options. Future releases may expand number of treatment options.}
 \item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().}
 }
 }
@@ -77,6 +82,7 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 \item{\code{Alpha_CI }}{plot for hat.alpha across t.est with CIs}
 \item{\code{Gamma_CI }}{plot for hat.gamma across t.est with CIs}
 \item{\code{Beta_CI }}{plot for hat.beta across t.est with CIs}
+\item{\code{Tao_CI }}{plot for hat.tao across t.est with CIs}
 \item{\code{MedEff }}{plot for est.M across t.est}
 \item{\code{MedEff_CI }}{plot for est.M with CIs across t.est}
 }

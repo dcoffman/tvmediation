@@ -21,6 +21,9 @@
 #' @return \item{hat.beta}{estimated mediator effect on outcome (indirect effect component)}
 #' @return \item{CI.lower.beta}{lower limit of confidence intervals for estimated coefficient hat.beta}
 #' @return \item{CI.upper.beta}{upper limit of confidence intervals for estimated coefficient hat.beta}
+#' @return \item{hat.tao}{estimated main treatment arm (exposure group) of interest effect on outcome, excluding adjustment for mediator (total effect)}
+#' @return \item{CI.lower.tao}{lower limit of confidence intervals for estimated coefficient hat.tao}
+#' @return \item{CI.upper.tao}{upper limit of confidence intervals for estimated coefficient hat.tao}
 #' @return \item{est.M}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome}
 #' @return \item{boot.se.m}{estimated standard error of est.M}
 #' @return \item{CI.lower}{lower limit of confidence intervals of est.M}
@@ -31,13 +34,13 @@
 #' \item{\code{Alpha_CI }}{plot for hat.alpha across t.est with CIs}
 #' \item{\code{Gamma_CI }}{plot for hat.gamma across t.est with CIs}
 #' \item{\code{Beta_CI }}{plot for hat.beta across t.est with CIs}
+#' \item{\code{Tao_CI }}{plot for hat.tao across t.est with CIs}
 #' \item{\code{MedEff }}{plot for est.M across t.est}
 #' \item{\code{MedEff_CI }}{plot for est.M with CIs across t.est}
 #' }
 #' 
 #' @note
 #' \enumerate{
-#' \item{Currently supports 2 treatment options. Future releases may expand number of treatment options.}
 #' \item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().}
 #' }
 #' 
@@ -113,6 +116,9 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       #   hat.beta         -->   estimated mediation effect on outcome (indirect effect component)
       #   CI.lower.beta    -->   lower limit of confidence intervals for coefficient hat.beta
       #   CI.upper.beta    -->   upper limit of confidence intervals for coefficient hat.beta
+      #   hat.tao          -->   estimated treatment effect on outcome, excluding adjustment for the mediator (total effect)
+      #   CI.lower.tao     -->   lower limit of confidence intervals for coefficient hat.tao
+      #   CI.upper.tao     -->   upper limit of confidence intervals for coefficient hat.tao
       #   est.M            -->   time varying mediation effect
   
       # 
@@ -126,6 +132,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       #   Alpha_CI          -->   plot for hat.alpha across t.est with CI
       #   Gamma_CI          -->   plot for hat.gamma across t.est with CI
       #   Beta_CI           -->   plot for hat.beta across t.est with CI
+      #   Tao_CI            -->   plot for hat.tao across t.est with CI
       #   MedEff            -->   plot for est.M across t.est
       #   MedEff_CI         -->   plot for est.M with CIs across t.est
       #
@@ -176,15 +183,30 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         # Derive centered Mediators and Outcomes
         newMO.j.est <- newMediatorOutcome(treatment, temp.mediator.j, outcome[j - 1, ])
         
-        # Estimate coefficients, then store them.
+        # Estimate coefficients alpha, beta and gamma
         coeff.est <- estCoeff(newMO.j.est)
-        t.coeff <- cbind(t.coeff, coeff.est)  # store coeff estimates at t.seq
+        
+        # Steps to derive the total effect coefficient tao
+        X.new <- scale(trt, center = TRUE, scale = FALSE)
+        Y.new <- scale(outcome[j - 1, ], center = TRUE, scale = FALSE)
+        nomissing.X <- complete.cases(X.new)
+        nomissing.Y <- complete.cases(Y.new)
+        nomissing.index <- nomissing.X * nomissing.Y
+        
+        X.new <- X.new[which(nomissing.index == 1),]
+        Y.new <- Y.new[which(nomissing.index == 1)]
+        sym_newMO <- t(X.new)%*%(X.new)
+        coeff.tao <- solve(sym_newMO)%*%t(X.new)%*%(Y.new)
+        
+        # Store the coefficients
+        coeff.all <- rbind(coeff.est, coeff.tao)
+        t.coeff <- cbind(t.coeff, coeff.all)  # store coeff estimates at t.seq
       }
       
       # EQUATIONS 4 & 5
       est.smooth <- smoothest(t.seq, t.coeff, t.est, deltat)
       
-      ## calculating the CI for the coefficients alpha1 and beta2
+      ## calculating the CI for the coefficients alpha and beta
       coeff_CI_2trt <- bootci_coeff_2trt(treatment, t.seq, mediator, outcome, t.est, deltat, replicates)
       
       test1 <- cbind(as.data.frame(est.smooth), as.data.frame(coeff_CI_2trt), t.est)
@@ -196,20 +218,22 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         
         final_dat <- merge(test1, test2, all.x = TRUE)
         final_results <- final_dat %>%
-          select(-bw_alpha, -bw_gamma, -bw_beta)
+          select(-bw_alpha, -bw_gamma, -bw_beta, -bw_tao)
         final_results <- final_results[c("t.est","hat.alpha","CI.lower.alpha","CI.upper.alpha",
                                          "hat.gamma", "CI.lower.gamma", "CI.upper.gamma",
                                          "hat.beta", "CI.lower.beta", "CI.upper.beta",
+                                         "hat.tao", "CI.lower.tao", "CI.upper.tao",
                                          "est.M", "boot.se", "CI.lower", "CI.upper")]
         
-        names(final_results)[12] <- c("boot.se.m")
+        names(final_results)[15] <- c("boot.se.m")
       }
       else{
         final_results <- test1 %>%
-          select(-bw_alpha1, -bw_beta1, -bw_beta2)
+          select(-bw_alpha1, -bw_beta1, -bw_beta2, -bw_tao)
         final_results <- final_results[c("t.est","hat.alpha","CI.lower.alpha","CI.upper.alpha",
                                          "hat.gamma", "CI.lower.gamma", "CI.upper.gamma",
                                          "hat.beta", "CI.lower.beta", "CI.upper.beta",
+                                         "hat.tao", "CI.lower.tao", "CI.upper.tao",
                                          "est.M")]
       }
       
@@ -267,8 +291,18 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
                y = "Beta") +
           scale_x_continuous(breaks = seq(l, u, i))
         
-        # Fourth plot: plotting the mediation effect of treatment arm
-        plot4 <- ggplot(data = final_results, aes(t.est,est.M)) +
+        # Fourth plot: plotting tao coefficients across time using ggplot
+        plot4_t <- ggplot(data = final_results, aes(t.est,hat.tao)) +
+          geom_line(color = "red", size = 0.75) +
+          geom_line(aes(t.est, CI.lower.tao), size = 0.8, color = "blue", linetype = "dashed") +
+          geom_line(aes(t.est, CI.upper.tao), size = 0.8, color = "blue", linetype = "dashed") +
+          labs(title = "Plotting the tao coefficients",
+               x = "Time Sequence",
+               y = "Tao") +
+          scale_x_continuous(breaks = seq(l, u, i))
+        
+        # Fifth plot: plotting the mediation effect of treatment arm
+        plot5 <- ggplot(data = final_results, aes(t.est,est.M)) +
           geom_line(color = "red", size = 0.75) +
           labs(title = "Plotting the time-varying mediation effect",
                x = "Time Sequence",
@@ -277,8 +311,8 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         
         if(CI == "boot"){
           
-          # Fifth plot: plotting the mediation effect of treatment with 95% CIs
-          plot5 <- ggplot(data = final_results, aes(t.est, est.M)) +
+          # Sixth plot: plotting the mediation effect of treatment with 95% CIs
+          plot6 <- ggplot(data = final_results, aes(t.est, est.M)) +
             geom_line(size = 1, color = "red") +
             geom_line(aes(t.est, CI.lower), size = 0.8, color = "blue", linetype = "dashed") +
             geom_line(aes(t.est, CI.upper), size = 0.8, color = "blue", linetype = "dashed") +
@@ -292,13 +326,15 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
           plot_results <- list("Alpha_CI" = plot1_a,
                                "Gamma_CI" = plot2_g,
                                "Beta_CI" = plot3_b,
-                               "MedEff" = plot4,
-                               "MedEff_CI" = plot5)
+                               "Tao_CI" = plot4_t,
+                               "MedEff" = plot5,
+                               "MedEff_CI" = plot6)
         }else{
           plot_results <- list("Alpha_CI" = plot1_a,
                                "Gamma_CI" = plot2_g,
                                "Beta_CI" = plot3_b,
-                               "MedEff" = plot4)
+                               "Tao_CI" = plot4_t,
+                               "MedEff" = plot5)
         }
       }
       
@@ -319,15 +355,17 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
                         "Alpha_CI" = plot1_a,
                         "Gamma_CI" = plot2_g,
                         "Beta_CI" = plot3_b,
-                        "MedEff" = plot4,
-                        "MedEff_CI" = plot5)
+                        "Tao_CI" = plot4_t,
+                        "MedEff" = plot5,
+                        "MedEff_CI" = plot6)
       }
       else if(plot == TRUE & CI != "boot"){
         results <- list("Estimates" = final_results,
                         "Alpha_CI" = plot1_a,
                         "Gamma_CI" = plot2_g,
                         "Beta_CI" = plot3_b,
-                        "MedEff" = plot4)  
+                        "Tao_CI" = plot4_t,
+                        "MedEff" = plot5)  
       }
       else{
         results <- list("Estimates" = final_results)
