@@ -244,11 +244,13 @@ Optional returns based on arguments `CI = "boot"` passed by the user include:
 14. `CI.low` the lower limit of confidence intervals of the time varying mediation effect `medEffect`
 15. `CI.upper` the upper limit of confidence intervals of the time varying mediation effect `medEffect`
 
+The above estimates are compiled in a single dataframe which can be accessed using `results_tvmb$Estimates`. The following line of code displays only the estimates at the first 6 time-points.
+
 ```{r}
-results_tvmb$Estimates
+head(results_tvmb$Estimates)
 ```
 
-At each time point of interest `timeseq = t.seq`, the effects of the treatment (exposure) on mediator, exposure on outcome and mediator on outcome are estimated along with the respective 95% confidence intervals (CIs). The CIs are computed via non-parametric bootstrap method \texttt{(Efron and Tibshirani, 1986)}, drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha` , `gamma`, `beta` and `tao` coefficients `(alpha_hat, gamma_hat, beta_hat, tao_hat)` are computed regardless of the value of `CI` argument in the function. In the above results, `medEffect` is the estimated mediation effect of `varenicline` compared to `nicotine patch only`, that varies over `timeseq`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the 95% CI (`CI.low`, `CI.upper`) of `medEffect` is estimated via similar bootstrapping and percentile technique described earlier for the coefficients. 
+At each time point of interest `timeseq = t.seq`, the effects of the treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% confidence intervals (CIs). The CIs are computed via non-parametric bootstrap method \texttt{(Efron and Tibshirani, 1986)}, drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha` , `gamma`, `beta` and `tao` coefficients `(alpha_hat, gamma_hat, beta_hat, tao_hat)` are computed regardless of the value of `CI` argument in the function. In the above results, `medEffect` is the estimated mediation effect of `varenicline` compared to `nicotine patch only`, that varies over `timeseq`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the 95% CI (`CI.low`, `CI.upper`) of `medEffect` is estimated via similar bootstrapping and percentile technique described earlier for the coefficients. 
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
@@ -260,8 +262,7 @@ If `plot = TRUE` argument is passed, the results will also include the following
 21. `MedEff_CI` plot for `medEffect` with 95% CIs across timeseq (`= t.seq`)
 22. `bootstrap` plot for estimated `medEffect`(s) from bootstrapped samples across timeseq (`= t.seq`)
 
-We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone.
-
+We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone. To display the plots, use `results_tvmb$` followed by the name of the plot to access the required plot accordingly. For example:
 
 ```{r, fig.width = 10, fig.height = 5}
 results_tvmb$plot1_a
@@ -284,7 +285,7 @@ In the above plot, the effect of subjects' `negative mood in the last fifteen mi
 results_tvmb$plot4_t
 ```
 
-The above plot shows the total effect of `varenicline` on the outcome subjects' `daily smoking status` which follows a sinusoidal trend over time with occasional spikes around the end of weeks 4-6 and 14. The estimated 95% CI covers 0 (no effect).
+The above plot shows the total effect of `varenicline` on the outcome subjects' `daily smoking status` which follows a sinusoidal trend over time with occasional spikes around the end of days 4-6 and 14. The estimated 95% CI covers 0 (no effect).
 
 
 ```{r, fig.width = 10, fig.height = 5}

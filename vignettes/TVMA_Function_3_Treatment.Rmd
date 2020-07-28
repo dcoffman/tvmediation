@@ -226,40 +226,50 @@ The `tvma_3trt` function returns a list of results that include:
 11. `hat.gamma2` the estimated effect of treatment arm 2 (exposure group 2) on the outcome
 12. `CI.lower.gamma2` the lower limit of confidence intervals for hat.gamma2
 13. `CI.upper.gamma2` the upper limit of confidence intervals for hat.gamma2
-14. `hat.beta` the estimated effect of the mediator on the outcome
-15. `CI.lower.beta` the lower limit of confidence intervals for hat.beta
-16. `CI.upper.beta` the upper limit of confidence intervals for hat.beta
-17. `hat.mediation1` the time varying mediation effect of treatment arm 1 (exposure group 1)
-18. `hat.mediation2` the time varying mediation effect of treatment arm 2 (exposure group 2)
+14. `hat.tao1` the estimated effect of treatment arm 1 (exposure group 1) on the outcome, excluding adjustment for mediator
+15. `CI.lower.tao1` the lower limit of confidence intervals for hat.tao1
+16. `CI.upper.tao1` the upper limit of confidence intervals for hat.tao1
+17. `hat.tao2` the estimated effect of treatment arm 2 (exposure group 2) on the outcome, excluding adjustment for mediator
+18. `CI.lower.tao2` the lower limit of confidence intervals for hat.tao2
+19. `CI.upper.tao2` the upper limit of confidence intervals for hat.tao2
+20. `hat.beta` the estimated effect of the mediator on the outcome
+21. `CI.lower.beta` the lower limit of confidence intervals for hat.beta
+22. `CI.upper.beta` the upper limit of confidence intervals for hat.beta
+23. `hat.mediation1` the time varying mediation effect of treatment arm 1 (exposure group 1)
+24. `hat.mediation2` the time varying mediation effect of treatment arm 2 (exposure group 2)
 
 Optional returns based on arguments `CI = "boot"` include:
 
-19. `CI.lower.NRT1` the lower limit of confidence intervals for the time varying mediation effect of treatment arm 1 (exposure group 1)
-20. `CI.upper.NRT1` the upper limit of confidence intervals for the time varying mediation effect of treatment arm 1 (exposure group 1)
-21. `CI.lower.NRT2` the lower confidence intervals for the time varying mediation effect of treatment arm 2 (exposure group 2)
-22. `CI.upper.NRT2` the upper confidence intervals for the time varying mediation effect of treatment arm 2 (exposure group 2)
-23. `SE_MedEff1` estimated standard error of the time varying mediation effect for treatment arm 1 (exposure group 2)
-24. `SE_MedEff2` estimated standard error of the time varying mediation effect for treatment arm 2 (exposure group 2)
+25. `CI.lower.NRT1` the lower limit of confidence intervals for the time varying mediation effect of treatment arm 1 (exposure group 1)
+26. `CI.upper.NRT1` the upper limit of confidence intervals for the time varying mediation effect of treatment arm 1 (exposure group 1)
+27. `CI.lower.NRT2` the lower confidence intervals for the time varying mediation effect of treatment arm 2 (exposure group 2)
+28. `CI.upper.NRT2` the upper confidence intervals for the time varying mediation effect of treatment arm 2 (exposure group 2)
+29. `SE_MedEff1` estimated standard error of the time varying mediation effect for treatment arm 1 (exposure group 2)
+30. `SE_MedEff2` estimated standard error of the time varying mediation effect for treatment arm 2 (exposure group 2)
+
+The above estimates are compiled in a single dataframe which can be accessed using `results_tvma_3trt$Estimates`. The following line of code displays only the estimates at the first 6 time-points.
 
 ```{r}
-results_tvma_3trt$Estimates
+head(results_tvma_3trt$Estimates)
 ```
 
-At each time point of interest `timeseq = t.est` which in this case is equal to `t.seq`, the effects of treatment (exposure) on mediator, treatment on outcome and mediator on outcome are estimated along with the respective 95% CIs. The CIs are computed via non-parametric bootstrap method \texttt{(Efron and Tibshirani, 1986)}, drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha`, `gamma` and `beta` coefficients `(hat.alpha.1, hat.alpha.2, hat.gamma1, hat.gamma2, hat.beta)` are computed regardless of the value of `CI` argument in the function. `hat.mediation1` and `hat.mediation2` are the estimated mediation effects of `NRT1 (varenicline)` and `NRT2 (comboNRT)` compared to the `placebo (nicotine patch only)` that varies over `t.est`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the standard errors of the estimated mediation effects and 95% CIs are estimated via similar bootstrapping technique described earlier for the coefficients. 
+At each time point of interest `timeseq = t.est` which in this case is equal to `t.seq`, the effects of treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% CIs. The CIs are computed via non-parametric bootstrap method \texttt{(Efron and Tibshirani, 1986)}, drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha`, `gamma`, `beta` and `tao` coefficients `(hat.alpha.1, hat.alpha.2, hat.gamma1, hat.gamma2, hat.tao1, hat.tao2, hat.beta)` are computed regardless of the value of `CI` argument in the function. `hat.mediation1` and `hat.mediation2` are the estimated mediation effects of `NRT1 (varenicline)` and `NRT2 (comboNRT)` compared to the `placebo (nicotine patch only)` that varies over `t.est`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the standard errors of the estimated mediation effects and 95% CIs are estimated via similar bootstrapping technique described earlier for the coefficients. 
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
-25. `plot1_a1` plot for `hat.alpha1` with 95% CIs across `timeseq`
-26. `plot2_a2` plot for `hat.alpha2` with 95% CIs across `timeseq`
-27. `plot3_g1` plot for `hat.gamma1` with 95% CIs across `timeseq`
-28. `plot4_g2` plot for `hat.gamma2` with 95% CIs across `timeseq`
-29. `plot5_b` plot for `hat.beta` with 95% CIs across `timeseq`
-30. `MedEff_NRT1` plot for `hat.mediation1` across `timeseq`
-31. `MedEff_NRT2` plot for `hat.mediation2` across `timeseq`
-32. `MedEff_CI_NRT1` plot for `hat.mediation1` with 95% CIs across `timeseq`
-33. `MedEff_CI_NRT2` plot for `hat.mediation2` with 95% CIs across `timeseq`
+31. `plot1_a1` plot for `hat.alpha1` with 95% CIs across `timeseq`
+32. `plot2_a2` plot for `hat.alpha2` with 95% CIs across `timeseq`
+33. `plot3_g1` plot for `hat.gamma1` with 95% CIs across `timeseq`
+34. `plot4_g2` plot for `hat.gamma2` with 95% CIs across `timeseq`
+35. `plot5_t1` plot for `hat.tao1` with 95% CIs across `timeseq`
+36. `plot6_t2` plot for `hat.tao2` with 95% CIs across `timeseq`
+37. `plot7_b` plot for `hat.beta` with 95% CIs across `timeseq`
+38. `MedEff_NRT1` plot for `hat.mediation1` across `timeseq`
+39. `MedEff_NRT2` plot for `hat.mediation2` across `timeseq`
+40. `MedEff_CI_NRT1` plot for `hat.mediation1` with 95% CIs across `timeseq`
+41. `MedEff_CI_NRT2` plot for `hat.mediation2` with 95% CIs across `timeseq`
 
-We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone.
+We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone. To display the plots, use `results_tvma_3trt$` followed by the name of the plot to access the required plot accordingly. For example:
 
 ```{r, fig.width = 10, fig.height = 5}
 results_tvma_3trt$plot1_a1
@@ -285,7 +295,19 @@ results_tvma_3trt$plot4_g2
 The above plot shows the direct effect of `combination NRT` on the outcome `cessation fatigue` over time is stronger than the direct effect of `nicotine patch` only.
 
 ```{r, fig.width = 10, fig.height = 5}
-results_tvma_3trt$plot5_b
+results_tvma_3trt$plot5_t1
+```
+
+The above plot shows the total effect of `varenicline` on the outcome `cessation fatigue` which is mostly stable over time. The estimated 95% CI covers 0 (no effect), except during days 6-9.
+
+```{r, fig.width = 10, fig.height = 5}
+results_tvma_3trt$plot6_t2
+```
+
+The above plot shows the total effect of `combination NRT` on the outcome `cessation fatigue` which is mostly stable over time. The estimated 95% CI covers 0 (no effect).
+
+```{r, fig.width = 10, fig.height = 5}
+results_tvma_3trt$plot7_b
 ```
 
 In the above plot, the effect of subjects' `negative mood in the last fifteen minutes` on the outcome `cessation fatigue` is increasing with occasional spikes around day 6-7 (end of week 1) and day 20-21 (end of week 3).

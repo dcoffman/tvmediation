@@ -64,7 +64,15 @@ estBootCIs <- function(trt, t.seq, M, Y, t.est, deltat, replicates) {
       t.coeff.boot <- cbind(t.coeff.boot, coeff.est.boot)  # store coeff estimates at t.seq
     }
     # Equations 4 & 5
-    est.smooth.boot <- smoothest(t.seq, t.coeff.boot, t.est, deltat)
+    bw_alpha <- locpol::thumbBw(t.seq[-1], t.coeff.boot[1, ], deg = 1, kernel = locpol::gaussK)
+    bw_beta  <- locpol::thumbBw(t.seq[-1], t.coeff.boot[3, ], deg = 1, kernel = locpol::gaussK)
+    hat.alpha = locpol::locPolSmootherC(t.seq[-1], t.coeff.boot[1, ], t.est - deltat, bw_alpha,
+                                        deg = 1, kernel = locpol::gaussK)$beta0
+    hat.beta  = locpol::locPolSmootherC(t.seq[-1], t.coeff.boot[3, ], t.est, bw_beta, 
+                                        deg = 1, kernel = locpol::gaussK)$beta0
+    est.smooth.boot <- list(bw_alpha = bw_alpha, bw_beta = bw_beta,
+                            hat.alpha = hat.alpha, hat.beta = hat.beta,
+                            est.M = hat.alpha*hat.beta)
     storage.boot[k1, ] <- est.smooth.boot$est.M
   }
   
