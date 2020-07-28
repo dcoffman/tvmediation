@@ -187,7 +187,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         coeff.est <- estCoeff(newMO.j.est)
         
         # Steps to derive the total effect coefficient tao
-        X.new <- scale(trt, center = TRUE, scale = FALSE)
+        X.new <- scale(treatment, center = TRUE, scale = FALSE)
         Y.new <- scale(outcome[j - 1, ], center = TRUE, scale = FALSE)
         nomissing.X <- complete.cases(X.new)
         nomissing.Y <- complete.cases(Y.new)
