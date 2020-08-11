@@ -41,13 +41,17 @@ library(tvmediation)
 
 ## Introduction
 
-The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 3 treatment (exposure) groups and continuous outcome. We will rely on a dataset simulated based on the Wisconsin Smokers' Health Study 2 dataset which includes 1086 individuals across 3 treatment conditions. In one condition, one-third of participants received only a `nicotine patch`. In a second condition, another one-third received `varenicline`. A final third of participants were placed into a third condition and received a `combination nicotine replacement therapy (NRT)` which is nicotine patch + nicotine mini-lozenge. For our illustration the outcome of interest is `cessation fatigue` that recorded how tired a participant felt of trying to quit smoking (7-point Likert scale). In addition, mediator variables were collected by asking participants if they felt a `negative mood in the last fifteen minutes`, and whether they `wanted to smoke in the last 15 minutes`, also recorded in the 7-point Likert scale. Both the outcome and mediator variables were assessed 2x per day over the course of twenty-eight days. The assessments were recorded daily (2x per day) for the first two weeks (rendering 30 time points of response since assessments starts on day 0 post target quit day), and every other day (2x per day) for weeks 3 and 4 (rendering 14 time points of response).
+The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 3 treatment (exposure) groups and continuous outcome. Please note, that this package has been built considering the structure of a panel data, where each subject/participant has repeated responses (collected over time) for the variables of interest (outcome and mediator). However, we are not addressing the dynamic treatment regimens problem in this package. Therefore, we have assumed the scenario where the treatment (exposure) is constant and does not change over time.
+
+### Data
+
+We will rely on a dataset, simulated based on the Wisconsin Smokers' Health Study 2 dataset which includes 1086 individuals across 3 treatment conditions. One-third of participants received only a `nicotine patch`; another one-third received `varenicline` and the final third of participants received a `combination nicotine replacement therapy (NRT)` which is nicotine patch + nicotine mini-lozenge. For our illustration the outcome of interest is `cessation fatigue` that recorded how tired a participant felt of trying to quit smoking (7-point Likert scale). In addition, mediator variables were collected by asking participants if they felt a `negative mood in the last fifteen minutes`, and whether they `wanted to smoke in the last 15 minutes`, also recorded in the 7-point Likert scale. Both the outcome and mediator variables were assessed 2x per day over the course of twenty-eight days. The assessments were recorded daily (2x per day) for the first two weeks (rendering 30 time points of response since assessments starts on day 0 post target quit day), and every other day (2x per day) for weeks 3 and 4 (rendering 14 time points of response).
 
 A traditional approach to analyzing this type of data would be to utilize a mediation analysis. First, a single direct effect would be calculated by regressing the outcome on the treatment condition. Next, a single indirect effect would be computed by multiplying the effect of treatment condition on the mediator by the effect of the mediator on the outcome. However, this method potentially misses important information about the dynamic effect that a mediator may have over time. Specifically, we hypothesize that mood changes and thus, its mediating effect on one’s feelings of quitting smoking is likely to vary over time. We therefore propose a time varying mediation analysis which estimates the mediation effect as a function that varies over time.
 
 ## Getting started
 
-To use the time varying mediation analysis package in R, you must first install the package and and load it. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or `devtools` function. 
+To use the time varying mediation analysis package in R, you must first install the package and and load it. Before that, make sure you have `R version 4.0.2`. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or `devtools` function. 
 
 ```{r, eval = FALSE}
 install.packages("tvmediation", dependencies = TRUE)
@@ -60,13 +64,17 @@ devtools::install_cran("tvmediation", dependencies = TRUE) # MAKE SURE YOU HAVE 
 library(tvmediation)
 ```
 
+If you do not have `devtools` installed and loaded, you can do so using the following set of codes:
+```{r, eval = FALSE}
+install.packages("devtools", dependencies = TRUE)
+library(devtools)
+```
+
 Alternatively, if you want to install the package directly from the github repository to access new or revised functions in development, the following code is required:
 ```{r, eval = FALSE}
 devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) # MAKE SURE YOU HAVE devtools INSTALLED AND LOADED #
 library(tvmediation)
 ```
-
-In addition, you will want to install and load the `locpol`, `ggplot2`, `kedd`, `stats` and `dplyr` packages which are necessary for certain functions to operate in the `tvmediation` package.
 
 ## Formatting your data before calling the `tvma_3trt` function
 
@@ -128,9 +136,9 @@ Now your dataset might not always be in long format which requires to be convert
 
 The function still requires 3 more variables that we have not yet created:
 
-1. `NRT1` A binary vector with treatment1 schedule
-2. `NRT2` A binary vector with treatment2 schedule
-3. `t.seq` The time sequence of the measures
+1. `NRT1` A binary numeric vector with treatment1 schedule
+2. `NRT2` A binary numeric vector with treatment2 schedule
+3. `t.seq` A numeric vector of the time sequence of the measures
 
 When there are three treatment groups, create two dummy variables `NRT1` and `NRT2` corresponding to the treatment (exposure) groups other than the placebo or the standard of care in this case. In our data, `NRT1 = 1` indicates that the participant has been given `varenicline` and `NRT1 = 0` for `no varenicline`. Similarly, `NRT2 = 1` means participant has received the `combination NRT` and `NRT2 = 0` means participant did not receive the `combination treatment (comboNRT)`. Naturally, `NRT1 = 1` and `NRT2 = 1` are mutually exclusive that is a participant cannot have `NRT1 = 1` and `NRT2 = 1` simultaneously. If `NRT1 = 1` then for that participant `NRT2` must be equal to `0`. However, `NRT1 = 0` and `NRT2 = 0` are not mutually exclusive. When `NRT1 = 0` and `NRT2 = 0` then it is obvious that the participant has received the placebo or the standard of care, in this case `nicotine patch` only. Thus if there are three treatment groups, two dummy variables clearly indicating `NRT1` or `treatment1`, `NRT2` or `treatment2` and `placebo` need to be created. An example is given as follows. In the `smoker.rda` dataset, three columns indicating the assignment of the three treatments are present.
 
