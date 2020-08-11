@@ -3,7 +3,7 @@
 \alias{tvmediation}
 
 \description{
-\if{html}{\figure{tvma-logo2.png}{options: align='right'}}
+\if{html}{\figure{tvma_logo.png}{options: align='right'}}
 
 A package for estimating mediation effects that vary over time.
 } 
