@@ -1,14 +1,14 @@
 ---
 title: "Time Varying Mediation Analysis: Continuous Outcome and Two Treatment Arms (Exposure Groups)"
 author:
-- name: Donna L. Coffman
-  email: donna.coffman@temple.edu
+- name: Yajnaseni Chakraborti
+  email: yajnaseni.chakraborti@temple.edu
+- name: Harry Zobel
+  email: harryzobeljr@gmail.com 
 - name: Xizhen Cai
   email: cai.xizhen@gmail.com
-- name: Harry Zobel
-  email: harryzobeljr@gmail.com
-- name: Yajnaseni Chakraborti
-  email: yajnaseni.chakraborti@temple.edu 
+- name: Donna L. Coffman
+  email: donna.coffman@temple.edu
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
@@ -41,7 +41,7 @@ library(tvmediation)
 
 ## Introduction
 
-The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 2 treatment (exposure) groups and continuous outcome. Please note, that this package has been built considering the structure of a panel data, where each subject/participant has repeated responses (collected over time) for the variables of interest (outcome and mediator). However, we are not addressing the dynamic treatment regimens problem in this package. Therefore, we have assumed the scenario where the treatment (exposure) is constant and does not change over time.
+The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 2 treatment (exposure) groups and continuous outcome. Please note, that this package has been built considering the structure of a panel data, where each subject/participant has repeated responses (collected over time) for the variables of interest (outcome and mediator). However, we are not addressing the dynamic treatment regimens problem in this package. Therefore, we have assumed the scenario where the treatment (exposure) is constant and does not change over time. For more information on the mathematical model, refer *italic* Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (under review). Estimation and inference for the mediation effect in a time-varying mediation model. Journal of the Royal Statistics Society, Series C (Applied Statistics). *italic* The paper can be requested from Donna L. Coffman.
 
 ### Data
 
@@ -226,7 +226,7 @@ The above estimates are compiled in a single dataframe which can be accessed usi
 head(results$Estimates)
 ```
 
-At each time point of interest `t.est` which in this case is equal to `t.seq`, the effects of treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% CIs. The CIs are computed via non-parametric bootstrap method \texttt{(Efron and Tibshirani, 1986)}, drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha`, `gamma`, `beta` and `tao` coefficients `(hat.alpha, hat.gamma, hat.beta, hat.tao)` are computed regardless of the value of `CI` argument in the function. `est.M` is the estimated mediation effect of `varenicline` compared to the other two treatment groups, that varies over `t.est`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the standard error of the estimated mediation effect and 95% CI is estimated via similar bootstrapping technique described earlier for the coefficients. 
+At each time point of interest `t.est` which in this case is equal to `t.seq`, the effects of treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% CIs. The CIs are computed via non-parametric bootstrap method (Efron and Tibshirani, 1986), drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha`, `gamma`, `beta` and `tao` coefficients `(hat.alpha, hat.gamma, hat.beta, hat.tao)` are computed regardless of the value of `CI` argument in the function. `est.M` is the estimated mediation effect of `varenicline` compared to the other two treatment groups, that varies over `t.est`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the standard error of the estimated mediation effect and 95% CI is estimated via similar bootstrapping technique described earlier for the coefficients. 
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
@@ -287,7 +287,16 @@ results_new
 The `tvma` function computes bootstrap confidence intervals by default. Therefore, if the user decides to not bootstrap CIs for the mediation effect by specifying `CI = "none"`, however by mistake also specifies `replicates = 500`, the function will not display an error, but simply execute without computing the CIs for mediation effect. Note that the CIs for the individual effects of exposure on mediator and mediator on outcome is computed even if the user passes the argument `CI = "none"`.
 
 ## Summary
-The `tvmediation` package provides a powerful set of functions for estimating mediation effects that vary over time. Development of this tool has widespread application for use in human behavior research, clinical trials, addiction research, and others. By adopting the Time Varying Mediation Analysis for your data, we hope to characterize the realistic nature of an effect over time as opposed to the traditional approach of estimating an effect based on its single occurrence. 
+
+The `tvmediation` package provides a powerful set of functions for estimating mediation effects that vary over time. Development of this tool has widespread application for use in human behavior research, clinical trials, addiction research, and others. By adopting the Time Varying Mediation Analysis for your data, we hope to characterize the realistic nature of an effect over time as opposed to the traditional approach of estimating an effect based on its single occurrence.
+
+## References
+
+1. Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (under review). Estimation and inference for the mediation effect in a time-varying mediation model. Journal of the Royal Statistics Society, Series C (Applied Statistics).
+
+2. Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. doi:10.1001/jama.2015.19284.
+
+3. Efron, B. & Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75. doi:10.1214/ss/1177013815.
 
 </div>
 
