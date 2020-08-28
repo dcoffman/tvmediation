@@ -41,11 +41,11 @@ library(tvmediation)
 
 ## Introduction
 
-The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 2 treatment (exposure) groups and binary outcome. Please note, that this package has been built considering the structure of a panel data, where each subject/participant has repeated responses (collected over time) for the variables of interest (outcome and mediator). However, we are not addressing the dynamic treatment regimens problem in this package. Therefore, we have assumed the scenario where the treatment (exposure) is constant and does not change over time.
+The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 2 treatment (exposure) groups and a binary outcome. Please note, that this package has been built considering the structure of a panel data, where each subject/participant has repeated responses (collected over time) for the variables of interest (outcome and mediator). However, we are not addressing the dynamic treatment regimens problem in this package. Therefore, we have assumed the scenario where the treatment (exposure) is constant and does not change over time.
 
 ### Data
 
-We will rely on a dataset, simulated based on the Wisconsin Smokers' Health Study 2 dataset (Baker et. al., 2016) which includes 1086 individuals across 3 treatment conditions. One-third of participants received only a `nicotine patch`; another one-third received `varenicline` and the final third of participants received a `combination nicotine replacement therapy (NRT)` which is nicotine patch + nicotine mini-lozenge. For our illustration the outcome of interest is `daily smoking status` a binary variable derived from variables recording the number of cigarettes smoked by the participants. In addition, mediator variables were collected by asking participants if they felt a `negative mood in the last fifteen minutes`, whether they `wanted to smoke in the last 15 minutes`, or `cessation fatigue` recording how tired a participant felt of trying to quit smoking (7-point Likert scale). Both the outcome and mediator variables were assessed 2x per day over the course of twenty-eight days. The assessments were recorded daily (2x per day) for the first two weeks (rendering 30 time points of response since assessments starts on day 0 post target quit day), and every other day (2x per day) for weeks 3 and 4 (rendering 14 time points of response).
+We will rely on a dataset, simulated based on the Wisconsin Smokers' Health Study 2 dataset (Baker et. al., 2016) which includes 1086 individuals across 3 treatment conditions. One-third of participants received only a `nicotine patch`; another one-third received `varenicline` and the final third of participants received a `combination nicotine replacement therapy (NRT)` which is nicotine patch + nicotine mini-lozenge. For our illustration the outcome of interest is `daily smoking status` a binary variable derived from variables recording the number of cigarettes smoked by the participants. In addition, mediator variables were collected by asking participants if they felt a `negative mood in the last fifteen minutes`, whether they `wanted to smoke in the last 15 minutes`, or `cessation fatigue` recording how tired a participant felt of trying to quit smoking (7-point Likert scale). Both the outcome and mediator variables were assessed 2x per day over the course of twenty-eight days. The assessments were recorded daily (2x per day) for the first two weeks (rendering 30 time points of response since assessments start on day 0 post target quit day), and every other day (2x per day) for weeks 3 and 4 (rendering 14 time points of response).
 
 A traditional approach to analyzing this type of data would be to utilize a mediation analysis. First, a single direct effect would be calculated by regressing the outcome on the treatment condition. Next, a single indirect effect would be computed by multiplying the effect of treatment condition on the mediator by the effect of the mediator on the outcome. However, this method potentially misses important information about the dynamic effect that a mediator may have over time. Specifically, we hypothesize that mood changes and thus, its mediating effect on one’s feelings of quitting smoking is likely to vary over time. We therefore propose a time varying mediation analysis which estimates the mediation effect as a function that varies over time.
 
@@ -53,7 +53,7 @@ The `tvmb` function like `tvma` is developed for analyzing the mediation effect 
 
 ## Getting started
 
-To use the time varying mediation analysis package in R, you must first install the package and and load it. Before that, make sure you have `R version 4.0.2`. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or `devtools` function. 
+To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.0.2`. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or `devtools` function. 
 
 ```{r, eval = FALSE}
 install.packages("tvmediation", dependencies = TRUE)
@@ -80,7 +80,7 @@ library(tvmediation)
 
 ## Formatting your data before calling the `tvmb` function
 
-Once installed, you can type `?tvmediation` in the console to view the package documentation, as well as links to the important functions and data included in the package. The time-varying mediation analysis for binary outcome and 2 exposure groups, relies on 2 user functions `tvmb` and `LongToWide` as well as a number of internal functions of the `tvmediation` package.
+Once installed, you can type `?tvmediation` in the console to view the package documentation, as well as links to the important functions and data included in the package. The time-varying mediation analysis for the binary outcome and 2 exposure groups, relies on 2 user functions `tvmb` and `LongToWide` as well as a number of internal functions of the `tvmediation` package.
 
 The `tvmb` function requires 4 necessary and 4 optional input variables.
 
@@ -105,7 +105,7 @@ To load the simulated dataset `smoker.rda`, type:
 data(smoker)
 ```
 
-The `smoker` data frame is organized in Long format with `SubjectID` repeating over multiple rows for each participant. The `tvmb` function requires that our data be in Wide format in order to accurately estimate the time varying mediator coefficients. The `tvmediation` package includes a useful function `LongToWide`to help users properly format their data for analysis.
+The `smoker` data frame is organized in Long format with `SubjectID` repeating over multiple rows for each participant. The `tvmb` function requires that our data be in Wide format in order to accurately estimate the time varying mediator coefficients. The `tvmediation` package includes a useful function `LongToWide` to help users properly format their data for analysis.
 
 `LongToWide` has 3 main input arguments, and a fourth optional argument.
 
@@ -180,9 +180,9 @@ NRT1[1:10]
 NRT2[1:10]
 ```
 
-Depending on our exposure of interest, i.e. whether we want to compare the mediation effects observed among participants with `varenicline` vs `placebo (nicotine patch)`, or `combination NRT` vs `placebo`, or `varenicline` vs `combination NRT`, a final variable was derived based on these two variables.
+Depending on our exposure of interest, i.e. whether we want to compare the mediation effects observed among participants with `varenicline` vs. `placebo (nicotine patch)`, or `combination NRT` vs. `placebo`, or `varenicline` vs. `combination NRT`, a final variable was derived based on these two variables.
 
-For example: The following codes are to derive the final variable to compare the mediation effects observed among participants with `varenicline` vs `placebo (nicotine patch)`.
+For example: The following codes are to derive the final variable to compare the mediation effects observed among participants with `varenicline` vs. `placebo (nicotine patch)`.
 
 ```{r}
 treatment= rep(NA,1086) # replace 1086 with the number of subjects in your study #
@@ -190,14 +190,14 @@ treatment = ifelse(NRT1==1 & NRT2==0, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
 treatment[1:10]
 ```
 
-The current version of the `tvmb` function only supports two treatment options. Therefore, in order to estimate the mediation effects observed among participants with `combination NRT` vs `placebo`, the above code would be changed to,
+The current version of the `tvmb` function only supports two treatment options. Therefore, in order to estimate the mediation effects observed among participants with `combination NRT` vs. `placebo`, the above code would be changed to,
 
 ```{r}
 # treatment= rep(NA,1086)
 # treatment = ifelse(NRT1==0 & NRT2==1, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
 ```
 
-In case the user is interested in the mediation effects observed among participants with `varenicline` vs `not varenicline` or `combination NRT` vs `not combination NRT1` where the comparator group is a collective of the remaining 2 treatment groups, kindly refer to the `tvma` function vignette for guidance.
+In case the user is interested in the mediation effects observed among participants with `varenicline` vs. `not varenicline` or `combination NRT` vs. `not combination NRT1` where the comparator group is a collective of the remaining 2 treatment groups, kindly refer to the `tvma` function vignette for guidance.
 
 To generate `t.seq` we found only one instance of each time point and then sorted from smallest to largest. There are 44 unique time points in our dataset where `0` after decimal indicates measurement recorded in the morning and `5` after decimal indicates measurement recorded in the evening.
 ```{r}
@@ -258,7 +258,7 @@ The above estimates are compiled in a single dataframe which can be accessed usi
 head(results_tvmb$Estimates)
 ```
 
-At each time point of interest `timeseq = t.seq`, the effects of the treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% confidence intervals (CIs). The CIs are computed via non-parametric bootstrap method (Efron and Tibshirani, 1986), drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha` , `gamma`, `beta` and `tao` coefficients `(alpha_hat, gamma_hat, beta_hat, tao_hat)` are computed regardless of the value of `CI` argument in the function. In the above results, `medEffect` is the estimated mediation effect of `varenicline` compared to `nicotine patch only`, that varies over `timeseq`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the 95% CI (`CI.low`, `CI.upper`) of `medEffect` is estimated via similar bootstrapping and percentile technique described earlier for the coefficients. 
+At each time point of interest `timeseq = t.seq`, the effects of the treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% confidence intervals (CIs). The CIs are computed via a non-parametric bootstrap method (Efron and Tibshirani, 1986), drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha`, `gamma`, `beta` and `tao` coefficients `(alpha_hat, gamma_hat, beta_hat, tao_hat)` are computed regardless of the value of `CI` argument in the function. In the above results, `medEffect` is the estimated mediation effect of `varenicline` compared to `nicotine patch only`, that varies over `timeseq`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the 95% CI (`CI.low`, `CI.upper`) of `medEffect` is estimated via similar bootstrapping and percentile technique described earlier for the coefficients. 
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
@@ -312,12 +312,12 @@ results_tvmb$bootstrap
 
 This is the bootstrap plot showing the estimated mediation effect (using product method) from bootstrapping the original sample 1000 times with 1086 sample size.
 
-The `tvmb` function computes bootstrap confidence intervals by default. Therefore, the user may decide not bootstrap CIs for the mediation effect by specifying `CI = "none"`. However if by mistake the user specifies `CI = "none"` and `replicates = 500` simultaneously, the function will not display an error, but simply execute without computing the CIs for mediation effect. Note that the CIs for the individual effects of exposure on mediator and mediator on outcome is computed even if the user passes the argument `CI = "none"`.
+The `tvmb` function computes bootstrap confidence intervals by default. Therefore, the user may decide not to bootstrap CIs for the mediation effect by specifying `CI = "none"`. However if by mistake the user specifies `CI = "none"` and `replicates = 500` simultaneously, the function will not display an error, but simply execute without computing the CIs for mediation effect. Note that the CIs for the individual effects of exposure on mediator and mediator on outcome is computed even if the user passes the argument `CI = "none"`.
 
 
 ## Summary
 
-The `tvmediation` package provides a powerful set of functions for estimating mediation effects that vary over time. Development of this tool has widespread application for use in human behavior research, clinical trials, addiction research, and others. By adopting the Time Varying Mediation Analysis for your data, we hope to characterize the realistic nature of an effect over time as opposed to the traditional approach of estimating an effect based on its single occurrence.
+The `tvmediation` package provides a robust set of functions for estimating mediation effects that vary over time. The development of this tool has widespread application for use in human behavior research, clinical trials, addiction research, and others. By adopting the Time Varying Mediation Analysis for your data, we hope to characterize the realistic nature of an effect over time as opposed to the traditional approach of estimating an effect based on its single occurrence.
 
 ## References
 

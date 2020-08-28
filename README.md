@@ -7,7 +7,7 @@ This package includes a set of functions to measure the effect of mediating vari
 
 ## Installation
 
-To use the time varying mediation analysis package in R, you must first install the package and and load it. Before that, make sure you have `R version 4.0.2`. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or `devtools` function. 
+To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.0.2`. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or `devtools` function. 
 
 ```{r}
 install.packages("tvmediation", dependencies = TRUE)
@@ -27,6 +27,6 @@ library(tvmediation)
 ```
 
 ## Getting help
-
+Summarized versions of the function vignettes can be accessed from this [link](https://github.com/dcoffman/tvmediation/wiki).
 If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/dcoffman/tvmediation/issues).
 

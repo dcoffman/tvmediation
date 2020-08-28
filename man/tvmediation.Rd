@@ -13,7 +13,7 @@ A package for estimating mediation effects that vary over time. This method take
 
 Useful links:
 \itemize{
-  \item \url{https://github.com/dcoffman/tvmediation}
+  \item \url{https://github.com/dcoffman/tvmediation/wiki}
   \item \url{https://github.com/dcoffman/tvmediation/issues}
 }
 }

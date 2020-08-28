@@ -1,4 +1,4 @@
-#' Time Varying Mediation Analysis: Continuous Outcome and Two Treatment Arms (Exposure Groups)
+#' Time Varying Mediation Function: Continuous Outcome and Two Treatment Arms (Exposure Groups)
 #' 
 #' Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and continuous outcome.
 #' 
