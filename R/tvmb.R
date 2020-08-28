@@ -87,7 +87,6 @@
 #' @import kedd
 #' @import locpol
 
-
 tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
 {
   

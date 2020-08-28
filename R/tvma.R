@@ -90,7 +90,7 @@
 #' @import ggplot2
 #' @import kedd
 #' @import locpol
-
+ 
 tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
   {
       # Estimate time-varying mediation effect and bootstrap standard errors
