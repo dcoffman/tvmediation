@@ -24,6 +24,7 @@ Suggests:
     knitr (>= 1.28),
     rmarkdown (>= 2.2)
 License: GPL-3
+BugReports: https://github.com/dcoffman/tvmediation/issues
 LazyData: true
 VignetteBuilder: knitr
 Encoding: UTF-8
