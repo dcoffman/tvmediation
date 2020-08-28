@@ -27,6 +27,6 @@ library(tvmediation)
 ```
 
 ## Getting help
-Summarized versions of the function vignettes can be accessed from this [link](https://github.com/dcoffman/tvmediation/wiki).
+Summarized versions of the function vignettes can be accessed through this [link](https://github.com/dcoffman/tvmediation/wiki).
 If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/dcoffman/tvmediation/issues).
 

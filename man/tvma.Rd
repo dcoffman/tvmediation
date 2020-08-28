@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvma.R
 \name{tvma}
 \alias{tvma}
-\title{Time Varying Mediation Analysis: Continuous Outcome and Two Treatment Arms (Exposure Groups)}
+\title{Time Varying Mediation Function: Continuous Outcome and Two Treatment Arms (Exposure Groups)}
 \usage{
 tvma(
   treatment,
