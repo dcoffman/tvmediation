@@ -111,12 +111,12 @@ trt <- as.numeric(unique(smoker.sub[,c("SubjectID","varenicline")])[,2])-1
 t.seq <- sort(unique(smoker.sub$timeseq))
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
-results <- tvma(trt, t.seq, mediator, outcome)
+# results <- tvma(trt, t.seq, mediator, outcome)
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
-results <- tvma(trt, t.seq, mediator, outcome,
-                t.est = c(0.2, 0.4, 0.6, 0.8),
-                replicates = 500)
+# results <- tvma(trt, t.seq, mediator, outcome,
+#                 t.est = c(0.2, 0.4, 0.6, 0.8),
+#                 replicates = 500)
 
 }
 \references{

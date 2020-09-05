@@ -141,12 +141,12 @@ NRT2 <- as.numeric(unique(smoker[,c("SubjectID","comboNRT")])[,2])-1
 t.seq <- sort(unique(smoker$timeseq))
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
-results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome)
+# results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome)
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
-results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome,
-                     t.est = c(0.2, 0.4, 0.6, 0.8),
-                     replicates = 500)
+# results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome,
+#                      t.est = c(0.2, 0.4, 0.6, 0.8),
+#                      replicates = 500)
 
 }
 \references{

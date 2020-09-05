@@ -68,7 +68,7 @@
 #' t.seq <- sort(unique(smoker.sub$timeseq))
 #' 
 #' # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
-#' results <- tvmb(trt, t.seq, mediator, outcome)
+#' # results <- tvmb(trt, t.seq, mediator, outcome)
 #' 
 #' @references 
 #' \enumerate{
@@ -212,7 +212,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         # fit gamma and beta coefficients for each time point
         bAll = vector()
         gAll = vector()
-        sd2Real = vector()
+        sd2  = vector()
         
         for(i in 2:nm){
           fit2 = glm(outcome[i,] ~ treatment + m[(i-1),],family="binomial",na.action=na.omit)

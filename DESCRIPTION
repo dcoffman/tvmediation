@@ -6,12 +6,23 @@ Description: A set of functions to measure the effect of mediating variables ove
   into consideration the dynamic effect that a mediator may have over time; thus the realistic nature of an
   effect over time is characterized as opposed to the traditional approach of estimating an effect based on
   its single occurrence.
-Authors@R: as.person(c(
-	"Donna Coffman <donna.coffman@temple.edu> [aut, cre]",
-	"Xizhen Cai <cai.xizhen@gmail.com> [aut]",
-	"Harry Zobel <harryzobeljr@gmail.com> [ctb]",
-	"Yajnaseni Chakraborti <yajnaseni.chakraborti@temple.edu> [ctb]"
-	))
+Authors@R:
+ c(person(given = "Donna",
+          family = "Coffman",
+          role = c("aut", "cre"),
+          email = "donna.coffman@temple.edu"),
+   person(given = "Xizhen",
+          family = "Cai",
+          role = "aut",
+          email = "cai.xizhen@gmail.com"),
+   person(given = "Harry",
+          family = "Zobel",
+          role = "ctb",
+          email = "harryzobeljr@gmail.com"),
+   person(given = "Yajnaseni",
+          family = "Chakraborti",
+          role = "ctb",
+          email = "yajnaseni.chakraborti@temple.edu"))
 RoxygenNote: 7.1.1
 Depends: R (>= 4.0.0)
 Imports:
