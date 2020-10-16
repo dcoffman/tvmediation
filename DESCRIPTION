@@ -2,10 +2,7 @@ Package: tvmediation
 Type: Package
 Version: 1.0.0
 Title: Time Varying Mediation Analysis
-Description: A set of functions to measure the effect of mediating variables over time. This method takes
-  into consideration the dynamic effect that a mediator may have over time; thus the realistic nature of an
-  effect over time is characterized as opposed to the traditional approach of estimating an effect based on
-  its single occurrence.
+Description: A package for estimating mediation effects that vary over time.
 Authors@R:
  c(person(given = "Donna",
           family = "Coffman",
