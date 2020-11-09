@@ -1,15 +1,15 @@
-#' Function to format the dataset
+#' Function to transpose the data from long to wide formate
 #' 
 #' Transposing a dataset with repeated measurements/responses for each subject from longitudinal to wide format.
 #' 
 #' @param subject.id      a column of subject identifiers
 #' @param time.sequence   a column of time points
-#' @param outcome         a column of measures to be transposed
+#' @param outcome         a column of variables to be transposed
 #' @param verbose         TRUE or FALSE (default = FALSE) prints output to screen (OPTIONAL INPUT)
 #' 
 #' @details If data is not sorted by subject.id, a warning message will appear. The function will then sort the data by subject.id. It is reccomended that the user sorts the data prior to using this function.
 #' 
-#' @return \item{\code{mat.wide }}{a matrix of data in short format, columns = outcome for each subject, rows = timeseq}
+#' @return \item{\code{mat.wide }}{a matrix in wide format, columns = outcome for each subject, rows = timeseq}
 #' 
 #' @examples 
 #' set.seed(4)
@@ -22,23 +22,6 @@
 #' @export
 #' 
 LongToWide <- function(subject.id, time.sequence, outcome, verbose = FALSE) {
-  # Transpose data from Long to Wide format
-  #
-  # Arguments:
-  #   subject.id    -->   a column of subject identifiers
-  #   time.sequence -->   a column of time points
-  #   outcome       -->   a column of measures to be transposed
-  #
-  # Optional:
-  #   verbose       -->   TRUE or FALSE (default = FALSE)
-  #                       prints output to screen. Useful for ensuring accuracy
-  #
-  # Returns:
-  #   mat.wide      -->  a matrix of data in short format
-  #                      columns = outcome for each subject, rows = timeseq
-  #
-  #
-  ##
 
   if (missing(verbose)) {
     verbose == FALSE
@@ -55,7 +38,6 @@ LongToWide <- function(subject.id, time.sequence, outcome, verbose = FALSE) {
   N.time <- sort(unique(testM[, 2]))
   mat.wide <- matrix(data = NA, nrow = length(N.sub), ncol = length(N.time))
 
-
   counter.sub <- 1
   counter.time <- 1
   while (counter.time <= dim(testM)[1]) {
@@ -65,9 +47,9 @@ LongToWide <- function(subject.id, time.sequence, outcome, verbose = FALSE) {
       while ((j <= length(N.time)) & (counter.time <= dim(testM)[1]) & sub.id == testM[counter.time]) {
         if (testM[counter.time, 2] == N.time[j]) {
           if (verbose == TRUE) {
-            print(sprintf("MATCH    | sub counter = %04d | sub ID = %d | time counter = %02d | j = %02d | current time = %04.1f | sub time = %04.1f", counter.sub, sub.id, counter.time, j, N.time[j], testM[counter.time, 2]))
+            print(sprintf("MATCH | sub counter = %04d | sub ID = %d | time counter = %02d | j = %02d | current time = %04.1f | sub time = %04.1f", counter.sub, sub.id, counter.time, j, N.time[j], testM[counter.time, 2]))
           }
-          mat.wide[counter.sub, j] <- testM[counter.time,3]
+          mat.wide[counter.sub, j] <- testM[counter.time, 3]
           counter.time <- counter.time + 1
         } else {
           if (verbose == TRUE) {

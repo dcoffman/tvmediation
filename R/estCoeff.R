@@ -1,4 +1,4 @@
-#' Function to estimate coefficients at time T
+#' Function to estimate coefficients at time t
 #' 
 #' Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.
 #' 
@@ -9,19 +9,8 @@
 #' @export
 #' 
 
-
 estCoeff <- function(newMO.j.est) {
-  
-  # Estimate coefficients.
-  #
-  # Args:
-  #   newMO.j.est  -->   a list containing mean centered mediators ($M) and outcomes ($Y)
-  #
-  # Returns:
-  #   coeff.est    -->   estimated coefficients
-  #
-  ##
-  
+
   ### Current method: Ridge Regression
   sym_newMO <- t(newMO.j.est$M)%*%(newMO.j.est$M)
   diag(sym_newMO) <- diag(sym_newMO) + .001
