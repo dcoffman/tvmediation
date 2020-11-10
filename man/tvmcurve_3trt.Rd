@@ -4,40 +4,41 @@
 \alias{tvmcurve_3trt}
 \title{Main function for time varying mediation function for continuous Outcome and three treatment arms (Exposure Groups)}
 \usage{
-tvmcurve_3trt(NRT1, NRT2, t.seq, x, y, t.est)
+tvmcurve_3trt(T1, T2, t.seq, x, y, t.est)
 }
 \arguments{
-\item{NRT1}{a vector with treatment arm 1 values}
+\item{T1}{a vector indicating assignment to treatment 1}
 
-\item{NRT2}{a vector with treatment arm 2 values}
+\item{T2}{a vector indicating assignment to treatment 2}
 
 \item{t.seq}{a vector of time points for each observation}
 
 \item{x}{matrix of mediator values in wide format}
 
-\item{y}{matrix of outcome outcomes in wide format}
+\item{y}{matrix of outcome values in wide format}
 
-\item{t.est}{time points to make the estimation             Default = t.seq.}
+\item{t.est}{time points at which to make the estimation. Default = t.seq.}
 }
 \value{
-\item{hat.alpha1}{estimated NRT1 (treatment arm 1) effect on mediator}
+\item{hat.alpha1}{estimated Treatment 1 effect on mediator}
 
-\item{hat.alpha2}{estimated NRT2 (treatment arm 2) effect on mediator}
+\item{hat.alpha2}{estimated Treatment 2 effect on mediator}
 
-\item{hat.gamma1}{estimated NRT1 (treatment arm 1) effect on outcome}
+\item{hat.gamma1}{estimated Treatment 1 direct effect on outcome}
 
-\item{hat.gamma2}{estimated NRT2 (treatment arm 2) effect on outcome}
+\item{hat.gamma2}{estimated Treatment 2 direct effect on outcome}
 
-\item{hat.tao1}{estimated NRT1 (treatment arm 1) effect on outcome, excluding adjustment for mediator}
+\item{hat.tau1}{estimated Treatment 1 total effect on outcome}
 
-\item{hat.tao2}{estimated NRT2 (treatment arm 2) effect on outcome, excluding adjustment for mediator}
+\item{hat.tau2}{estimated Treatment 2 total effect on outcome}
 
 \item{hat.beta}{estimated mediator effect on outcome}
 
-\item{hat.mediation1}{time varying mediation effect - NRT1 (treatment arm 1) on outcome}
+\item{hat.mediation1}{time varying mediation effect for Treatment 1 on outcome}
 
-\item{hat.mediation2}{time varying mediation effect - NRT2 (treatment arm 2) on outcome}
+\item{hat.mediation2}{time varying mediation effect for Treatment 2 on outcome}
 }
 \description{
-Part of the set of internal functions to estimate the time-varying mediation effect and bootstrap standard errors, involving three treatment groups and continuous outcome.
+Part of the set of internal functions to estimate the time-varying mediation effect and 
+bootstrap standard errors for three treatment groups and continuous outcome.
 }

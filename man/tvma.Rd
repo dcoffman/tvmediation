@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvma.R
 \name{tvma}
 \alias{tvma}
-\title{Time Varying Mediation Function: Continuous Outcome and Two Treatment Arms (Exposure Groups)}
+\title{Time Varying Mediation Function: Continuous Outcome and Two Treatment Groups}
 \usage{
 tvma(
   treatment,
@@ -17,74 +17,74 @@ tvma(
 )
 }
 \arguments{
-\item{treatment}{a vector with treatment values}
+\item{treatment}{a vector indicating treatment group}
 
 \item{t.seq}{a vector of time points for each observation}
 
 \item{mediator}{matrix of mediator values in wide format}
 
-\item{outcome}{matrix of outcome outcomes in wide format}
+\item{outcome}{matrix of outcome values in wide format}
 
-\item{t.est}{a vector of time points to make the estimation                  Default = t.seq (OPTIONAL ARGUMENT)}
+\item{t.est}{a vector of time points at which to estimate. Default = t.seq (OPTIONAL ARGUMENT)}
 
-\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE" (OPTIONAL ARGUMENT)}
+\item{plot}{TRUE or FALSE for producing plots. Default = "FALSE" (OPTIONAL ARGUMENT)}
 
-\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot" (OPTIONAL ARGUMENT)}
+\item{CI}{"none" or "boot" method of deriving confidence intervals. Default = "boot" (OPTIONAL ARGUMENT)}
 
-\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000 (OPTIONAL ARGUMENT)}
+\item{replicates}{number of replicates for bootstrapping confidence intervals. Default = 1000 (OPTIONAL ARGUMENT)}
 
-\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE" (OPTIONAL ARGUMENT)}
+\item{verbose}{TRUE or FALSE for printing results to screen. Default = "FALSE" (OPTIONAL ARGUMENT)}
 }
 \value{
-\item{hat.alpha}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
+\item{hat.alpha}{estimated time-varying treatment effect on mediator}
 
-\item{CI.lower.alpha}{lower limit of confidence intervals for estimated coefficient hat.alpha}
+\item{CI.lower.alpha}{CI lower limit for estimated coefficient hat.alpha}
 
-\item{CI.upper.alpha}{upper limit of confidence intervals for estimated coefficient hat.alpha}
+\item{CI.upper.alpha}{CI upper limit for estimated coefficient hat.alpha}
 
-\item{hat.gamma}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
+\item{hat.gamma}{estimated time-varying treatment effect on outcome (direct effect)}
 
-\item{CI.lower.gamma}{lower limit of confidence intervals for estimated coefficient hat.gamma}
+\item{CI.lower.gamma}{CI lower limit for estimated coefficient hat.gamma}
 
-\item{CI.upper.gamma}{upper limit of confidence intervals for estimated coefficient hat.gamma}
+\item{CI.upper.gamma}{CI upper limit for estimated coefficient hat.gamma}
 
-\item{hat.beta}{estimated mediator effect on outcome (indirect effect component)}
+\item{hat.beta}{estimated time-varying effect of the mediator on outcome}
 
-\item{CI.lower.beta}{lower limit of confidence intervals for estimated coefficient hat.beta}
+\item{CI.lower.beta}{CI lower limit for estimated coefficient hat.beta}
 
-\item{CI.upper.beta}{upper limit of confidence intervals for estimated coefficient hat.beta}
+\item{CI.upper.beta}{CI upper limit for estimated coefficient hat.beta}
 
-\item{hat.tao}{estimated main treatment arm (exposure group) of interest effect on outcome, excluding adjustment for mediator (total effect)}
+\item{hat.tau}{estimated time-varying treatment effect on outcome (total effect)}
 
-\item{CI.lower.tao}{lower limit of confidence intervals for estimated coefficient hat.tao}
+\item{CI.lower.tau}{CI lower limit for estimated coefficient hat.tau}
 
-\item{CI.upper.tao}{upper limit of confidence intervals for estimated coefficient hat.tao}
+\item{CI.upper.tau}{CI upper limit for estimated coefficient hat.tau}
 
-\item{est.M}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome}
+\item{est.M}{time varying mediation effect}
 
-\item{boot.se.m}{estimated standard error of est.M}
+\item{boot.se.m}{estimated standard error for est.M}
 
-\item{CI.lower}{lower limit of confidence intervals of est.M}
+\item{CI.lower}{CI lower limit for est.M}
 
-\item{CI.upper}{upper limit of confidence intervals of est.M}
+\item{CI.upper}{CI upper limit for est.M}
 }
 \description{
-Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and continuous outcome.
+Function to estimate the time-varying mediation effect and bootstrap standard errors for two treatment groups and a continuous outcome.
 }
 \note{
 \enumerate{
-\item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().}
+\item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the tutorial for the tvmb() function.}
 }
 }
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{Alpha_CI }}{plot for hat.alpha across t.est with CIs}
-\item{\code{Gamma_CI }}{plot for hat.gamma across t.est with CIs}
-\item{\code{Beta_CI }}{plot for hat.beta across t.est with CIs}
-\item{\code{Tao_CI }}{plot for hat.tao across t.est with CIs}
-\item{\code{MedEff }}{plot for est.M across t.est}
-\item{\code{MedEff_CI }}{plot for est.M with CIs across t.est}
+\item{\code{Alpha_CI }}{plot for hat.alpha with CIs over t.est}
+\item{\code{Gamma_CI }}{plot for hat.gamma with CIs over t.est}
+\item{\code{Beta_CI }}{plot for hat.beta with CIs over t.est}
+\item{\code{Tau_CI }}{plot for hat.tau with CIs over t.est}
+\item{\code{MedEff }}{plot for est.M over t.est}
+\item{\code{MedEff_CI }}{plot for est.M with CIs over t.est}
 }
 }
 
@@ -113,19 +113,19 @@ t.seq <- sort(unique(smoker.sub$timeseq))
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 # results <- tvma(trt, t.seq, mediator, outcome)
 
-# COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 500 REPLICATES
+# COMPUTE TIME VARYING MEDIATION ANALYSIS FOR SPECIFIED POINTS IN TIME USING 250 REPLICATES
 # results <- tvma(trt, t.seq, mediator, outcome,
 #                 t.est = c(0.2, 0.4, 0.6, 0.8),
-#                 replicates = 500)
+#                 replicates = 250)
 
 }
 \references{
 \enumerate{
-\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}
-\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The annals of Statistics 27 1491-1518.}
-\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology) 62 303-322.}
+\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: Monographs on statistics and applied probability 66. CRC Press.}
+\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The Annals of Statistics, 27, 1491-1518.}
+\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62, 303-322.}
 \item{Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (under review). Estimation and inference for the mediation effect in a time-varying mediation model. Journal of the Royal Statistics Society, Series C (Applied Statistics).}
 \item{Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. doi:10.1001/jama.2015.19284.}
-\item{Efron, B.; Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75. doi:10.1214/ss/1177013815.}
+\item{Efron, B. and Tibshirani, R. (1986). Bootstrap methods for standard errors, confidence intervals, and other measures of statistical accuracy. Statistical Science, 1, 54-75. doi:10.1214/ss/1177013815.}
 }
 }

@@ -2,11 +2,11 @@
 % Please edit documentation in R/bootci_coeff_3trt.R
 \name{bootci_coeff_3trt}
 \alias{bootci_coeff_3trt}
-\title{Bootstrapping samples to estimate confidence intervals for coefficients of continuous outcome and three treatment arms (exposure groups)}
+\title{Bootstrap samples to estimate confidence intervals for coefficients for a continuous outcome and three treatment groups}
 \usage{
 bootci_coeff_3trt(
-  NRT1,
-  NRT2,
+  T1,
+  T2,
   t.seq,
   mediator,
   outcome,
@@ -16,51 +16,51 @@ bootci_coeff_3trt(
 )
 }
 \arguments{
-\item{NRT1}{a vector with treatment arm 1 values}
+\item{T1}{a vector indicating assignment to treatment 1}
 
-\item{NRT2}{a vector with treatment arm 2 values}
+\item{T2}{a vector indicating assignment to treatment 2}
 
 \item{t.seq}{a vector of time points for each observation}
 
 \item{mediator}{matrix of mediator values in wide format}
 
-\item{outcome}{matrix of outcome outcomes in wide format}
+\item{outcome}{matrix of outcome values in wide format}
 
-\item{t.est}{time points to make the estimation                              Default = t.seq.}
+\item{t.est}{time points at which to make the estimation. Default = t.seq.}
 
-\item{original.coeff}{a list of the estimated coefficients \code{hat.alpha1}, \code{hat.alpha2} and \code{hat.beta3}.}
+\item{original.coeff}{a list of the estimated coefficients.}
 
-\item{boot.sample}{number of replicates for bootstrapping confidence intervals.    Default = 1000.}
+\item{boot.sample}{number of replicates for bootstrapping confidence intervals. Default = 1000.}
 }
 \value{
-\item{alw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on mediator}
+\item{alw1}{CI lower limit for estimated Treatment 1 effect on mediator}
 
-\item{aup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on mediator}
+\item{aup1}{CI upper limit for estimated Treatment 1 effect on mediator}
 
-\item{alw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on mediator}
+\item{alw2}{CI lower limit for estimated Treatment 2 effect on mediator}
 
-\item{aup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on mediator}
+\item{aup2}{CI upper limit for estimated Treatment 2 effect on mediator}
 
-\item{glw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
+\item{glw1}{CI lower limit for estimated Treatment 1 direct effect on outcome}
 
-\item{gup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on outcome}
+\item{gup1}{CI upper limit for estimated Treatment 1 direct effect on outcome}
 
-\item{glw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
+\item{glw2}{CI lower limit for estimated Treatment 2 direct effect on outcome}
 
-\item{gup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome}
+\item{gup2}{CI upper limit for estimated Treatment 2 direct effect on outcome}
 
-\item{tlw1}{lower limit of confidence intervals for estimated NRT1 (treatment) effect on outcome, excluding adjustment for mediator}
+\item{tlw1}{CI lower limit for estimated Treatment 1 total effect on outcome}
 
-\item{tup1}{upper limit of confidence intervals for estimated NRT1 (treatment) effect on outcome, excluding adjustment for mediator}
+\item{tup1}{CI upper limit for estimated Treatment 1 total effect on outcome}
 
-\item{tlw2}{lower limit of confidence intervals for estimated NRT2 (treatment) effect on outcome, excluding adjustment for mediator}
+\item{tlw2}{CI lower limit for estimated Treatment 2 total effect on outcome}
 
-\item{tup2}{upper limit of confidence intervals for estimated NRT2 (treatment) effect on outcome, excluding adjustment for mediator}
+\item{tup2}{CI upper limit for estimated Treatment 2 total effect on outcome}
 
-\item{blw}{lower limit of confidence intervals for estimated effect of mediator on outcome}
+\item{blw}{CI lower limit for estimated effect of mediator on outcome}
 
-\item{bup}{upper limit of confidence intervals for estimated effect of mediator on outcome}
+\item{bup}{CI upper limit for estimated effect of mediator on outcome}
 }
 \description{
-Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and three treatment arms (exposure groups).
+Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for a continuous outcome and three treatment groups
 }

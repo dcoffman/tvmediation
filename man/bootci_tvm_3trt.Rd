@@ -2,34 +2,34 @@
 % Please edit documentation in R/bootci_tvm_3trt.R
 \name{bootci_tvm_3trt}
 \alias{bootci_tvm_3trt}
-\title{Bootstrapping samples to estimate confidence intervals for continuous outcome and three treatment (exposure) groups mediation effects}
+\title{Bootstrap samples to estimate confidence intervals for continuous outcome and three treatment groups}
 \usage{
 bootci_tvm_3trt(boot.sample, orig.data, t.est)
 }
 \arguments{
-\item{boot.sample}{number of replicates for bootstrapping confidence intervals.    Default = 1000.}
+\item{boot.sample}{number of replicates for bootstrapping confidence intervals. Default = 1000.}
 
-\item{orig.data}{a list of original data \code{NRT1}, \code{NRT2}, \code{mediator}, \code{outcome} and \code{t.seq}.}
+\item{orig.data}{a list of original data \code{T1}, \code{T2}, \code{mediator}, \code{outcome} and \code{t.seq}.}
 
-\item{t.est}{time points to make the estimation.                             Default = t.seq.}
+\item{t.est}{time points at which to make the estimation. Default = t.seq.}
 }
 \value{
-\item{plw1}{lower limit of confidence intervals for estimated mediation effect in NRT1}
+\item{plw1}{CI lower limit for estimated mediation effect of T1}
 
-\item{pup1}{upper limit of confidence intervals for estimated mediation effect in NRT1}
+\item{pup1}{CI upper limit for estimated mediation effect of T1}
 
-\item{plw2}{lower limit of confidence intervals for estimated mediation effect in NRT2}
+\item{plw2}{CI lower limit for estimated mediation effect of T2}
 
-\item{pup2}{upper limit of confidence intervals for estimated mediation effect in NRT2}
+\item{pup2}{CI upper limit for estimated mediation effect of T2}
 
-\item{orig.se1.all}{estimated standard errors of the mediation effect for NRT1}
+\item{orig.se1.all}{estimated standard errors for the mediation effect of T1}
 
-\item{orig.se2.all}{estimated standard errors of the mediation effect for NRT2}
+\item{orig.se2.all}{estimated standard errors for the mediation effect of T2}
 
-\item{orig.mediation1}{time varying mediation effect - NRT1 on outcome}
+\item{orig.mediation1}{time varying mediation effect for T1}
 
-\item{orig.mediation2}{time varying mediation effect - NRT2 on outcome}
+\item{orig.mediation2}{time varying mediation effect for T2}
 }
 \description{
-Internal function for estimating bootstrapped confidence intervals for the mediation model of continuous outcome and three treatment (exposure) groups when user argument \code{CI="boot"}.
+Internal function for estimating bootstrapped confidence intervals for the mediation effect of continuous outcome and three treatment groups when user argument \code{CI="boot"}.
 }

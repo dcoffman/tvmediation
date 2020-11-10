@@ -11,18 +11,18 @@ smoothest(t.seq, t.coeff, t.est, deltat)
 
 \item{t.coeff}{estimated coefficients}
 
-\item{t.est}{time points to make the estimation}
+\item{t.est}{time points at which to make the estimation}
 
-\item{deltat}{a small constant which controls the time-lag of the effect of the mediator on the outcome.}
+\item{deltat}{a small constant which controls the time-lag of the effect of the mediator on the outcome, half the time between two time points}
 }
 \value{
-\item{bw_alpha}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for alpha coefficient.}
+\item{bw_alpha}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for alpha coefficient.}
 
-\item{bw_gamma}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for gamma coefficient.}
+\item{bw_gamma}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for gamma coefficient.}
 
-\item{bw_beta}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for beta coefficient.}
+\item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for beta coefficient.}
 
-\item{bw_beta}{a number computed via Fan and Gijbels(1996)'s Rule of thumb for bandwidth selector for tao coefficient.}
+\item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for tau coefficient.}
 
 \item{hat.alpha}{estimated treatment effect on mediator}
 
@@ -30,7 +30,7 @@ smoothest(t.seq, t.coeff, t.est, deltat)
 
 \item{hat.beta}{estimated mediator effect on outcome}
 
-\item{hat.tao}{estimated treatment effect on outcome, excluding adjustment for mediator}
+\item{hat.tau}{estimated treatment effect on outcome, not adjusting for mediator}
 
 \item{est.M}{estimated medition effect, product of hat.alpha and hat.beta}
 }

@@ -2,56 +2,56 @@
 % Please edit documentation in R/bootci_tvmb.R
 \name{bootci_tvmb}
 \alias{bootci_tvmb}
-\title{Bootstrapping samples to estimate confidence intervals for binary outcome mediation effects}
+\title{Bootstrap samples to estimate confidence intervals for the mediation effect for a binary outcome}
 \usage{
 bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates = 1000)
 }
 \arguments{
-\item{treatment}{a vector with treatment values}
+\item{treatment}{a vector indicating treatment group}
 
 \item{t.seq}{a vector of unique time points for each observation}
 
 \item{m}{matrix of mediator values in wide format}
 
-\item{outcome}{matrix of outcome outcomes in wide format}
+\item{outcome}{matrix of outcome values in wide format}
 
-\item{coeff_data}{a merged dataset of indirect and direct effects coefficients and confidence intervals estimated from \code{bootci_coeff_binary}}
+\item{coeff_data}{a merged dataset of indirect and direct effects and CIs estimated from \code{bootci_coeff_binary}}
 
-\item{replicates}{number of replicates for bootstrapping confidence intervals.    Default = 1000.}
+\item{replicates}{number of replicates for bootstrapping CIs. Default = 1000.}
 }
 \value{
 \item{timeseq}{time points of estimation}
 
-\item{alpha_hat}{estimated exposure effect on mediator (indirect effect)}
+\item{alpha_hat}{time-varying treatment effect on the mediator}
 
-\item{CI.lower.a}{lower limit of confidence intervals for estimated coefficient alpha_hat}
+\item{CI.lower.a}{CI lower limit for estimated coefficient alpha_hat}
 
-\item{CI.upper.a}{upper limit of confidence intervals for estimated coefficient alpha_hat}
+\item{CI.upper.a}{CI upper limit for estimated coefficient alpha_hat}
 
-\item{gamma_hat}{estimated exposure effect on outcome (direct effect)}
+\item{gamma_hat}{time-varying treatment effect on the outcome (direct effect)}
 
-\item{CI.lower.g}{lower limit of confidence intervals for estimated coefficient gamma_hat}
+\item{CI.lower.g}{CI lower limit for estimated coefficient gamma_hat}
 
-\item{CI.upper.g}{upper limit of confidence intervals for estimated coefficient gamma_hat}
+\item{CI.upper.g}{CI upper limit for estimated coefficient gamma_hat}
 
-\item{beta_hat}{estimated mediation effect on outcome (indirect effect)}
+\item{beta_hat}{time-varying effect of the mediator on the outcome}
 
-\item{CI.lower.b}{lower limit of confidence intervals for estimated coefficient beta_hat}
+\item{CI.lower.b}{CI lower limit for estimated coefficient beta_hat}
 
-\item{CI.upper.b}{upper limit of confidence intervals for estimated coefficient beta_hat}
+\item{CI.upper.b}{CI upper limit for estimated coefficient beta_hat}
 
-\item{tao_hat}{estimated exposure effect on outcome, excluding adjustment for mediator (total effect)}
+\item{tau_hat}{time-varying treatment effect on outcome (total effect)}
 
-\item{CI.lower.t}{lower limit of confidence intervals for estimated coefficient tao_hat}
+\item{CI.lower.t}{CI lower limit for estimated coefficient tau_hat}
 
-\item{CI.upper.t}{upper limit of confidence intervals for estimated coefficient tao_hat}
+\item{CI.upper.t}{CI upper limit for estimated coefficient tau_hat}
 
-\item{medEffect}{time varying mediation effect (product term)}
+\item{medEffect}{time varying mediation effect}
 
-\item{CI.lower}{lower limit of confidence intervals for medEffect}
+\item{CI.lower}{CI lower limit for medEffect}
 
-\item{CI.upper}{upper limit of confidence intervals for medEffect}
+\item{CI.upper}{CI upper limit for medEffect}
 }
 \description{
-Part of the set of internal functions for estimating bootstrapped confidence intervals for the mediation effect estimate for binary outcome when user argument \code{CI="boot"}.
+Part of the set of internal functions for estimating bootstrapped confidence intervals for the mediation effect for a binary outcome when user argument \code{CI="boot"}.
 }

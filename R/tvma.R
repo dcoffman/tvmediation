@@ -172,7 +172,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
         
         final_dat <- merge(test1, test2, all.x = TRUE)
         final_results <- final_dat %>%
-          select(-bw_alpha, -bw_gamma, -bw_beta, -bw_tao)
+          select(-bw_alpha, -bw_gamma, -bw_beta, -bw_tau)
         final_results <- final_results[c("t.est","hat.alpha","CI.lower.alpha","CI.upper.alpha",
                                          "hat.gamma", "CI.lower.gamma", "CI.upper.gamma",
                                          "hat.beta", "CI.lower.beta", "CI.upper.beta",
@@ -183,7 +183,7 @@ tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALS
       }
       else{
         final_results <- test1 %>%
-          select(-bw_alpha1, -bw_beta1, -bw_beta2, -bw_tao)
+          select(-bw_alpha1, -bw_beta1, -bw_beta2, -bw_tau)
         final_results <- final_results[c("t.est","hat.alpha","CI.lower.alpha","CI.upper.alpha",
                                          "hat.gamma", "CI.lower.gamma", "CI.upper.gamma",
                                          "hat.beta", "CI.lower.beta", "CI.upper.beta",

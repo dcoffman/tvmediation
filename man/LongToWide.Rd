@@ -2,7 +2,7 @@
 % Please edit documentation in R/LongToWide.R
 \name{LongToWide}
 \alias{LongToWide}
-\title{Function to format the dataset}
+\title{Function to transpose the data from long to wide formate}
 \usage{
 LongToWide(subject.id, time.sequence, outcome, verbose = FALSE)
 }
@@ -11,12 +11,12 @@ LongToWide(subject.id, time.sequence, outcome, verbose = FALSE)
 
 \item{time.sequence}{a column of time points}
 
-\item{outcome}{a column of measures to be transposed}
+\item{outcome}{a column of variables to be transposed}
 
 \item{verbose}{TRUE or FALSE (default = FALSE) prints output to screen (OPTIONAL INPUT)}
 }
 \value{
-\item{\code{mat.wide }}{a matrix of data in short format, columns = outcome for each subject, rows = timeseq}
+\item{\code{mat.wide }}{a matrix in wide format, columns = outcome for each subject, rows = timeseq}
 }
 \description{
 Transposing a dataset with repeated measurements/responses for each subject from longitudinal to wide format.

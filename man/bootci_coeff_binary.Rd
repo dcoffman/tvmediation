@@ -2,40 +2,40 @@
 % Please edit documentation in R/bootci_coeff_binary.R
 \name{bootci_coeff_binary}
 \alias{bootci_coeff_binary}
-\title{Bootstrapping samples to estimate confidence intervals for binary outcome coefficients}
+\title{Bootstrap samples to estimate confidence intervals for binary outcome coefficients}
 \usage{
 bootci_coeff_binary(treatment, t.seq, m, outcome, replicates = 1000)
 }
 \arguments{
-\item{treatment}{a vector with treatment values}
+\item{treatment}{a vector indicating treatment group}
 
 \item{t.seq}{a vector of unique time points for each observation}
 
 \item{m}{matrix of mediator values in wide format}
 
-\item{outcome}{matrix of outcome outcomes in wide format}
+\item{outcome}{matrix of outcome values in wide format}
 
-\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000.}
+\item{replicates}{Number of replicates for bootstrapping confidence intervals. Default = 1000.}
 }
 \value{
 \item{t.seq}{time points of estimation}
 
-\item{CI.lower.a}{lower limit of confidence intervals for alpha_hat}
+\item{CI.lower.a}{CI lower limit for alpha_hat}
 
-\item{CI.upper.a}{upper limit of confidence intervals for alpha_hat}
+\item{CI.upper.a}{CI upper limit for alpha_hat}
 
-\item{CI.lower.g}{lower limit of confidence intervals for gamma_hat}
+\item{CI.lower.g}{CI lower limit for gamma_hat}
 
-\item{CI.upper.g}{upper limit of confidence intervals for gamma_hat}
+\item{CI.upper.g}{CI upper limit for gamma_hat}
 
-\item{CI.lower.b}{lower limit of confidence intervals for beta_hat}
+\item{CI.lower.b}{CI lower limit for beta_hat}
 
-\item{CI.upper.b}{upper limit of confidence intervals for beta_hat}
+\item{CI.upper.b}{CI upper limit for beta_hat}
 
-\item{CI.lower.t}{lower limit of confidence intervals for tao_hat}
+\item{CI.lower.t}{CI lower limit for tau_hat}
 
-\item{CI.upper.t}{upper limit of confidence intervals for tao_hat}
+\item{CI.upper.t}{CI upper limit for tau_hat}
 }
 \description{
-Internal function for estimating bootstrapped confidence intervals for the coefficients of the mediation model for binary outcome.
+Internal function for estimating bootstrapped confidence intervals for the coefficients of the mediation model for a binary outcome.
 }

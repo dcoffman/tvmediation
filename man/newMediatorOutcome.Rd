@@ -2,16 +2,17 @@
 % Please edit documentation in R/newMediatorOutcome.R
 \name{newMediatorOutcome}
 \alias{newMediatorOutcome}
-\title{Function to compute new Mediator and Outcome using time T and T-1 mean centered on the individual}
+\title{Function to compute new Mediator and Outcome using time t and t-1 mean centered on the individual}
 \usage{
 newMediatorOutcome(trt, M, Y)
 }
 \arguments{
-\item{trt}{numeric binary treatment schedule for each individual}
+\item{trt}{numeric binary treatment group indicator for each individual}
 
-\item{M}{(t.seq x N) matrix where N = number of observations. Column 1 is mediator at time T-1. Column 2 is mediator at time T.}
+\item{M}{(t.seq x N) matrix where N = number of observations. 
+Column 1 is mediator at time t-1. Column 2 is mediator at time t.}
 
-\item{Y}{(Nx1) matrix were N = number of observations. Column 1 is outcome at time T-1.}
+\item{Y}{(Nx1) matrix were N = number of observations. Column 1 is outcome at time t-1.}
 }
 \value{
 \item{newMO}{list containing new mediators, outcomes, and index of complete cases}

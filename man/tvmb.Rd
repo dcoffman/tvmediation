@@ -2,7 +2,7 @@
 % Please edit documentation in R/tvmb.R
 \name{tvmb}
 \alias{tvmb}
-\title{Time Varying Mediation Function: Binary Outcome and Two Treatment Arms (Exposure Groups)}
+\title{Time Varying Mediation Function: Binary Outcome and Two Treatment Groups}
 \usage{
 tvmb(
   treatment,
@@ -16,81 +16,81 @@ tvmb(
 )
 }
 \arguments{
-\item{treatment}{a vector with treatment values}
+\item{treatment}{a vector indicating treatment group}
 
 \item{t.seq}{a vector of unique time points for each observation}
 
 \item{mediator}{matrix of mediator values in wide format}
 
-\item{outcome}{matrix of outcome outcomes in wide format}
+\item{outcome}{matrix of outcome values in wide format}
 
-\item{plot}{TRUE or FALSE for plotting mediation effect                     Default = "FALSE". (OPTIONAL ARGUMENT)}
+\item{plot}{TRUE or FALSE for producing plots. Default = "FALSE". (OPTIONAL ARGUMENT)}
 
-\item{CI}{"none" or "boot" method of deriving confidence intervals.       Default = "boot". (OPTIONAL ARGUMENT)}
+\item{CI}{"none" or "boot" method of deriving confidence intervals. Default = "boot". (OPTIONAL ARGUMENT)}
 
-\item{replicates}{Number of replicates for bootstrapping confidence intervals.    Default = 1000. (OPTIONAL ARGUMENT)}
+\item{replicates}{Number of replicates for bootstrapping confidence intervals. Default = 1000. (OPTIONAL ARGUMENT)}
 
-\item{verbose}{TRUE or FALSE for printing results to screen.                   Default = "FALSE". (OPTIONAL ARGUMENT)}
+\item{verbose}{TRUE or FALSE for printing results to screen. Default = "FALSE". (OPTIONAL ARGUMENT)}
 }
 \value{
 \item{timeseq}{time points of estimation}
 
-\item{alpha_hat}{estimated main treatment arm (exposure group) of interest effect on mediator (indirect effect component)}
+\item{alpha_hat}{estimated treatment effect on mediator}
 
-\item{CI.lower.a}{lower limit of confidence intervals for estimated coefficient alpha_hat}
+\item{CI.lower.a}{CI lower limit for estimated coefficient alpha_hat}
 
-\item{CI.upper.a}{upper limit of confidence intervals for estimated coefficient alpha_hat}
+\item{CI.upper.a}{CI upper limit for estimated coefficient alpha_hat}
 
-\item{gamma_hat}{estimated main treatment arm (exposure group) of interest effect on outcome (direct effect)}
+\item{gamma_hat}{estimated treatment effect on outcome (direct effect)}
 
-\item{CI.lower.g}{lower limit of confidence intervals for estimated coefficient gamma_hat}
+\item{CI.lower.g}{CI lower limit for estimated coefficient gamma_hat}
 
-\item{CI.upper.g}{upper limit of confidence intervals for estimated coefficient gamma_hat}
+\item{CI.upper.g}{CI upper limit for estimated coefficient gamma_hat}
 
-\item{beta_hat}{estimated mediator effect on outcome (indirect effect component)}
+\item{beta_hat}{estimated mediator effect on outcome}
 
-\item{CI.lower.b}{lower limit of confidence intervals for estimated coefficient beta_hat}
+\item{CI.lower.b}{CI lower limit for estimated coefficient beta_hat}
 
-\item{CI.upper.b}{upper limit of confidence intervals for estimated coefficient beta_hat}
+\item{CI.upper.b}{CI upper limit for estimated coefficient beta_hat}
 
-\item{tao_hat}{estimated main treatment arm (exposure group) of interest effect on outcome, excluding adjustment for mediator (total effect)}
+\item{tau_hat}{estimated treatment effect on outcome (total effect)}
 
-\item{CI.lower.t}{lower limit of confidence intervals for estimated coefficient tao_hat}
+\item{CI.lower.t}{CI lower limit for estimated coefficient tau_hat}
 
-\item{CI.upper.t}{upper limit of confidence intervals for estimated coefficient tao_hat}
+\item{CI.upper.t}{CI upper limit for estimated coefficient tau_hat}
 
-\item{medEffect}{time varying mediation effect - main treatment arm (exposure group) of interest on outcome (estimated by product method)}
+\item{medEffect}{time varying mediation effect}
 
-\item{CI.lower}{lower limit of confidence intervals for medEffect}
+\item{CI.lower}{CI lower limit for medEffect}
 
-\item{CI.upper}{upper limit of confidence intervals for medEffect}
+\item{CI.upper}{CI upper limit for medEffect}
 }
 \description{
 Function to estimate the time-varying mediation effect and bootstrap standard errors, involving two treatment groups and binary outcome.
 }
 \note{
 \enumerate{
-\item{Currently supports 2 treatment options. Future releases may expand number of treatment options.}
-\item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the function tutorial for tvmb().}
+\item{Currently supports 2 treatment groups}
+\item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the tutorial for the tvmb() function.}
 }
 }
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{plot1_a }}{plot for alpha_hat across t.seq with CIs}
-\item{\code{plot2_g }}{plot for gamma_hat across t.seq with CIs}
-\item{\code{plot3_b }}{plot for beta_hat across t.seq with CIs}
-\item{\code{plot4_t }}{plot for tao_hat across t.seq with CIs}
-\item{\code{MedEff }}{plot for medEffect across t.seq}
-\item{\code{MedEff_CI }}{plot for medEffect with CIs across t.seq}
-\item{\code{bootstrap }}{plot for estimated medEffect(s) from bootstrapped samples across t.seq}
+\item{\code{plot1_a }}{plot for alpha_hat with CIs over t.seq}
+\item{\code{plot2_g }}{plot for gamma_hat with CIs over t.seq}
+\item{\code{plot3_b }}{plot for beta_hat with CIs over t.seq}
+\item{\code{plot4_t }}{plot for tau_hat with CIs over t.seq}
+\item{\code{MedEff }}{plot for medEffect over t.seq}
+\item{\code{MedEff_CI }}{plot for medEffect with CIs over t.seq}
+\item{\code{bootstrap }}{plot for estimated medEffect from bootstrapped samples over t.seq}
 }
 }
 
 \examples{
 data(smoker)
 
-# REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
+# REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDE COMBINATION NRT)
 smoker.sub <- smoker[smoker$treatment != 4, ]
 
 # GENERATE WIDE FORMATTED MEDIATORS
@@ -104,7 +104,7 @@ outcome <- LongToWide(smoker.sub$SubjectID,
                       smoker.sub$smoke_status)
 
 # GENERATE A BINARY TREATMENT VARIABLE
-trt <- as.numeric(unique(smoker.sub[ , c("SubjectID","varenicline")])[ , 2])-1
+trt <- as.numeric(unique(smoker.sub[, c("SubjectID","varenicline")])[, 2])-1
 
 # GENERATE A VECTOR OF UNIQUE TIME POINTS
 t.seq <- sort(unique(smoker.sub$timeseq))
@@ -115,10 +115,10 @@ t.seq <- sort(unique(smoker.sub$timeseq))
 }
 \references{
 \enumerate{
-\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}
-\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The annals of Statistics 27 1491-1518.}
-\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology) 62 303-322.}
+\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66. CRC Press.}
+\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The Annals of Statistics, 27, 1491-1518.}
+\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62, 303-322.}
 \item{Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. doi:10.1001/jama.2015.19284.}
-\item{Efron, B.; Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75. doi:10.1214/ss/1177013815.}
+\item{Efron, B. and Tibshirani, R. (1986). Bootstrap methods for standard errors, confidence intervals, and other measures of statistical accuracy. Statistical Science, 1, 54-75. doi:10.1214/ss/1177013815.}
 }
 }

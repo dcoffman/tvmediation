@@ -3,10 +3,6 @@ title: "Time Varying Mediation Function: Binary Outcome and Two Treatment Arms (
 author:
 - name: Yajnaseni Chakraborti
   email: yajnaseni.chakraborti@temple.edu
-- name: Harry Zobel
-  email: harryzobeljr@gmail.com 
-- name: Xizhen Cai
-  email: cai.xizhen@gmail.com
 - name: Donna L. Coffman
   email: donna.coffman@temple.edu
 date: "`r Sys.Date()`"
@@ -62,7 +58,8 @@ library(tvmediation)
 
 The equivalent code using `devtools` is:
 ```{r, eval = FALSE}
-devtools::install_cran("tvmediation", dependencies = TRUE) # MAKE SURE YOU HAVE devtools INSTALLED AND LOADED #
+devtools::install_cran("tvmediation", dependencies = TRUE) 
+# MAKE SURE YOU HAVE devtools INSTALLED
 library(tvmediation)
 ```
 
@@ -74,7 +71,8 @@ library(devtools)
 
 Alternatively, if you want to install the package directly from the github repository to access new or revised functions in development, the following code is required:
 ```{r, eval = FALSE}
-devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) # MAKE SURE YOU HAVE devtools INSTALLED AND LOADED #
+devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) 
+# MAKE SURE YOU HAVE devtools INSTALLED
 library(tvmediation)
 ```
 
@@ -185,8 +183,8 @@ Depending on our exposure of interest, i.e. whether we want to compare the media
 For example: The following codes are to derive the final variable to compare the mediation effects observed among participants with `varenicline` vs. `placebo (nicotine patch)`.
 
 ```{r}
-treatment= rep(NA,1086) # replace 1086 with the number of subjects in your study #
-treatment = ifelse(NRT1==1 & NRT2==0, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
+treatment <- rep(NA, 1086) # replace 1086 with the number of subjects in your study #
+treatment <- ifelse(NRT1==1 & NRT2==0, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
 treatment[1:10]
 ```
 
@@ -226,7 +224,7 @@ The optional inputs are:
 We will call our function with additional optional argument `plot=TRUE`. The rest of the optional arguments are left to their respective default values.
 
 ```{r, fig.width = 18, fig.height = 10, results='hide', fig.keep='all'} 
-results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, plot = TRUE)
+results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, plot = TRUE, replicates = 500)
 ```
 
 ## Results
@@ -242,9 +240,9 @@ The `tvmb` function returns a list of results including:
 7.  `beta_hat` the estimated effect of the mediator on the outcome
 8.  `CI.lower.b` the lower limit of confidence intervals for coefficient beta_hat
 9.  `CI.upper.b` the upper limit of confidence intervals for coefficient beta_hat
-10. `tao_hat`    the estimated main treatment arm (exposure group) of interest effect on outcome, excluding adjustment for mediator
-11. `CI.lower.t` the lower limit of confidence intervals for coefficient tao_hat
-12. `CI.upper.t` the upper limit of confidence intervals for coefficient tao_hat
+10. `tau_hat`    the estimated main treatment arm (exposure group) of interest effect on outcome, excluding adjustment for mediator
+11. `CI.lower.t` the lower limit of confidence intervals for coefficient tau_hat
+12. `CI.upper.t` the upper limit of confidence intervals for coefficient tau_hat
 13. `medEffect` the time varying mediation effect - main treatment arm (exposure group) of interest on outcome (estimated via product method)
 
 Optional returns based on arguments `CI = "boot"` passed by the user include:
@@ -258,14 +256,14 @@ The above estimates are compiled in a single dataframe which can be accessed usi
 head(results_tvmb$Estimates)
 ```
 
-At each time point of interest `timeseq = t.seq`, the effects of the treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% confidence intervals (CIs). The CIs are computed via a non-parametric bootstrap method (Efron and Tibshirani, 1986), drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha`, `gamma`, `beta` and `tao` coefficients `(alpha_hat, gamma_hat, beta_hat, tao_hat)` are computed regardless of the value of `CI` argument in the function. In the above results, `medEffect` is the estimated mediation effect of `varenicline` compared to `nicotine patch only`, that varies over `timeseq`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the 95% CI (`CI.low`, `CI.upper`) of `medEffect` is estimated via similar bootstrapping and percentile technique described earlier for the coefficients. 
+At each time point of interest `timeseq = t.seq`, the effects of the treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% confidence intervals (CIs). The CIs are computed via a non-parametric bootstrap method (Efron and Tibshirani, 1986), drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha`, `gamma`, `beta` and `tau` coefficients `(alpha_hat, gamma_hat, beta_hat, tau_hat)` are computed regardless of the value of `CI` argument in the function. In the above results, `medEffect` is the estimated mediation effect of `varenicline` compared to `nicotine patch only`, that varies over `timeseq`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the 95% CI (`CI.low`, `CI.upper`) of `medEffect` is estimated via similar bootstrapping and percentile technique described earlier for the coefficients. 
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
 16. `plot1_a` plot for `alpha_hat` with 95% CIs across timeseq (`= t.seq`)
 17. `plot2_g` plot for `gamma_hat` with 95% CIs across timeseq (`= t.seq`)
 18. `plot3_b` plot for `beta_hat` with 95% CIs across timeseq (`= t.seq`)
-19. `plot4_t` plot for `tao_hat` with 95% CIs across timeseq (`= t.seq`)
+19. `plot4_t` plot for `tau_hat` with 95% CIs across timeseq (`= t.seq`)
 20. `MedEff` plot for `medEffect` across timeseq (`= t.seq`)
 21. `MedEff_CI` plot for `medEffect` with 95% CIs across timeseq (`= t.seq`)
 22. `bootstrap` plot for estimated `medEffect`(s) from bootstrapped samples across timeseq (`= t.seq`)
@@ -295,7 +293,6 @@ results_tvmb$plot4_t
 
 The above plot shows the total effect of `varenicline` on the outcome subjects' `daily smoking status` which follows a sinusoidal trend over time with occasional spikes around the end of days 4-6 and 14. The estimated 95% CI covers 0 (no effect).
 
-
 ```{r, fig.width = 10, fig.height = 5}
 results_tvmb$MedEff
 ```
@@ -310,10 +307,9 @@ results_tvmb$MedEff_CI
 results_tvmb$bootstrap
 ```
 
-This is the bootstrap plot showing the estimated mediation effect (using product method) from bootstrapping the original sample 1000 times with 1086 sample size.
+This is the bootstrap plot showing the estimated mediation effect from bootstrapping the original sample 1000 times with 1086 sample size.
 
 The `tvmb` function computes bootstrap confidence intervals by default. Therefore, the user may decide not to bootstrap CIs for the mediation effect by specifying `CI = "none"`. However if by mistake the user specifies `CI = "none"` and `replicates = 500` simultaneously, the function will not display an error, but simply execute without computing the CIs for mediation effect. Note that the CIs for the individual effects of exposure on mediator and mediator on outcome is computed even if the user passes the argument `CI = "none"`.
-
 
 ## Summary
 

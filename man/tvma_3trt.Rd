@@ -2,11 +2,11 @@
 % Please edit documentation in R/tvma_3trt.R
 \name{tvma_3trt}
 \alias{tvma_3trt}
-\title{Time Varying Mediation Function: Continuous Outcome and Three Treatment Arms (Exposure Groups)}
+\title{Time Varying Mediation Function: Continuous Outcome and Three Treatment Groups}
 \usage{
 tvma_3trt(
-  NRT1,
-  NRT2,
+  T1,
+  T2,
   t.seq,
   mediator,
   outcome,
@@ -14,109 +14,109 @@ tvma_3trt(
   plot = FALSE,
   CI = "boot",
   replicates = 1000,
-  grpname = "NRT",
+  grpname = "T",
   verbose = FALSE
 )
 }
 \arguments{
-\item{NRT1}{a vector with treatment arm 1 (exposure group 1) values}
+\item{T1}{a vector indicating assignment to treatment 1}
 
-\item{NRT2}{a vector with treatment arm 2 (exposure group 2) values}
+\item{T2}{a vector indicating assignment to treatment 2}
 
 \item{t.seq}{a vector of time points for each observation}
 
 \item{mediator}{matrix of mediator values in wide format}
 
-\item{outcome}{matrix of outcome outcomes in wide format}
+\item{outcome}{matrix of outcome values in wide format}
 
-\item{t.est}{a vector of time points to make the estimation                                  Default = t.seq. (OPTIONAL ARGUMENT)}
+\item{t.est}{a vector of time points at which to make the estimation. Default = t.seq. (OPTIONAL ARGUMENT)}
 
-\item{plot}{TRUE or FALSE for plotting mediation effect                                     Default = "FALSE". (OPTIONAL ARGUMENT)}
+\item{plot}{TRUE or FALSE for plotting mediation effect. Default = "FALSE". (OPTIONAL ARGUMENT)}
 
-\item{CI}{"none" or "boot" method of deriving confidence intervals.                       Default = "boot". (OPTIONAL ARGUMENT)}
+\item{CI}{"none" or "boot" method of deriving confidence intervals. Default = "boot". (OPTIONAL ARGUMENT)}
 
-\item{replicates}{number of replicates for bootstrapping confidence intervals.                    Default = 1000. (OPTIONAL ARGUMENT)}
+\item{replicates}{number of replicates for bootstrapping confidence intervals. Default = 1000. (OPTIONAL ARGUMENT)}
 
-\item{grpname}{name of the treatment arms (exposure groups) to be displayed in the results.    Default = "NRT". (OPTIONAL ARGUMENT)}
+\item{grpname}{name of the treatment arms (exposure groups) to be displayed in the results. Default = "T". (OPTIONAL ARGUMENT)}
 
-\item{verbose}{TRUE or FALSE for printing results to screen.                                   Default = "FALSE". (OPTIONAL ARGUMENT)}
+\item{verbose}{TRUE or FALSE for printing results to screen. Default = "FALSE". (OPTIONAL ARGUMENT)}
 }
 \value{
-\item{hat.alpha1}{estimated effect of treatment arm 1 (exposure group 1) on mediator (indirect effect component)}
+\item{hat.alpha1}{estimated Treatment 1 effect on mediator}
 
-\item{CI.lower.alpha1}{lower limit of confidence intervals for estimated coefficient hat.alpha1}
+\item{CI.lower.alpha1}{CI lower limit for estimated coefficient hat.alpha1}
 
-\item{CI.upper.alpha1}{upper limit of confidence intervals for estimated coefficient hat.alpha1}
+\item{CI.upper.alpha1}{CI upper limit for estimated coefficient hat.alpha1}
 
-\item{hat.alpha2}{estimated effect of treatment arm 2 (exposure group 2) on mediator (indirect effect component)}
+\item{hat.alpha2}{estimated Treatment 2 effect on mediator}
 
-\item{CI.lower.alpha2}{lower limit of confidence intervals for estimated coefficient hat.alpha2}
+\item{CI.lower.alpha2}{CI lower limit for estimated coefficient hat.alpha2}
 
-\item{CI.upper.alpha2}{upper limit of confidence intervals for estimated coefficient hat.alpha2}
+\item{CI.upper.alpha2}{CI upper limit for estimated coefficient hat.alpha2}
 
-\item{hat.gamma1}{estimated effect of treatment arm 1 (exposure group 1) on outcome (direct effect)}
+\item{hat.gamma1}{estimated Treatment 1 direct effect on outcome}
 
-\item{CI.lower.gamma1}{lower limit of confidence intervals for estimated coefficient hat.gamma1}
+\item{CI.lower.gamma1}{CI lower limit for estimated coefficient hat.gamma1}
 
-\item{CI.upper.gamma1}{upper limit of confidence intervals for estimated coefficient hat.gamma1}
+\item{CI.upper.gamma1}{CI upper limit for estimated coefficient hat.gamma1}
 
-\item{hat.gamma2}{estimated effect of treatment arm 2 (exposure group 2) on outcome (direct effect)}
+\item{hat.gamma2}{estimated Treatment 2 direct effect on outcome}
 
-\item{CI.lower.gamma2}{lower limit of confidence intervals for estimated coefficient hat.gamma2}
+\item{CI.lower.gamma2}{CI lower limit for estimated coefficient hat.gamma2}
 
-\item{CI.upper.gamma2}{upper limit of confidence intervals for estimated coefficient hat.gamma2}
+\item{CI.upper.gamma2}{CI upper limit for estimated coefficient hat.gamma2}
 
-\item{hat.tao1}{estimated effect of treatment arm 1 (exposure group 1) on outcome, excluding adjustment for mediator (total effect)}
+\item{hat.tau1}{estimated Treatment 1 total effect on outcome}
 
-\item{CI.lower.tao1}{lower limit of confidence intervals for estimated coefficient hat.tao1}
+\item{CI.lower.tau1}{CI lower limit for estimated coefficient hat.tau1}
 
-\item{CI.upper.tao1}{upper limit of confidence intervals for estimated coefficient hat.tao1}
+\item{CI.upper.tau1}{CI upper limit for estimated coefficient hat.tau1}
 
-\item{hat.tao2}{estimated effect of treatment arm 2 (exposure group 2) on outcome, excluding adjustment for mediator (total effect)}
+\item{hat.tau2}{estimated Treatment 2 total effect on outcome}
 
-\item{CI.lower.tao2}{lower limit of confidence intervals for estimated coefficient hat.tao2}
+\item{CI.lower.tau2}{CI lower limit for estimated coefficient hat.tau2}
 
-\item{CI.upper.tao2}{upper limit of confidence intervals for estimated coefficient hat.tao2}
+\item{CI.upper.tau2}{CI upper limit for estimated coefficient hat.tau2}
 
-\item{hat.beta}{estimated mediator effect on outcome (indirect effect component)}
+\item{hat.beta}{estimated mediator effect on outcome}
 
-\item{CI.lower.beta}{lower limit of confidence intervals for estimated coefficient hat.beta}
+\item{CI.lower.beta}{CI lower limit for estimated coefficient hat.beta}
 
-\item{CI.upper.beta}{upper limit of confidence intervals for estimated coefficient hat.beta}
+\item{CI.upper.beta}{CI upper limit for estimated coefficient hat.beta}
 
-\item{hat.mediation1}{time varying mediation effect - treatment arm 1 (exposure group 1) on outcome}
+\item{hat.mediation1}{time varying mediation effect for Treatment 1 on outcome}
 
 \item{SE_MedEff1}{estimated standard errors of hat.mediation1}
 
-\item{CI.upper.NRT1}{upper limit of confidence intervals for hat.mediation1}
+\item{CI.upper.T1}{CI upper limit for hat.mediation1}
 
-\item{CI.lower.NRT1}{lower limit of confidence intervals for hat.mediation1}
+\item{CI.lower.T1}{CI lower limit for hat.mediation1}
 
-\item{hat.mediation2}{time varying mediation effect - treatment arm 2 (exposure group 2) on outcome}
+\item{hat.mediation2}{time varying mediation effect for Treatment 2 on outcome}
 
 \item{SE_MedEff2}{estimated standard errors of hat.mediation2}
 
-\item{CI.upper.NRT2}{upper limit of confidence intervals for hat.mediation2}
+\item{CI.upper.T2}{CI upper limit for hat.mediation2}
 
-\item{CI.lower.NRT2}{lower limit of confidence intervals for hat.mediation2}
+\item{CI.lower.T2}{CI lower limit for hat.mediation2}
 }
 \description{
-Function to estimate the time-varying mediation effect and bootstrap standard errors, involving three treatment/exposure groups and continuous outcome.
+Function to estimate the time-varying mediation effect and bootstrap standard errors for three treatment groups and a continuous outcome.
 }
 \section{Plot Returns}{
 
 \enumerate{
-\item{\code{plot1_a1 }}{plot for hat.alpha1 across t.est with CIs}
-\item{\code{plot2_a2 }}{plot for hat.alpha2 across t.est with CIs}
-\item{\code{plot3_g1 }}{plot for hat.gamma1 across t.est with CIs}
-\item{\code{plot4_g2 }}{plot for hat.gamma2 across t.est with CIs}
-\item{\code{plot5_t1 }}{plot for hat.tao1 across t.est with CIs}
-\item{\code{plot6_t2 }}{plot for hat.tao2 across t.est with CIs}
-\item{\code{plot7_b }}{plot for hat.beta across t.est with CIs}
-\item{\code{MedEff_NRT1 }}{plot for hat.mediation1 across t.est}
-\item{\code{MedEff_NRT2 }}{plot for hat.mediation2 across t.est}
-\item{\code{MedEff_CI_NRT1 }}{plot for hat.mediation1 with CIs across t.est}
-\item{\code{MedEff_CI_NRT2 }}{plot for hat.mediation2 with CIs across t.est}
+\item{\code{plot1_a1 }}{plot for hat.alpha1 with CIs over t.est}
+\item{\code{plot2_a2 }}{plot for hat.alpha2 with CIs over t.est}
+\item{\code{plot3_g1 }}{plot for hat.gamma1 with CIs over t.est}
+\item{\code{plot4_g2 }}{plot for hat.gamma2 with CIs over t.est}
+\item{\code{plot5_t1 }}{plot for hat.tau1 with CIs over t.est}
+\item{\code{plot6_t2 }}{plot for hat.tau2 with CIs over t.est}
+\item{\code{plot7_b }}{plot for hat.beta with CIs over t.est}
+\item{\code{MedEff_T1 }}{plot for hat.mediation1 over t.est}
+\item{\code{MedEff_T2 }}{plot for hat.mediation2 over t.est}
+\item{\code{MedEff_CI_T1 }}{plot for hat.mediation1 with CIs over t.est}
+\item{\code{MedEff_CI_T2 }}{plot for hat.mediation2 with CIs over t.est}
 }
 }
 
@@ -151,11 +151,11 @@ t.seq <- sort(unique(smoker$timeseq))
 }
 \references{
 \enumerate{
-\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66 66. CRC Press.}
-\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The annals of Statistics 27 1491-1518.}
-\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology) 62 303-322.}
+\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66. CRC Press.}
+\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The Annals of Statistics, 27, 1491-1518.}
+\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62, 303-322.}
 \item{Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (under review). Estimation and inference for the mediation effect in a time-varying mediation model. Journal of the Royal Statistics Society, Series C (Applied Statistics).}
 \item{Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. doi:10.1001/jama.2015.19284.}
-\item{Efron, B.; Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75. doi:10.1214/ss/1177013815.}
+\item{Efron, B. and Tibshirani, R. (1986). Bootstrap methods for standard errors, confidence intervals, and other measures of statistical accuracy. Statistical Science, 1, 54-75. doi:10.1214/ss/1177013815.}
 }
 }

@@ -2,16 +2,16 @@
 % Please edit documentation in R/coeff.R
 \name{coeff}
 \alias{coeff}
-\title{Function to estimate coefficients at time T}
+\title{Function to estimate coefficients at time t}
 \usage{
-coeff(j, NRT1, NRT2, x, y)
+coeff(j, T1, T2, x, y)
 }
 \arguments{
 \item{j}{a number indicating time point of observation}
 
-\item{NRT1}{a vector with treatment arm 1 values}
+\item{T1}{a vector indicating assignment to treatment 1}
 
-\item{NRT2}{a vector with treatment arm 2 values}
+\item{T2}{a vector indicating assignment to treatment 2}
 
 \item{x}{matrix of mediator values in wide format}
 
@@ -23,5 +23,6 @@ coeff(j, NRT1, NRT2, x, y)
 \item{nomissing.index}{index of complete cases}
 }
 \description{
-Part of the set of internal functions called within the \code{tvmcurve_3trt} function to assist in the estimation of time varying mediation effect.
+Part of the set of internal functions called within the \code{tvmcurve_3trt} function 
+to assist in the estimation of time varying mediation effect.
 }

@@ -2,42 +2,42 @@
 % Please edit documentation in R/bootci_coeff_2trt.R
 \name{bootci_coeff_2trt}
 \alias{bootci_coeff_2trt}
-\title{Bootstrapping samples to estimate confidence intervals for coefficients of continuous outcome and two treatment (exposure) groups}
+\title{Bootstrap function for computing CIs for coefficients for a continuous outcome and two treatment groups}
 \usage{
 bootci_coeff_2trt(trt, t.seq, M, Y, t.est, deltat, replicates)
 }
 \arguments{
-\item{trt}{a vector with treatment values}
+\item{trt}{a vector indicating treatment group}
 
 \item{t.seq}{a vector of time points for each observation}
 
 \item{M}{matrix of mediator values in wide format}
 
-\item{Y}{matrix of outcome outcomes in wide format}
+\item{Y}{matrix of outcome values in wide format}
 
-\item{t.est}{time points to make the estimation                              Default = t.seq}
+\item{t.est}{time points at whichvto make the estimation. Default = t.seq}
 
 \item{deltat}{a small constant which controls the time-lag of the effect of the mediator on the outcome.}
 
-\item{replicates}{number of replicates for bootstrapping confidence intervals.    Default = 1000}
+\item{replicates}{number of replicates for bootstrapping confidence intervals. Default = 1000}
 }
 \value{
-\item{CI.upper.alpha}{upper limit of confidence intervals for coefficient hat.alpha}
+\item{CI.upper.alpha}{CI upper limit for coefficient hat.alpha}
 
-\item{CI.lower.alpha}{lower limit of confidence intervals for coefficient hat.alpha}
+\item{CI.lower.alpha}{CI lower limit for coefficient hat.alpha}
 
-\item{CI.upper.gamma}{upper limit of confidence intervals for coefficient hat.gamma}
+\item{CI.upper.gamma}{CI upper limit for coefficient hat.gamma}
 
-\item{CI.lower.gamma}{lower limit of confidence intervals for coefficient hat.gamma}
+\item{CI.lower.gamma}{CI lower limit for coefficient hat.gamma}
 
-\item{CI.upper.beta}{upper limit of confidence intervals for coefficient hat.beta}
+\item{CI.upper.beta}{CI upper limit for coefficient hat.beta}
 
-\item{CI.lower.beta}{lower limit of confidence intervals for coefficient hat.beta}
+\item{CI.lower.beta}{CI lower limit for coefficient hat.beta}
 
-\item{CI.upper.tao}{upper limit of confidence intervals for coefficient hat.tao}
+\item{CI.upper.tau}{CI upper limit for coefficient hat.tau}
 
-\item{CI.lower.tao}{lower limit of confidence intervals for coefficient hat.tao}
+\item{CI.lower.tau}{CI lower limit for coefficient hat.tau}
 }
 \description{
-Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for continuous outcome and two treatment (exposure) groups.
+Part of the set of internal functions for estimating bootstrapped CIs for the coefficients of the mediation model for continuous outcome and two treatment groups.
 }
