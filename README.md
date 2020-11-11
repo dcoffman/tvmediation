@@ -7,7 +7,7 @@ This package includes a set of functions for estimating mediation effects that v
 
 ## Installation
 
-To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.0.2` or greater. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or the `devtools` function. 
+To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.0.3` or greater. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or the `devtools` function. 
 
 ```{r}
 install.packages("tvmediation", dependencies = TRUE)
