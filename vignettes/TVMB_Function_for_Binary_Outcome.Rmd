@@ -1,14 +1,16 @@
 ---
-title: "Time Varying Mediation Function: Binary Outcome and Two Treatment Arms (Exposure Groups)"
+title: "Time Varying Mediation Function: Binary Outcome and Two Treatment Groups"
 author:
 - name: Yajnaseni Chakraborti
   email: yajnaseni.chakraborti@temple.edu
 - name: Donna L. Coffman
   email: donna.coffman@temple.edu
+- name: Harry Zobel
+  email: harryzobeljr@gmail.com
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Time Varying Mediation Function: Binary Outcome and Two Treatment Arms (Exposure Groups)}
+  %\VignetteIndexEntry{Time Varying Mediation Function: Binary Outcome and Two Treatment Groups}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -37,19 +39,19 @@ library(tvmediation)
 
 ## Introduction
 
-The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with 2 treatment (exposure) groups and a binary outcome. Please note, that this package has been built considering the structure of a panel data, where each subject/participant has repeated responses (collected over time) for the variables of interest (outcome and mediator). However, we are not addressing the dynamic treatment regimens problem in this package. Therefore, we have assumed the scenario where the treatment (exposure) is constant and does not change over time.
+The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with two treatment groups and a binary outcome. Please note, that this package has been built considering the structure of a panel data, where each subject/participant has repeated responses (collected over time) for the outcome and mediator variables. However, we do not address dynamic treatment regimens in this package. Therefore, we assume the scenario where the treatment (exposure) is time-invariant (i.e., does not change over time).
 
 ### Data
 
-We will rely on a dataset, simulated based on the Wisconsin Smokers' Health Study 2 dataset (Baker et. al., 2016) which includes 1086 individuals across 3 treatment conditions. One-third of participants received only a `nicotine patch`; another one-third received `varenicline` and the final third of participants received a `combination nicotine replacement therapy (NRT)` which is nicotine patch + nicotine mini-lozenge. For our illustration the outcome of interest is `daily smoking status` a binary variable derived from variables recording the number of cigarettes smoked by the participants. In addition, mediator variables were collected by asking participants if they felt a `negative mood in the last fifteen minutes`, whether they `wanted to smoke in the last 15 minutes`, or `cessation fatigue` recording how tired a participant felt of trying to quit smoking (7-point Likert scale). Both the outcome and mediator variables were assessed 2x per day over the course of twenty-eight days. The assessments were recorded daily (2x per day) for the first two weeks (rendering 30 time points of response since assessments start on day 0 post target quit day), and every other day (2x per day) for weeks 3 and 4 (rendering 14 time points of response).
+For illustration, we rely on an example dataset, simulated based on the Wisconsin Smokers' Health Study 2 data (Baker et. al., 2016) which includes 1086 individuals assigned to one of three treatment conditions. One-third of participants received only a `nicotine patch`; another one-third received `varenicline`, and the final third of participants received a `combination nicotine replacement therapy (NRT)` which included nicotine patch + nicotine mini-lozenge. The outcome of interest is `daily smoking status`, a binary variable derived from the number of cigarettes smoked by the participants each day. If participants smoked any cigarettes that day, then `daily smoking status = 1`, otherwise it equals 0. In addition, mediator variables were measured by asking participants if they felt a `negative mood in the last fifteen minutes`, whether they `wanted to smoke in the last 15 minutes`, and how tired they felt of trying to quit smoking (i.e., `cessation fatigue`), all recorded on a 7-point Likert scale. Both the outcome and mediator variables were assessed two times per day for the first two weeks post-quit day (rendering 30 time points of response since assessments start on day 0 post target quit day), and every other day (2x per day) for weeks 3 and 4 (rendering 14 time points of response).
 
-A traditional approach to analyzing this type of data would be to utilize a mediation analysis. First, a single direct effect would be calculated by regressing the outcome on the treatment condition. Next, a single indirect effect would be computed by multiplying the effect of treatment condition on the mediator by the effect of the mediator on the outcome. However, this method potentially misses important information about the dynamic effect that a mediator may have over time. Specifically, we hypothesize that mood changes and thus, its mediating effect on one’s feelings of quitting smoking is likely to vary over time. We therefore propose a time varying mediation analysis which estimates the mediation effect as a function that varies over time.
+A traditional approach to analyzing this type of data would be to use mediation analysis in which the effects are assumed to not vary as a function of time. First, a single (i.e., time-invariant) direct effect would be estimated by regressing the outcome on the treatment condition and mediator. Next, a time-invariant indirect effect would be computed by multiplying the effect of treatment condition on the mediator by the effect of the mediator on the outcome. However, this method potentially misses important information about the dynamic effect that a mediator may have over time. Specifically, we hypothesize that mood changes across and within days and thus, its mediating effect on one’s success of quitting smoking is likely to vary over time. We therefore propose a time varying mediation analysis which estimates the mediation effect as a function that varies over time.
 
-The `tvmb` function like `tvma` is developed for analyzing the mediation effect of 2 treatment (exposure) groups.
+The `tvmb` function, like `tvma`, was developed for estimating the mediation effect of two treatment (exposure) groups.
 
 ## Getting started
 
-To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.0.2`. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or `devtools` function. 
+To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.0.2` or greater. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or the `devtools` function. 
 
 ```{r, eval = FALSE}
 install.packages("tvmediation", dependencies = TRUE)
@@ -57,19 +59,22 @@ library(tvmediation)
 ```
 
 The equivalent code using `devtools` is:
+
 ```{r, eval = FALSE}
 devtools::install_cran("tvmediation", dependencies = TRUE) 
 # MAKE SURE YOU HAVE devtools INSTALLED
 library(tvmediation)
 ```
 
-If you do not have `devtools` installed and loaded, you can do so using the following set of codes:
+If you do not have `devtools` installed and loaded, you can do so using the following code:
+
 ```{r, eval = FALSE}
 install.packages("devtools", dependencies = TRUE)
 library(devtools)
 ```
 
-Alternatively, if you want to install the package directly from the github repository to access new or revised functions in development, the following code is required:
+Alternatively, if you want to install the package directly from the GitHub repository to access new or revised functions in development, use the following code:
+
 ```{r, eval = FALSE}
 devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) 
 # MAKE SURE YOU HAVE devtools INSTALLED
@@ -80,41 +85,41 @@ library(tvmediation)
 
 Once installed, you can type `?tvmediation` in the console to view the package documentation, as well as links to the important functions and data included in the package. The time-varying mediation analysis for the binary outcome and 2 exposure groups, relies on 2 user functions `tvmb` and `LongToWide` as well as a number of internal functions of the `tvmediation` package.
 
-The `tvmb` function requires 4 necessary and 4 optional input variables.
+The `tvmb` function has four required and four optional arguments.
 
-1. `treatment` A binary vector with treatment schedule
-2. `t.seq` The time sequence of the measures
+1. `treatment` A binary vector indicating the treatment group
+2. `t.seq` A numeric vector of the time sequence of the measures
 3. `mediator` The matrix of mediator values in wide format
 4. `outcome` The matrix of outcome values in wide format
 
-The optional inputs are:
+The optional arguments are:
 
-5. `plot` TRUE or FALSE for plotting mediation effect. The default value is "FALSE".
-6. `CI` "none" or "boot" method of deriving confidence intervals. The default value is "boot".
-7. `replicates` Number of replicates for bootstrapping confidence intervals. The default value is 500.
+5. `plot` TRUE or FALSE for plotting the mediation effect. The default value is "FALSE".
+6. `CI` "none" or "boot" method of deriving confidence intervals (CIs). The default value is "boot".
+7. `replicates` Number of replicates for bootstrapping CIs. The default value is 1000.
 8. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
 
-Note that, unlike `tvma` and `tvma_3trt` functions, the time points at which mediation effects are estimated, cannot be different than the recorded response time points `t.seq`. Thus while `tvma` and `tvma_3trt` have the provision of different `t.est` than `t.seq`, `tvmb` does not have that provision.
+Note that, unlike the `tvma` and `tvma_3trt` functions, the time points at which mediation effects are estimated cannot be different than the actual recorded response time points `t.seq`. Thus, `tvma` and `tvma_3trt` have the provision of a different `t.est` than `t.seq`, but `tvmb` does not have that provision.
 
-The dataset we will use for our illustration is named `smoker` and is also included in the package.
+The dataset we will use for our illustration is named `smoker` and is included in the package.
 
 To load the simulated dataset `smoker.rda`, type:
 ```{r}
 data(smoker)
 ```
 
-The `smoker` data frame is organized in Long format with `SubjectID` repeating over multiple rows for each participant. The `tvmb` function requires that our data be in Wide format in order to accurately estimate the time varying mediator coefficients. The `tvmediation` package includes a useful function `LongToWide` to help users properly format their data for analysis.
+The `smoker` data frame is organized in **long format** with `SubjectID` repeating over multiple rows for each participant. The `tvmb` function requires that the data be in **wide format** to estimate the time varying coefficients. The `tvmediation` package includes a useful function `LongToWide` to help users properly format their data for analysis.
 
-`LongToWide` has 3 main input arguments, and a fourth optional argument.
+`LongToWide` has three required arguments and a fourth optional argument.
 
-1. `subject.id` requires a column of subject identifiers. 
-2. `time.sequences` requires a column of time points.
-3. `outcome` requires a column of measures that are to be transposed.
-4. `verbose` is an option that can be turned on to print the output of `LongToWide` to the console
+1. `subject.id` specifies the column of subject identifiers. 
+2. `time.sequences` specifies the column of measurement times.
+3. `outcome` specifies the column for the variable (either the outcome or the mediator) that will be transposed.
+4. `verbose` is an optional argument that if "TRUE" prints the output of `LongToWide` to the console. The default value is "FALSE".
 
-The output of `LongToWide` is a matrix of data in wide format where columns represent the subjects and rows represent the time sequence. Thus each cell contains the j-th subject's response at the i-th time point.
+The output of `LongToWide` is a matrix of data in wide format where columns represent the subjects and rows represent the time sequence. Thus, each cell contains the j-th subject's response at the i-th time point.
 
-As the `tvmb` function will require two matrices, one for mediators, and one for outcomes, we will use the `LongToWide` function twice as seen below:
+The `tvmb` function requires two matrices, one for the mediator, and one for the outcome. Thus, we use the `LongToWide` function twice as illustrated below:
 
 ```{r}
 mediator <- LongToWide(smoker$SubjectID, smoker$timeseq, smoker$NegMoodLst15min)
@@ -131,23 +136,23 @@ class(outcome)
 outcome[1:16, 1:10]
 ```
 
-Now your dataset might not always be in long format which requires to be converted in wide format using the `LongToWide` function. Your data might already be in wide format, in which case there is no need to use the `LongToWide` function and you can simply subset your dataset/dataframe. However, please note that `mediator` and `outcome` must be of class `matrix`; hence make sure you convert the class-type of the subsetted datasets to `matrix` before proceeding. This can be done using the R function `as.matrix`.
+If your data are already in wide format, there is no need to use the `LongToWide` function and you can simply subset your dataset. However, `mediator` and `outcome` must be of class `matrix`; hence make sure you convert the class of the subsetted `mediator` and `outcome` objects to `matrix` before proceeding. This can be done using the R function `as.matrix`.
 
-The function still requires 2 more variables that we have not yet created:
+The `tvmb` function requires two more variables that we have not yet created:
 
-1. `treatment` A binary numeric vector with treatment schedule
+1. `treatment` A binary numeric vector indicating the treatment group
 2. `t.seq` A numeric vector of the time sequence of the measures
 
 If there are two treatment groups, create a `treatment` variable with the following assignment: `1` for the comparator group and `0` for the placebo group. If there are three treatment groups, two dummy variables clearly indicating `treatment1`, `treatment2` and `placebo` need to be created. An example is given as follows. In the `smoker.rda` dataset, three columns indicating the assignment of the three treatments are present.
 
-Creating two dummy variables to indicate whether a participant was given `varenicline` or `combination NRT`. `NRT1` indicates whether a subject received `varenicline` or not. `NRT2` indicates whether a subject received `combination NRT` or not. Each subject's response for the treatment group (e.g. `varenicline`) was converted to a numeric value, and 1 was subtracted to yield a vector of zeros and ones.
+Creating two dummy variables to indicate whether a participant was given `varenicline` or `combination NRT`. `NRT1` indicates whether a subject received `varenicline` or not. `NRT2` indicates whether a subject received `combination NRT` or not. Each subject's response for the treatment group (e.g., `varenicline`) was converted to a numeric value, and 1 was subtracted to yield a vector of zeros and ones.
 
 ```{r}
 # Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to receiving varenicline. The data is still in dataframe format.
 trtv <- unique(smoker[ , c("SubjectID","varenicline")])
 trtv[1:10,]
 
-# Step 2: `2` to those subjects who received `varenicline` and `1` to the rest. The data is now in vector format.
+# Step 2: `2` to those subjects who received varenicline and `1` to the rest. The data is now in vector format.
 trtv2 <- as.numeric(trtv[ , 2])
 trtv2[1:10]
 
@@ -157,11 +162,11 @@ NRT1[1:10]
 ```
 
 ```{r}
-# Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to receiving `combination NRT`. The data is still in dataframe format.
+# Step 1: Since each subject has multiple rows of data, extract the unique response of each subject to receiving combination NRT. The data is still in dataframe format.
 trtc <- unique(smoker[ , c("SubjectID","comboNRT")])
 trtc[1:10,]
 
-# Step 2: `2` to those subjects who received `combination NRT` and `1` to the rest. The data is now in vector format.
+# Step 2: `2` to those subjects who received combination NRT and `1` to the rest. The data is now in vector format.
 trtc2 <- as.numeric(trtc[ , 2])
 trtc2[1:10]
 
@@ -184,136 +189,139 @@ For example: The following codes are to derive the final variable to compare the
 
 ```{r}
 treatment <- rep(NA, 1086) # replace 1086 with the number of subjects in your study #
-treatment <- ifelse(NRT1==1 & NRT2==0, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
+treatment <- ifelse(NRT1==1 & NRT2==0, 1, ifelse(NRT1==0 & NRT2==0, 0, NA))
 treatment[1:10]
 ```
 
 The current version of the `tvmb` function only supports two treatment options. Therefore, in order to estimate the mediation effects observed among participants with `combination NRT` vs. `placebo`, the above code would be changed to,
 
 ```{r}
-# treatment= rep(NA,1086)
-# treatment = ifelse(NRT1==0 & NRT2==1, 1, ifelse(NRT1==0 & NRT2==0,0,NA))
+# treatment <- rep(NA, 1086)
+# treatment <- ifelse(NRT1==0 & NRT2==1, 1, ifelse(NRT1==0 & NRT2==0, 0, NA))
 ```
 
-In case the user is interested in the mediation effects observed among participants with `varenicline` vs. `not varenicline` or `combination NRT` vs. `not combination NRT1` where the comparator group is a collective of the remaining 2 treatment groups, kindly refer to the `tvma` function vignette for guidance.
+In case the user is interested in the mediation effects observed among participants with `varenicline` vs. `not varenicline` or `combination NRT` vs. `not combination NRT1` where the comparator group is a collective of the remaining two treatment groups, refer to the `tvma` function vignette for guidance.
 
-To generate `t.seq` we found only one instance of each time point and then sorted from smallest to largest. There are 44 unique time points in our dataset where `0` after decimal indicates measurement recorded in the morning and `5` after decimal indicates measurement recorded in the evening.
+To generate `t.seq` we found the unique instance of each time point and then sorted from smallest to largest. There are 44 unique time points in the dataset where `0` after the decimal indicates the morning measurement and `5` after the decimal indicates the evening measurement recorded for that day.
+
 ```{r}
 t.seq <- sort(unique(smoker$timeseq))
 t.seq
 ```
 
-We are now ready to perform our time varying mediation analysis.
+We are now ready to perform the time varying mediation analysis.
 
 ## Calling the `tvmb` function
 
-As discussed earlier, the `tvmb` function requires 4 necessary and 4 optional input variables.
+As discussed earlier, the `tvmb` function has four required and four optional arguments.
 
-1. `treatment` A binary vector with treatment schedule
-2. `t.seq` The time sequence of the measures
+1. `treatment` A binary vector indicating the treatment group
+2. `t.seq` A numeric vector of the time sequence of the measures
 3. `mediator` The matrix of mediator values in wide format
 4. `outcome` The matrix of outcome values in wide format
 
-The optional inputs are:
+The optional arguments are:
 
-5. `plot` TRUE or FALSE for plotting mediation effect. The default value is "FALSE".
-6. `CI` "none" or "boot" method of deriving confidence intervals. The default value is "boot".
-7. `replicates` Number of replicates for bootstrapping confidence intervals. The default value is 500.
+5. `plot` TRUE or FALSE for plotting the mediation effect. The default value is "FALSE".
+6. `CI` "none" or "boot" method of deriving CIs. The default value is "boot".
+7. `replicates` Number of replicates for bootstrapping CIs. The default value is 1000.
 8. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
 
-We will call our function with additional optional argument `plot=TRUE`. The rest of the optional arguments are left to their respective default values.
+We will call the function with additional optional arguments `plot=TRUE` and `replicates = 250`. We decreased the number of bootstrap replicates so that this vignette compiles faster but we suggest using at least 500 replicates in an actual analysis. The remaining optional arguments are left to their respective default values.
 
 ```{r, fig.width = 18, fig.height = 10, results='hide', fig.keep='all'} 
-results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, plot = TRUE, replicates = 500)
+results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, 
+                     plot = TRUE, replicates = 250)
 ```
 
 ## Results
 
 The `tvmb` function returns a list of results including:
 
-1.  `alpha_hat` the estimated main treatment arm (exposure group) of interest effect on mediator 
-2.  `CI.lower.a` the lower limit of confidence intervals for coefficient alpha_hat
-3.  `CI.upper.a` the upper limit of confidence intervals for coefficient alpha_hat
-4.  `gamma_hat` the estimated main treatment arm (exposure group) of interest effect on outcome
-5.  `CI.lower.g` the lower limit of confidence intervals for coefficient gamma_hat
-6.  `CI.upper.g` the upper limit of confidence intervals for coefficient gamma_hat
-7.  `beta_hat` the estimated effect of the mediator on the outcome
-8.  `CI.lower.b` the lower limit of confidence intervals for coefficient beta_hat
-9.  `CI.upper.b` the upper limit of confidence intervals for coefficient beta_hat
-10. `tau_hat`    the estimated main treatment arm (exposure group) of interest effect on outcome, excluding adjustment for mediator
-11. `CI.lower.t` the lower limit of confidence intervals for coefficient tau_hat
-12. `CI.upper.t` the upper limit of confidence intervals for coefficient tau_hat
-13. `medEffect` the time varying mediation effect - main treatment arm (exposure group) of interest on outcome (estimated via product method)
+1.  `alpha_hat` estimated time-varying treatment effect on mediator 
+2.  `CI.lower.a` CI lower limit for coefficient `alpha_hat`
+3.  `CI.upper.a` CI upper limit for coefficient `alpha_hat`
+4.  `gamma_hat` estimated time-varying direct effect of the treatment on the outcome
+5.  `CI.lower.g` CI lower limit for coefficient `gamma_hat`
+6.  `CI.upper.g` CI upper limit for coefficient `gamma_hat`
+7.  `beta_hat` estimated time-varying effect of the mediator on the outcome
+8.  `CI.lower.b` CI lower limit for coefficient `beta_hat`
+9.  `CI.upper.b` CI upper limit for coefficient `beta_hat`
+10. `tau_hat` estimated time-varying total effect of the treatment the on outcome
+11. `CI.lower.t` CI lower limit for coefficient `tau_hat`
+12. `CI.upper.t` CI upper limit for coefficient `tau_hat`
+13. `medEffect` time varying mediation effect of treatment on the outcome
 
-Optional returns based on arguments `CI = "boot"` passed by the user include:
+Optional returns based on argument `CI = "boot"` include:
 
-14. `CI.low` the lower limit of confidence intervals of the time varying mediation effect `medEffect`
-15. `CI.upper` the upper limit of confidence intervals of the time varying mediation effect `medEffect`
+14. `CI.low` CI lower limit of the time varying mediation effect `medEffect`
+15. `CI.upper` CI upper limit of the time varying mediation effect `medEffect`
 
-The above estimates are compiled in a single dataframe which can be accessed using `results_tvmb$Estimates`. The following line of code displays only the estimates at the first 6 time-points.
+The above estimates are compiled in a single dataframe which can be accessed using `nameOfStoredResultsObjb$Estimates`. The following line of code displays only the estimates at the first 6 time-points.
 
 ```{r}
 head(results_tvmb$Estimates)
 ```
 
-At each time point of interest `timeseq = t.seq`, the effects of the treatment (exposure) on mediator, exposure on outcome (adjusted and not adjusted for mediator) and mediator on outcome are estimated along with the respective 95% confidence intervals (CIs). The CIs are computed via a non-parametric bootstrap method (Efron and Tibshirani, 1986), drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the confidence intervals for the `alpha`, `gamma`, `beta` and `tau` coefficients `(alpha_hat, gamma_hat, beta_hat, tau_hat)` are computed regardless of the value of `CI` argument in the function. In the above results, `medEffect` is the estimated mediation effect of `varenicline` compared to `nicotine patch only`, that varies over `timeseq`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the 95% CI (`CI.low`, `CI.upper`) of `medEffect` is estimated via similar bootstrapping and percentile technique described earlier for the coefficients. 
+At each time point of interest `timeseq = t.seq`, the effects of the treatment on the mediator, the treatment on the outcome (adjusted and not adjusted for mediator), and the mediator on the outcome are estimated along with the respective 95% CIs. The CIs are computed via a non-parametric bootstrap method (Efron and Tibshirani, 1986), drawing samples of size 1086 from the original sample with replacement, estimating the sample mean and then applying the percentile method to compute the 95% CIs. Note that the CIs for the `alpha`, `gamma`, `beta` and `tau` coefficients `(alpha_hat, gamma_hat, beta_hat, tau_hat)` are computed regardless of the value of `CI` argument in the function. In the above results, `medEffect` is the estimated mediation effect of `varenicline` compared to `nicotine patch only`, that varies over `timeseq`. For `CI = "boot"` (which is the default option unless the user chooses otherwise) the 95% CI (`CI.low`, `CI.upper`) of `medEffect` is estimated via a similar bootstrapping and percentile technique described earlier for the coefficients.
 
 If `plot = TRUE` argument is passed, the results will also include the following figures:
 
-16. `plot1_a` plot for `alpha_hat` with 95% CIs across timeseq (`= t.seq`)
-17. `plot2_g` plot for `gamma_hat` with 95% CIs across timeseq (`= t.seq`)
-18. `plot3_b` plot for `beta_hat` with 95% CIs across timeseq (`= t.seq`)
-19. `plot4_t` plot for `tau_hat` with 95% CIs across timeseq (`= t.seq`)
-20. `MedEff` plot for `medEffect` across timeseq (`= t.seq`)
-21. `MedEff_CI` plot for `medEffect` with 95% CIs across timeseq (`= t.seq`)
-22. `bootstrap` plot for estimated `medEffect`(s) from bootstrapped samples across timeseq (`= t.seq`)
+16. `plot1_a` plot for `alpha_hat` with 95% CIs across `timeseq`
+17. `plot2_g` plot for `gamma_hat` with 95% CIs across `timeseq`
+18. `plot3_b` plot for `beta_hat` with 95% CIs across `timeseq`
+19. `plot4_t` plot for `tau_hat` with 95% CIs across `timeseq`
+20. `MedEff` plot for `medEffect` across `timeseq`
+21. `MedEff_CI` plot for `medEffect` with 95% CIs across `timeseq`
+22. `bootstrap` plot for estimated `medEffect`(s) from bootstrapped samples across `timeseq`
 
-We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone. To display the plots, use `results_tvmb$` followed by the name of the plot to access the required plot accordingly. For example:
+We recommend using the plots to interpret your findings as it may be difficult to derive meaning from the numerical values alone. To display the plots, use `nameOfStoredResultsObj$` followed by the name of the plot to access the required plot accordingly. For example:
 
-```{r, fig.width = 10, fig.height = 5}
+```{r, fig.width = 10, fig.height = 5, warning=FALSE}
 results_tvmb$plot1_a
 ```
 
-In the above plot, the effect of `varenicline` on subjects' feeling of `negative mood in the last fifteen minutes` follows a mostly decreasing trend over time with occasional spikes, hovering between a range of -0.05 and 0.06; i.e. from a weak effect to an absence or some presence of an effect. The estimated 95% CI covers 0 (no effect).
+In the above plot, the time-varying effect of `varenicline` on subjects' `negative mood in the last fifteen minutes` is not statistically significant. The estimated 95% CI covers 0 (no effect).
 
-```{r, fig.width = 10, fig.height = 5}
+```{r, fig.width = 10, fig.height = 5, warning=FALSE}
 results_tvmb$plot2_g
 ```
-The above plot shows the direct effect of `varenicline` on the outcome subjects' `daily smoking status` which follows a sinusoidal trend over time with occasional spikes around the end of weeks 1, 2 and 4. The estimated 95% CI covers 0 (no effect).
 
-```{r, fig.width = 10, fig.height = 5}
+The above plot shows the time-varying direct effect of `varenicline` on subjects' `daily smoking status` which is not statistically significant. The estimated 95% CI covers 0 (with the possible exception of days 5 and 6).
+
+```{r, fig.width = 10, fig.height = 5, warning=FALSE}
 results_tvmb$plot3_b
 ```
 
-In the above plot, the effect of subjects' `negative mood in the last fifteen minutes` on the outcome subjects' `daily smoking status` follows a sinusoidal trend over time with occasional spikes around day 6-7 (end of week 1) and day 14 (end of week 3).
+In the above plot, the time-varying effect of subjects' `negative mood in the last fifteen minutes` on subjects' `daily smoking status` is not statistically significant as indicated by the estimated 95% CI covering 0.
 
-```{r, fig.width = 10, fig.height = 5}
+```{r, fig.width = 10, fig.height = 5, warning=FALSE}
 results_tvmb$plot4_t
 ```
 
-The above plot shows the total effect of `varenicline` on the outcome subjects' `daily smoking status` which follows a sinusoidal trend over time with occasional spikes around the end of days 4-6 and 14. The estimated 95% CI covers 0 (no effect).
+The above plot shows the time-varying total effect of `varenicline` on subjects' `daily smoking status` which is not statistically significant. The estimated 95% CI covers 0 (no effect).
 
-```{r, fig.width = 10, fig.height = 5}
+```{r, fig.width = 10, fig.height = 5, warning=FALSE}
 results_tvmb$MedEff
 ```
 
-In the above plot, the effect of `varenicline` on `daily smoking status` that is mediated by the `negative mood in the last fifteen minutes` (using the product method of estimating mediation effect) shows that the effect  of `varenicline` on `daily smoking status` compared to `nicotine patch only` decreases rapidly in the first 2 weeks hovering mostly around 0 (no effect), then decreases sharply around day 14 before increasing again till day 21 and decreasing thereafter. The effect is extremely erratic and given that the confidence intervals cross zero for the estimated mediation effect, we can conclude that this effect is not statistically significant. See the below plot `MedEff_CI`.
+In the above plot, the time-varying effect of `varenicline` on `daily smoking status` that is mediated by the `negative mood in the last fifteen minutes` (compared to `nicotine patch only`) decreases in the first 2 weeks hovering mostly around 0 (no effect), then decreases sharply around day 14 before increasing again until day 21 and decreasing thereafter. However, the CIs include zero thus, we can conclude that this effect is not statistically significant (see the below plot `MedEff_CI` for the CIs).
 
-```{r, fig.width = 10, fig.height = 5}
+```{r, fig.width = 10, fig.height = 5, warning=FALSE}
 results_tvmb$MedEff_CI
 ```
 
-```{r, fig.width = 10, fig.height = 5}
+```{r, fig.width = 10, fig.height = 5, warning=FALSE}
 results_tvmb$bootstrap
 ```
 
-This is the bootstrap plot showing the estimated mediation effect from bootstrapping the original sample 1000 times with 1086 sample size.
+The above plot shows the estimated mediation effect from bootstrapping the original sample 250 times with 1086 sample size.
 
-The `tvmb` function computes bootstrap confidence intervals by default. Therefore, the user may decide not to bootstrap CIs for the mediation effect by specifying `CI = "none"`. However if by mistake the user specifies `CI = "none"` and `replicates = 500` simultaneously, the function will not display an error, but simply execute without computing the CIs for mediation effect. Note that the CIs for the individual effects of exposure on mediator and mediator on outcome is computed even if the user passes the argument `CI = "none"`.
+The `tvmb` function computes bootstrap CIs by default. Therefore, the user may decide not to bootstrap CIs for the mediation effect by specifying `CI = "none"`. However, if by mistake the user specifies `CI = "none"` and `replicates = 500` simultaneously, the function will not display an error, but will simply execute without computing the CIs for mediation effect. Note that the CIs for the effects of the treatment on the mediator and the mediator on the outcome, and for the direct and total effects are computed even if the user passes the argument `CI = "none"`.
 
 ## Summary
 
-The `tvmediation` package provides a robust set of functions for estimating mediation effects that vary over time. The development of this tool has widespread application for use in human behavior research, clinical trials, addiction research, and others. By adopting the Time Varying Mediation Analysis for your data, we hope to characterize the realistic nature of an effect over time as opposed to the traditional approach of estimating an effect based on its single occurrence.
+The `tvmediation` package provides a set of functions for estimating mediation effects that vary over time for both binary and continuous time-varying outcomes. Currently, the package only allows for a time-invariant treatment. The mediator and outcome are assumed to be time-varying, such as intensive longitudinal measurements obtained via Ecological Momentary Assessment or via wearable and mobile devices. The development of this tool has widespread application for use in human behavior research, clinical trials, addiction research, and others by allowing specification of mediation effects that vary as a function of time.
 
 ## References
 
