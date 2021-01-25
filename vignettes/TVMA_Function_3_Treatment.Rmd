@@ -347,7 +347,7 @@ The `tvmediation` package provides a set of functions for estimating mediation e
 
 ## References
 
-1. Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). Estimation and inference for the mediation effect in a time-varying mediation model. [arXiv:2008.11797](https://arxiv.org/abs/2008.11797))
+1. Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). Estimation and inference for the mediation effect in a time-varying mediation model. [arXiv:2008.11797](https://arxiv.org/abs/2008.11797)
 
 2. Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. [doi:10.1001/jama.2015.19284](https://jamanetwork.com/journals/jama/fullarticle/2484340)
 
