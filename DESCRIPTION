@@ -24,7 +24,7 @@ Authors@R:
 RoxygenNote: 7.1.1
 Depends: R (>= 4.0.0)
 Imports:
-    stats (>= 4.0.3),
+    stats (>= 4.0.2),
     dplyr (>= 1.0.2),
     ggplot2 (>= 3.3.2),
     kedd (>= 1.0.3),
