@@ -7,7 +7,7 @@ Authors@R:
  c(person(given = "Donna",
           family = "Coffman",
           role = c("aut", "cre"),
-          email = "donna.coffman@temple.edu",
+          email = "dcoffman@temple.edu",
           comment = c(ORCID = "0000-0001-6305-6579")),
    person(given = "Xizhen",
           family = "Cai",
