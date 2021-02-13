@@ -15,7 +15,7 @@ bootci_coeff_2trt(trt, t.seq, M, Y, t.est, deltat, replicates)
 
 \item{Y}{matrix of outcome values in wide format}
 
-\item{t.est}{time points at whichvto make the estimation. Default = t.seq}
+\item{t.est}{time points at which to make the estimation. Default = t.seq}
 
 \item{deltat}{a small constant which controls the time-lag of the effect of the mediator on the outcome.}
 

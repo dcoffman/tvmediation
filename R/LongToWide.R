@@ -1,4 +1,4 @@
-#' Function to transpose the data from long to wide formate
+#' Function to transpose the data from long to wide format
 #' 
 #' Transposing a dataset with repeated measurements/responses for each subject from longitudinal to wide format.
 #' 
@@ -7,7 +7,7 @@
 #' @param outcome         a column of variables to be transposed
 #' @param verbose         TRUE or FALSE (default = FALSE) prints output to screen (OPTIONAL INPUT)
 #' 
-#' @details If data is not sorted by subject.id, a warning message will appear. The function will then sort the data by subject.id. It is reccomended that the user sorts the data prior to using this function.
+#' @details If data is not sorted by subject.id, a warning message will appear. The function will then sort the data by subject.id. It is recomended that the user sorts the data prior to using this function.
 #' 
 #' @return \item{\code{mat.wide }}{a matrix in wide format, columns = outcome for each subject, rows = timeseq}
 #' 

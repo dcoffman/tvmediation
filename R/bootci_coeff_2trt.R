@@ -6,7 +6,7 @@
 #' @param t.seq       a vector of time points for each observation
 #' @param M           matrix of mediator values in wide format
 #' @param Y           matrix of outcome values in wide format
-#' @param t.est       time points at whichvto make the estimation. Default = t.seq
+#' @param t.est       time points at which to make the estimation. Default = t.seq
 #' @param deltat      a small constant which controls the time-lag of the effect of the mediator on the outcome.
 #' @param replicates  number of replicates for bootstrapping confidence intervals. Default = 1000
 #' 

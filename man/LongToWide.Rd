@@ -2,7 +2,7 @@
 % Please edit documentation in R/LongToWide.R
 \name{LongToWide}
 \alias{LongToWide}
-\title{Function to transpose the data from long to wide formate}
+\title{Function to transpose the data from long to wide format}
 \usage{
 LongToWide(subject.id, time.sequence, outcome, verbose = FALSE)
 }
@@ -22,7 +22,7 @@ LongToWide(subject.id, time.sequence, outcome, verbose = FALSE)
 Transposing a dataset with repeated measurements/responses for each subject from longitudinal to wide format.
 }
 \details{
-If data is not sorted by subject.id, a warning message will appear. The function will then sort the data by subject.id. It is reccomended that the user sorts the data prior to using this function.
+If data is not sorted by subject.id, a warning message will appear. The function will then sort the data by subject.id. It is recomended that the user sorts the data prior to using this function.
 }
 \examples{
 set.seed(4)

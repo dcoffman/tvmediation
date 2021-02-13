@@ -32,7 +32,7 @@ smoothest(t.seq, t.coeff, t.est, deltat)
 
 \item{hat.tau}{estimated treatment effect on outcome, not adjusting for mediator}
 
-\item{est.M}{estimated medition effect, product of hat.alpha and hat.beta}
+\item{est.M}{estimated mediation effect, product of hat.alpha and hat.beta}
 }
 \description{
 Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.

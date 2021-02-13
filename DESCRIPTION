@@ -2,7 +2,7 @@ Package: tvmediation
 Type: Package
 Version: 1.0.0
 Title: Time Varying Mediation Analysis
-Description: A package for estimating mediation effects that vary over time.
+Description: Provides functions for estimating mediation effects that vary over time.
 Authors@R:
  c(person(given = "Donna",
           family = "Coffman",

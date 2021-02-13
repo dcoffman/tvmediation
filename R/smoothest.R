@@ -15,7 +15,7 @@
 #' @return \item{hat.gamma}{estimated treatment effect on outcome, adjusted for mediator}
 #' @return \item{hat.beta}{estimated mediator effect on outcome}
 #' @return \item{hat.tau}{estimated treatment effect on outcome, not adjusting for mediator}
-#' @return \item{est.M}{estimated medition effect, product of hat.alpha and hat.beta}
+#' @return \item{est.M}{estimated mediation effect, product of hat.alpha and hat.beta}
 #'
 #' @export
 #'
