@@ -1,10 +1,10 @@
 ---
-title: "Time Varying Mediation Function: Continuous Outcome and Two Treatment Arms Groups"
+title: "Time Varying Mediation Function: Continuous Outcome and Two Treatment Groups"
 author:
 - name: Yajnaseni Chakraborti
   email: yajnaseni.chakraborti@temple.edu
 - name: Donna L. Coffman
-  email: donna.coffman@temple.edu
+  email: dcoffman@temple.edu
 - name: Harry Zobel
   email: harryzobeljr@gmail.com
 date: "`r Sys.Date()`"
