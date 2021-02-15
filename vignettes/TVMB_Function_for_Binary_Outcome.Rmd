@@ -62,7 +62,6 @@ The equivalent code using `devtools` is:
 
 ```{r, eval = FALSE}
 devtools::install_cran("tvmediation", dependencies = TRUE) 
-# MAKE SURE YOU HAVE devtools INSTALLED
 library(tvmediation)
 ```
 
@@ -77,7 +76,6 @@ Alternatively, if you want to install the package directly from the GitHub repos
 
 ```{r, eval = FALSE}
 devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) 
-# MAKE SURE YOU HAVE devtools INSTALLED
 library(tvmediation)
 ```
 
@@ -228,6 +226,11 @@ The optional arguments are:
 8. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
 
 We will call the function with additional optional arguments `plot=TRUE` and `replicates = 250`. We decreased the number of bootstrap replicates so that this vignette compiles faster but we suggest using at least 500 replicates in an actual analysis. The remaining optional arguments are left to their respective default values.
+
+```{r include=FALSE}
+rm(smoker)
+```
+
 
 ```{r, fig.width = 18, fig.height = 10, results='hide', fig.keep='all'} 
 results_tvmb <- tvmb(treatment, t.seq, mediator, outcome, 

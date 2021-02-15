@@ -60,7 +60,6 @@ The equivalent code using `devtools` is:
 
 ```{r, eval = FALSE}
 devtools::install_cran("tvmediation", dependencies = TRUE) 
-# MAKE SURE YOU HAVE devtools INSTALLED
 library(tvmediation)
 ```
 
@@ -74,7 +73,6 @@ Alternatively, if you want to install the package directly from the GitHub repos
 
 ```{r, eval = FALSE}
 devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) 
-# MAKE SURE YOU HAVE devtools INSTALLED
 library(tvmediation)
 ```
 
@@ -217,9 +215,13 @@ The argument `grpname` is important if the user wants the results from the boots
 
 We will call the function with additional optional arguments `plot=TRUE` and `replicates = 250`. We decreased the number of bootstrap replicates so that this vignette compiles faster but we suggest using at least 500 replicates in an actual analysis. The remaining optional arguments are left to their respective default values.
 
+```{r include=FALSE}
+rm(smoker)
+```
+
 ```{r, fig.width = 10, fig.height = 5, results='hide', fig.keep='all'} 
 results_tvma_3trt <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome, plot = TRUE,
-                               replicates = 500, grpname = "NRT")
+                               replicates = 250, grpname = "NRT")
 ```
 
 ## Results
