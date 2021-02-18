@@ -11,9 +11,19 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{Time Varying Mediation Function: Continuous Outcome and Two Treatment Groups}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::rmarkdown_notangle}
   \usepackage[utf8]{inputenc}
 ---
+
+```{r, include = FALSE}
+is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
+             "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
+knitr::opts_chunk$set(eval = !is_check)
+```
+
+```{r, include = FALSE}
+Sys.sleep(100)
+```
 
 <style>
 pre {
@@ -26,7 +36,6 @@ pre code {
 </style>
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, comment = "#>")
 library(dplyr)
 library(ggplot2)
 library(kedd)
