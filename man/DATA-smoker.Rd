@@ -3,7 +3,7 @@
 \non_function{}
 \title{Wisconsin Smokers' Health Study 2}
 \description{
-The dataset is a subset of the Wisconsin Smokers' Health Study 2.
+The dataset is \strong{simulated} based on the Wisconsin Smokers' Health Study 2.
 }
 \usage{data(smoker)}
 \format{

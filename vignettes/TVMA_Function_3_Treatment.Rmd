@@ -48,7 +48,7 @@ library(tvmediation)
 
 ## Introduction
 
-The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with three treatment (exposure) groups and a continuous outcome. Please note, that this package has been built considering the structure of panel data, where each subject/participant has repeated responses (collected over time) for the outcome and mediator variables. We do not address dynamic treatment regimens in this package. Therefore, we assume the scenario where the treatment (exposure) is time-invariant (i.e., does not change over time). For more details, refer to Cai et al., 2020 (the paper can be obtained at [arXiv:2008.11797](https://arxiv.org/abs/2008.11797)).
+The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with three treatment (exposure) groups and a continuous outcome. Please note, that this package has been built considering the structure of panel data, where each subject/participant has repeated responses (collected over time) for the outcome and mediator variables. We do not address dynamic treatment regimens in this package. Therefore, we assume the scenario where the treatment (exposure) is time-invariant (i.e., does not change over time). For more details, refer to Cai et al., 2020 (the paper can be obtained at <https://arxiv.org/abs/2008.11797>).
 
 ### Data
 
@@ -358,11 +358,11 @@ The `tvmediation` package provides a set of functions for estimating mediation e
 
 ## References
 
-1. Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). Estimation and inference for the mediation effect in a time-varying mediation model. [arXiv:2008.11797](https://arxiv.org/abs/2008.11797)
+1. Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). Estimation and inference for the mediation effect in a time-varying mediation model. <https://arxiv.org/abs/2008.11797>
 
-2. Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. [doi:10.1001/jama.2015.19284](https://jamanetwork.com/journals/jama/fullarticle/2484340)
+2. Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. \doi{doi:10.1001/jama.2015.19284}
 
-3. Efron, B. & Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75. [doi:10.1214/ss/1177013815](https://projecteuclid.org/euclid.ss/1177013815)
+3. Efron, B. & Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75. \doi{doi:10.1214/ss/1177013815}
 
 </div>
 ---

@@ -1,4 +1,4 @@
-# tvmediation <a><img src = 'man/figures/tvma_logo.png' align = "right" height = "125" /></a>
+# tvmediation <a><img src = 'man/figures/logo.png' align = "right" height = "139" /></a>
 R package for fitting time-varying mediation models
 
 ## Overview
@@ -12,12 +12,16 @@ To use the time varying mediation analysis package in R, you must first install 
 ```{r}
 install.packages("tvmediation", dependencies = TRUE)
 ```
+
 The equivalent code using `devtools` is:
+
 ```{r}
 devtools::install_cran("tvmediation", dependencies = TRUE) 
 # MAKE SURE YOU HAVE devtools INSTALLED
 ```
-Alternatively, if you want to install the package directly from the github repository to access new or revised functions in development, the following code may be used:
+
+Alternatively, if you want to install the package directly from the GitHub repository to access new or revised functions in development, the following code may be used:
+
 ```{r}
 devtools::install_github("dcoffman/tvmediation", dependencies = TRUE) 
 # MAKE SURE YOU HAVE devtools INSTALLED
@@ -30,5 +34,5 @@ library(tvmediation)
 
 ## Getting help
 Summarized versions of the function vignettes can be accessed through this [link](https://github.com/dcoffman/tvmediation/wiki).
-If you encounter a bug, please file a minimal reproducible example on [github](https://github.com/dcoffman/tvmediation/issues).
+If you encounter a bug, please file a minimal reproducible example on [GitHub](https://github.com/dcoffman/tvmediation/issues).
 

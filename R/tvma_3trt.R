@@ -1,18 +1,25 @@
 #' Time Varying Mediation Function: Continuous Outcome and Three Treatment Groups
 #' 
-#' Function to estimate the time-varying mediation effect and bootstrap standard errors for three treatment groups and a continuous outcome.
+#' Function to estimate the time-varying mediation effect and bootstrap standard 
+#' errors for three treatment groups and a continuous outcome.
 #' 
 #' @param T1          a vector indicating assignment to treatment 1
 #' @param T2          a vector indicating assignment to treatment 2
 #' @param t.seq       a vector of time points for each observation
 #' @param mediator    matrix of mediator values in wide format
 #' @param outcome     matrix of outcome values in wide format
-#' @param t.est       a vector of time points at which to make the estimation. Default = t.seq. (OPTIONAL ARGUMENT)
-#' @param plot        TRUE or FALSE for plotting mediation effect. Default = "FALSE". (OPTIONAL ARGUMENT)
-#' @param CI          "none" or "boot" method of deriving confidence intervals. Default = "boot". (OPTIONAL ARGUMENT)
-#' @param replicates  number of replicates for bootstrapping confidence intervals. Default = 1000. (OPTIONAL ARGUMENT)
-#' @param grpname     name of the treatment arms (exposure groups) to be displayed in the results. Default = "T". (OPTIONAL ARGUMENT) 
-#' @param verbose     TRUE or FALSE for printing results to screen. Default = "FALSE". (OPTIONAL ARGUMENT)
+#' @param t.est       a vector of time points at which to make the estimation. 
+#'                    Default = t.seq. (OPTIONAL ARGUMENT)
+#' @param plot        TRUE or FALSE for plotting mediation effect. 
+#'                    Default = "FALSE". (OPTIONAL ARGUMENT)
+#' @param CI          "none" or "boot" method of deriving confidence intervals. 
+#'                    Default = "boot". (OPTIONAL ARGUMENT)
+#' @param replicates  number of replicates for bootstrapping confidence intervals. 
+#'                    Default = 1000. (OPTIONAL ARGUMENT)
+#' @param grpname     name of the treatment arms (exposure groups) to be displayed in
+#'                     the results. Default = "T". (OPTIONAL ARGUMENT) 
+#' @param verbose     TRUE or FALSE for printing results to screen. 
+#'                    Default = "FALSE". (OPTIONAL ARGUMENT)
 #' 
 #' @return \item{hat.alpha1}{estimated Treatment 1 effect on mediator}
 #' @return \item{CI.lower.alpha1}{CI lower limit for estimated coefficient hat.alpha1}
@@ -89,12 +96,25 @@
 #' 
 #' @references 
 #' \enumerate{
-#' \item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its applications: monographs on statistics and applied probability 66. CRC Press.}
-#' \item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying coefficient models. The Annals of Statistics, 27, 1491-1518.}
-#' \item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear models with applications to longitudinal data. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62, 303-322.}
-#' \item{Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (under review). Estimation and inference for the mediation effect in a time-varying mediation model. Journal of the Royal Statistics Society, Series C (Applied Statistics).}
-#' \item{Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. doi:10.1001/jama.2015.19284.}
-#' \item{Efron, B. and Tibshirani, R. (1986). Bootstrap methods for standard errors, confidence intervals, and other measures of statistical accuracy. Statistical Science, 1, 54-75. doi:10.1214/ss/1177013815.}
+#' \item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its 
+#'       applications: monographs on statistics and applied probability 66. 
+#'       CRC Press.}
+#' \item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying 
+#'       coefficient models. The Annals of Statistics, 27, 1491-1518.}
+#' \item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear 
+#'       models with applications to longitudinal data. Journal of the Royal 
+#'       Statistical Society: Series B (Statistical Methodology), 62, 303-322.}
+#' \item{Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). 
+#'       Estimation and inference for the mediation effect in a time-varying 
+#'       mediation model. <https://arxiv.org/abs/2008.11797>}
+#' \item{Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., 
+#'       Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs 
+#'       varenicline vs combination nicotine replacement therapy on smoking 
+#'       cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 
+#'       371-379. \doi{doi:10.1001/jama.2015.19284}.}
+#' \item{Efron, B. and Tibshirani, R. (1986). Bootstrap methods for standard 
+#'       errors, confidence intervals, and other measures of statistical accuracy. 
+#'       Statistical Science, 1, 54-75. \doi{doi:10.1214/ss/1177013815}.}
 #' }
 #' 
 #' @export

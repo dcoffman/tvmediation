@@ -13,16 +13,21 @@ LongToWide(subject.id, time.sequence, outcome, verbose = FALSE)
 
 \item{outcome}{a column of variables to be transposed}
 
-\item{verbose}{TRUE or FALSE (default = FALSE) prints output to screen (OPTIONAL INPUT)}
+\item{verbose}{TRUE or FALSE (default = FALSE) prints output to screen 
+(OPTIONAL INPUT)}
 }
 \value{
-\item{\code{mat.wide }}{a matrix in wide format, columns = outcome for each subject, rows = timeseq}
+\item{\code{mat.wide }}{a matrix in wide format, 
+columns = outcome for each subject, rows = timeseq}
 }
 \description{
-Transposing a dataset with repeated measurements/responses for each subject from longitudinal to wide format.
+Transposing a dataset with repeated measurements/responses for each subject 
+from longitudinal to wide format.
 }
 \details{
-If data is not sorted by subject.id, a warning message will appear. The function will then sort the data by subject.id. It is recomended that the user sorts the data prior to using this function.
+If data is not sorted by subject.id, a warning message will appear. 
+The function will then sort the data by subject.id. It is recommended that the 
+user sorts the data prior to using this function.
 }
 \examples{
 set.seed(4)

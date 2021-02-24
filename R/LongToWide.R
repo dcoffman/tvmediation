@@ -1,15 +1,20 @@
 #' Function to transpose the data from long to wide format
 #' 
-#' Transposing a dataset with repeated measurements/responses for each subject from longitudinal to wide format.
+#' Transposing a dataset with repeated measurements/responses for each subject 
+#' from longitudinal to wide format.
 #' 
 #' @param subject.id      a column of subject identifiers
 #' @param time.sequence   a column of time points
 #' @param outcome         a column of variables to be transposed
-#' @param verbose         TRUE or FALSE (default = FALSE) prints output to screen (OPTIONAL INPUT)
+#' @param verbose         TRUE or FALSE (default = FALSE) prints output to screen 
+#'                        (OPTIONAL INPUT)
 #' 
-#' @details If data is not sorted by subject.id, a warning message will appear. The function will then sort the data by subject.id. It is recomended that the user sorts the data prior to using this function.
+#' @details If data is not sorted by subject.id, a warning message will appear. 
+#' The function will then sort the data by subject.id. It is recommended that the 
+#' user sorts the data prior to using this function.
 #' 
-#' @return \item{\code{mat.wide }}{a matrix in wide format, columns = outcome for each subject, rows = timeseq}
+#' @return \item{\code{mat.wide }}{a matrix in wide format, 
+#' columns = outcome for each subject, rows = timeseq}
 #' 
 #' @examples 
 #' set.seed(4)
@@ -21,6 +26,7 @@
 #' 
 #' @export
 #' 
+
 LongToWide <- function(subject.id, time.sequence, outcome, verbose = FALSE) {
 
   if (missing(verbose)) {

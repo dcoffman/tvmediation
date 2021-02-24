@@ -3,13 +3,15 @@
 \alias{tvmediation}
 
 \description{
-\if{html}{\figure{tvma_logo.png}{options: align='right' height = '125'}}
 
-A package for estimating mediation effects that vary over time. This method takes into consideration the dynamic effect that a mediator may have over time; thus the realistic nature of an effect over time is characterized as opposed to the traditional approach of estimating an effect based on its single occurrence.
+Provides functions for estimating mediation effects that vary over 
+time as described in Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). 
+Estimation and inference for the mediation effect in a time-varying mediation 
+model. \url{https://arxiv.org/abs/2008.11797}
 } 
 
 \seealso{
-\code{\link{tvma}}, \code{\link{tvma_3trt}}, \code{\link{tvmb}}, \code{\link{LongToWide}}, \code{\link{smoker}}
+\code{\link{tvma}}, \code{\link{tvma_3trt}}, \code{\link{tvmb}}, \code{\link{LongToWide}}
 
 Useful links:
 \itemize{
@@ -19,13 +21,14 @@ Useful links:
 }
 
 \author{
-\strong{Maintainer}: Donna Coffman \email{donna.coffman@temple.edu}
+\strong{Maintainer}: Donna L. Coffman \email{dcoffman@temple.edu}
 
 Authors:
 	\itemize{
+	  \item Donna L. Coffman
 		\item Xizhen Cai
-		\item Harry Zobel
 		\item Yajnaseni Chakraborti
+		\item Harry Zobel
 	}
 }
 \keyword{internal}
