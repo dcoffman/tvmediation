@@ -36,7 +36,8 @@ Imports:
     locpol (>= 0.7-0)
 Suggests:
     knitr (>= 1.30),
-    rmarkdown (>= 2.5)
+    rmarkdown (>= 2.5),
+    utf8 (>= 1.1.4)
 License: GPL-3
 URL: https://github.com/dcoffman/tvmediation/wiki
 BugReports: https://github.com/dcoffman/tvmediation/issues
