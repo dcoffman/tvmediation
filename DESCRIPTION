@@ -33,11 +33,11 @@ Imports:
     dplyr (>= 1.0.2),
     ggplot2 (>= 3.3.2),
     kedd (>= 1.0.3),
-    locpol (>= 0.7-0)
+    locpol (>= 0.7-0),
+    utf8 (>= 1.1.4)
 Suggests:
     knitr (>= 1.30),
-    rmarkdown (>= 2.5),
-    utf8 (>= 1.1.4)
+    rmarkdown (>= 2.5)
 License: GPL-3
 URL: https://github.com/dcoffman/tvmediation/wiki
 BugReports: https://github.com/dcoffman/tvmediation/issues

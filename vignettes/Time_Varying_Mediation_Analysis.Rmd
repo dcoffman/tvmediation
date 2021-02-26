@@ -307,9 +307,9 @@ The `tvmediation` package provides a set of functions for estimating mediation e
 
 1. Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). Estimation and inference for the mediation effect in a time-varying mediation model. <https://arxiv.org/abs/2008.11797>
 
-2. Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379. \doi{doi:10.1001/jama.2015.19284}
+2. Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379.}
 
-3. Efron, B. & Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75. \doi{doi:10.1214/ss/1177013815}
+3. Efron, B. & Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75.}
 
 </div>
 

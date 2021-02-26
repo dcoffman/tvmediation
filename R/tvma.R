@@ -110,6 +110,7 @@
 #' @import ggplot2
 #' @import kedd
 #' @import locpol
+#' @import utf8
  
 tvma <- function(treatment, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
   {

@@ -90,13 +90,13 @@
 #'        Statistical Science, 1, 54-75.}
 #' }
 #' 
-#' @export
-#' 
+#' @export 
 #' @importFrom stats complete.cases cov glm lm loess na.omit predict quantile sd var
 #' @import dplyr
 #' @import ggplot2
 #' @import kedd
 #' @import locpol
+#' @import utf8
 
 tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
 {
