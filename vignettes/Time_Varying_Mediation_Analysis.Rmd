@@ -8,7 +8,7 @@ author:
 - name: Harry Zobel
   email: harryzobeljr@gmail.com
 date: "`r Sys.Date()`"
-output: rmarkdown::html_document
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Time Varying Mediation Function: Continuous Outcome and Two Treatment Groups}
   %\VignetteEngine{knitr::rmarkdown_notangle}
