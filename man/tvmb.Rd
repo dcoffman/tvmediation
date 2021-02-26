@@ -127,9 +127,9 @@ t.seq <- sort(unique(smoker.sub$timeseq))
       Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs 
       varenicline vs combination nicotine replacement therapy on smoking 
       cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 
-      371-379. \doi{doi:10.1001/jama.2015.19284}.}
+      371-379.}
 \item{Efron, B. and Tibshirani, R. (1986). Bootstrap methods for standard 
       errors, confidence intervals, and other measures of statistical accuracy.
-       Statistical Science, 1, 54-75. \doi{doi:10.1214/ss/1177013815}.}
+       Statistical Science, 1, 54-75.}
 }
 }
