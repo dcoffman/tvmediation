@@ -1,6 +1,6 @@
 Package: tvmediation
 Type: Package
-Date: 2021-02-26
+Date: 2021-02-28
 Version: 1.0.0
 Title: Time Varying Mediation Analysis
 Description: Provides functions for estimating mediation effects that vary over 
@@ -34,7 +34,7 @@ Imports:
     ggplot2 (>= 3.3.3),
     kedd (>= 1.0.3),
     locpol (>= 0.7-0),
-    utf8 (>= 1.1.4)
+    utf8
 Suggests:
     knitr,
     rmarkdown
