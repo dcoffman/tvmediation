@@ -96,26 +96,26 @@ errors for two treatment groups and a continuous outcome.
 }
 
 \examples{
-data(smoker)
+# data(smoker)
 
 # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDING COMBINATION NRT)
-smoker.sub <- smoker[smoker$treatment != 4, ]
+# smoker.sub <- smoker[smoker$treatment != 4, ]
 
 # GENERATE WIDE FORMATTED MEDIATORS
-mediator <- LongToWide(smoker.sub$SubjectID,
-                       smoker.sub$timeseq,
-                       smoker.sub$NegMoodLst15min)
+# mediator <- LongToWide(smoker.sub$SubjectID,
+#                        smoker.sub$timeseq,
+#                        smoker.sub$NegMoodLst15min)
 
 # GENERATE WIDE FORMATTED OUTCOMES
-outcome <- LongToWide(smoker.sub$SubjectID,
-                      smoker.sub$timeseq,
-                      smoker.sub$cessFatig)
+# outcome <- LongToWide(smoker.sub$SubjectID,
+#                       smoker.sub$timeseq,
+#                       smoker.sub$cessFatig)
 
 # GENERATE A BINARY TREATMENT VARIABLE
-trt <- as.numeric(unique(smoker.sub[,c("SubjectID","varenicline")])[,2])-1
+# trt <- as.numeric(unique(smoker.sub[,c("SubjectID","varenicline")])[,2])-1
 
 # GENERATE A VECTOR OF UNIQUE TIME POINTS
-t.seq <- sort(unique(smoker.sub$timeseq))
+# t.seq <- sort(unique(smoker.sub$timeseq))
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 # results <- tvma(trt, t.seq, mediator, outcome)

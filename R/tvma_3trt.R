@@ -67,24 +67,24 @@
 #' }
 #' 
 #' @examples
-#' data(smoker)
+#' # data(smoker)
 #' 
 #' # GENERATE WIDE FORMATTED MEDIATORS
-#' mediator <- LongToWide(smoker$SubjectID,
-#'                        smoker$timeseq, 
-#'                        smoker$NegMoodLst15min)
+#' # mediator <- LongToWide(smoker$SubjectID,
+#' #                        smoker$timeseq, 
+#' #                        smoker$NegMoodLst15min)
 #' 
 #' # GENERATE WIDE FORMATTED OUTCOMES
-#' outcome <- LongToWide(smoker$SubjectID,
-#'                       smoker$timeseq,
-#'                       smoker$cessFatig)
+#' # outcome <- LongToWide(smoker$SubjectID,
+#' #                       smoker$timeseq,
+#' #                       smoker$cessFatig)
 #' 
 #' # GENERATE TWO BINARY TREATMENT VARIABLES
-#' NRT1 <- as.numeric(unique(smoker[,c("SubjectID","varenicline")])[,2])-1
-#' NRT2 <- as.numeric(unique(smoker[,c("SubjectID","comboNRT")])[,2])-1
+#' # NRT1 <- as.numeric(unique(smoker[,c("SubjectID","varenicline")])[,2])-1
+#' # NRT2 <- as.numeric(unique(smoker[,c("SubjectID","comboNRT")])[,2])-1
 #' 
 #' # GENERATE A VECTOR OF UNIQUE TIME POINTS
-#' t.seq <- sort(unique(smoker$timeseq))
+#' # t.seq <- sort(unique(smoker$timeseq))
 #' 
 #' # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
 #' # results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome)
