@@ -123,7 +123,6 @@
 #' @import ggplot2
 #' @import kedd
 #' @import locpol
-#' @import utf8
 
 tvma_3trt <- function(T1, T2, t.seq, mediator, outcome, t.est = t.seq, plot = FALSE, CI="boot", replicates = 1000, grpname = "T", verbose = FALSE)
   {

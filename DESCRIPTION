@@ -33,8 +33,7 @@ Imports:
     dplyr (>= 1.0.4),
     ggplot2 (>= 3.3.3),
     kedd (>= 1.0.3),
-    locpol (>= 0.7-0),
-    utf8
+    locpol (>= 0.7-0)
 Suggests:
     knitr,
     rmarkdown
