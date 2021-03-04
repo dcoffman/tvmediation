@@ -1,0 +1,15 @@
+citHeader("To cite tvmediation in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "tvmediation: Time Varying Mediation Analysis",
+  author   = personList(as.person("Donna L. Coffman"), as.person("Xizhen Cai"),
+              as.person("Yajnaseni Chakraborti")),
+  year     = "2021",
+  journal  = "R package version 1.0.0",
+  url      = "https://cran.r-project.org/package=tvmediation",
+  textVersion = paste("Donna L. Coffman, Xizhen Cai, and Yajnaseni Chakraborti. (2021).",
+                  "tvmediation: Time Varying Mediation Analysis.",
+                  "R package version 1.0.0",
+                  "https://cran.r-project.org/package=tvmediation")
+)
