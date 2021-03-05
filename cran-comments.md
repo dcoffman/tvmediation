@@ -3,7 +3,7 @@
 * Fedora Linux, R-devel, clang, gfortran
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Debian Linux, R-release, GCC
-* 
+* Oracle Solaris 10, x86, 32 bit, R-release
 * win-builder using R Under development (unstable) (2021-02-10 r79988)
    * platform: x86_64-w64-mingw32 (64-bit)
 
