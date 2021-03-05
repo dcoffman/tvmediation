@@ -2,7 +2,8 @@
 % Please edit documentation in R/tvmcurve_3trt.R
 \name{tvmcurve_3trt}
 \alias{tvmcurve_3trt}
-\title{Main function for time varying mediation function for continuous Outcome and three treatment arms (Exposure Groups)}
+\title{Main function for time varying mediation function for continuous outcome and three 
+treatment arms (i.e., exposure groups).}
 \usage{
 tvmcurve_3trt(T1, T2, t.seq, x, y, t.est)
 }
@@ -17,7 +18,7 @@ tvmcurve_3trt(T1, T2, t.seq, x, y, t.est)
 
 \item{y}{matrix of outcome values in wide format}
 
-\item{t.est}{time points at which to make the estimation. Default = t.seq.}
+\item{t.est}{time points at which to make the estimation. Default = t.seq}
 }
 \value{
 \item{hat.alpha1}{estimated Treatment 1 effect on mediator}

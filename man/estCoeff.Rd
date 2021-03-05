@@ -2,7 +2,7 @@
 % Please edit documentation in R/estCoeff.R
 \name{estCoeff}
 \alias{estCoeff}
-\title{Function to estimate coefficients at time t}
+\title{Function to estimate coefficients at time t.}
 \usage{
 estCoeff(newMO.j.est)
 }
@@ -13,5 +13,6 @@ estCoeff(newMO.j.est)
 \item{coeff.est}{estimated coefficients of the mediation model}
 }
 \description{
-Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.
+Part of the set of internal functions called within the \code{tvma} function to assist 
+in the estimation of the time varying mediation effect.
 }

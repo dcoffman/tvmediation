@@ -1,14 +1,18 @@
-#' Bootstrap function for computing CIs for coefficients for a continuous outcome and two treatment groups
+#' Bootstrap function for computing CIs for coefficients for a continuous outcome and two 
+#' treatment groups
 #' 
-#' Part of the set of internal functions for estimating bootstrapped CIs for the coefficients of the mediation model for continuous outcome and two treatment groups.
+#' Part of the set of internal functions for estimating bootstrapped CIs for the coefficients
+#'  of the mediation model for continuous outcome and two treatment groups.
 #' 
 #' @param trt         a vector indicating treatment group
 #' @param t.seq       a vector of time points for each observation
 #' @param M           matrix of mediator values in wide format
 #' @param Y           matrix of outcome values in wide format
 #' @param t.est       time points at which to make the estimation. Default = t.seq
-#' @param deltat      a small constant which controls the time-lag of the effect of the mediator on the outcome.
-#' @param replicates  number of replicates for bootstrapping confidence intervals. Default = 1000
+#' @param deltat      a small constant which controls the time-lag of the effect of the 
+#'                    mediator on the outcome.
+#' @param replicates  number of replicates for bootstrapping confidence intervals. 
+#'                    Default = 1000
 #' 
 #' @return \item{CI.upper.alpha}{CI upper limit for coefficient hat.alpha}
 #' @return \item{CI.lower.alpha}{CI lower limit for coefficient hat.alpha}
@@ -19,7 +23,6 @@
 #' @return \item{CI.upper.tau}{CI upper limit for coefficient hat.tau}
 #' @return \item{CI.lower.tau}{CI lower limit for coefficient hat.tau}
 #' 
-#' @export
 #' 
 
 bootci_coeff_2trt <- function(trt, t.seq, M, Y, t.est, deltat, replicates) {
@@ -37,7 +40,6 @@ bootci_coeff_2trt <- function(trt, t.seq, M, Y, t.est, deltat, replicates) {
     } else {
       print(sprintf("Boostrapping iteration %03d", c1))
     }
-    set.seed(c1^2)
     index.sample <- sample(1:N, N, replace = TRUE)
     t.coeff.boot <- NULL
     for (j in 2:length(t.seq)) {

@@ -12,7 +12,6 @@
 #' @return \item{coeff.est}{estimated coefficients of the mediation model}
 #' @return \item{nomissing.index}{index of complete cases}
 #' 
-#' @export
 #' 
 
 coeff<-function(j, T1, T2, x, y)

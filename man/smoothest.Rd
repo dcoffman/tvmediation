@@ -13,16 +13,21 @@ smoothest(t.seq, t.coeff, t.est, deltat)
 
 \item{t.est}{time points at which to make the estimation}
 
-\item{deltat}{a small constant which controls the time-lag of the effect of the mediator on the outcome, half the time between two time points}
+\item{deltat}{a small constant which controls the time-lag of the effect of the 
+mediator on the outcome, half the time between two time points}
 }
 \value{
-\item{bw_alpha}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for alpha coefficient.}
+\item{bw_alpha}{a number computed via Fan and Gijbels' (1996) rule of thumb for 
+                        bandwidth selector for alpha coefficient.}
 
-\item{bw_gamma}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for gamma coefficient.}
+\item{bw_gamma}{a number computed via Fan and Gijbels' (1996) rule of thumb for 
+                        bandwidth selector for gamma coefficient.}
 
-\item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for beta coefficient.}
+\item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for 
+                       bandwidth selector for beta coefficient.}
 
-\item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for tau coefficient.}
+\item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for 
+                       bandwidth selector for tau coefficient.}
 
 \item{hat.alpha}{estimated treatment effect on mediator}
 
@@ -35,5 +40,6 @@ smoothest(t.seq, t.coeff, t.est, deltat)
 \item{est.M}{estimated mediation effect, product of hat.alpha and hat.beta}
 }
 \description{
-Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.
+Part of the set of internal functions called within the \code{tvma} function to assist 
+in the estimation of the time varying mediation effect.
 }

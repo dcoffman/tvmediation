@@ -5,7 +5,7 @@
 #' 
 #' @param subject.id      a column of subject identifiers
 #' @param time.sequence   a column of time points
-#' @param outcome         a column of variables to be transposed
+#' @param outcome         a column to be transposed
 #' @param verbose         TRUE or FALSE (default = FALSE) prints output to screen 
 #'                        (OPTIONAL INPUT)
 #' 
@@ -13,12 +13,11 @@
 #' The function will then sort the data by subject.id. It is recommended that the 
 #' user sorts the data prior to using this function.
 #' 
-#' @return \item{\code{mat.wide }}{a matrix in wide format, 
-#' columns = outcome for each subject, rows = timeseq}
+#' @return \item{\code{mat.wide }}{a matrix in wide format, in which each
+#' column is the outcome for each subject and each row is the time sequence}
 #' 
 #' @examples 
-#' set.seed(4)
-#' # CREATING A TRANSPOSED DATASET FOR MEDIATOR `WantToSmokeLst15min`
+#' # CREATING A TRANSPOSED MATRIX FOR MEDIATOR `WantToSmokeLst15min`
 #' data(smoker)
 #' mat.wide <- LongToWide(smoker$SubjectID,
 #'                        smoker$timeseq,

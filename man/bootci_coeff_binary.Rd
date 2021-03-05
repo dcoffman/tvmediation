@@ -2,7 +2,7 @@
 % Please edit documentation in R/bootci_coeff_binary.R
 \name{bootci_coeff_binary}
 \alias{bootci_coeff_binary}
-\title{Bootstrap samples to estimate confidence intervals for binary outcome coefficients}
+\title{Bootstrap samples to estimate confidence intervals for binary outcome coefficients.}
 \usage{
 bootci_coeff_binary(treatment, t.seq, m, outcome, replicates = 1000)
 }
@@ -15,7 +15,8 @@ bootci_coeff_binary(treatment, t.seq, m, outcome, replicates = 1000)
 
 \item{outcome}{matrix of outcome values in wide format}
 
-\item{replicates}{Number of replicates for bootstrapping confidence intervals. Default = 1000.}
+\item{replicates}{Number of replicates for bootstrapping confidence intervals. 
+Default = 1000.}
 }
 \value{
 \item{t.seq}{time points of estimation}
@@ -37,5 +38,6 @@ bootci_coeff_binary(treatment, t.seq, m, outcome, replicates = 1000)
 \item{CI.upper.t}{CI upper limit for tau_hat}
 }
 \description{
-Internal function for estimating bootstrapped confidence intervals for the coefficients of the mediation model for a binary outcome.
+Internal function for estimating bootstrapped confidence intervals for the coefficients 
+of the mediation model for a binary outcome.
 }

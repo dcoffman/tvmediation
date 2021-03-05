@@ -1,12 +1,14 @@
-#' Bootstrap samples to estimate confidence intervals for binary outcome coefficients
+#' Bootstrap samples to estimate confidence intervals for binary outcome coefficients.
 #' 
-#' Internal function for estimating bootstrapped confidence intervals for the coefficients of the mediation model for a binary outcome.
+#' Internal function for estimating bootstrapped confidence intervals for the coefficients 
+#' of the mediation model for a binary outcome.
 #' 
 #' @param treatment    a vector indicating treatment group
 #' @param t.seq        a vector of unique time points for each observation
 #' @param m            matrix of mediator values in wide format
 #' @param outcome      matrix of outcome values in wide format
-#' @param replicates   Number of replicates for bootstrapping confidence intervals. Default = 1000.
+#' @param replicates   Number of replicates for bootstrapping confidence intervals. 
+#'                     Default = 1000.
 #' 
 #' @return \item{t.seq}{time points of estimation}
 #' @return \item{CI.lower.a}{CI lower limit for alpha_hat}
@@ -18,12 +20,10 @@
 #' @return \item{CI.lower.t}{CI lower limit for tau_hat}
 #' @return \item{CI.upper.t}{CI upper limit for tau_hat}
 #' 
-#' @export
 #' 
 
 bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000){
- 
-  set.seed(27)
+
   reps <- replicates
   
   start.time <- Sys.time()

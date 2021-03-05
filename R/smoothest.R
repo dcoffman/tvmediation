@@ -1,23 +1,28 @@
 #' Function to compute local polynomial estimation using rule of thumb for bandwidth selection
 #' 
-#' Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.
+#' Part of the set of internal functions called within the \code{tvma} function to assist 
+#' in the estimation of the time varying mediation effect.
 #' 
 #' @param t.seq     a vector of time points at each observation
 #' @param t.coeff   estimated coefficients
 #' @param t.est     time points at which to make the estimation
-#' @param deltat    a small constant which controls the time-lag of the effect of the mediator on the outcome, half the time between two time points
+#' @param deltat    a small constant which controls the time-lag of the effect of the 
+#'                  mediator on the outcome, half the time between two time points
 #' 
-#' @return \item{bw_alpha}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for alpha coefficient.}
-#' @return \item{bw_gamma}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for gamma coefficient.}
-#' @return \item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for beta coefficient.}
-#' @return \item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for bandwidth selector for tau coefficient.}
+#' @return \item{bw_alpha}{a number computed via Fan and Gijbels' (1996) rule of thumb for 
+#'                         bandwidth selector for alpha coefficient.}
+#' @return \item{bw_gamma}{a number computed via Fan and Gijbels' (1996) rule of thumb for 
+#'                         bandwidth selector for gamma coefficient.}
+#' @return \item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for 
+#'                        bandwidth selector for beta coefficient.}
+#' @return \item{bw_beta}{a number computed via Fan and Gijbels' (1996) rule of thumb for 
+#'                        bandwidth selector for tau coefficient.}
 #' @return \item{hat.alpha}{estimated treatment effect on mediator}
 #' @return \item{hat.gamma}{estimated treatment effect on outcome, adjusted for mediator}
 #' @return \item{hat.beta}{estimated mediator effect on outcome}
 #' @return \item{hat.tau}{estimated treatment effect on outcome, not adjusting for mediator}
 #' @return \item{est.M}{estimated mediation effect, product of hat.alpha and hat.beta}
 #'
-#' @export
 #'
 
 smoothest <- function(t.seq, t.coeff, t.est, deltat) {

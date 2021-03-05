@@ -3,7 +3,7 @@
 \name{estBootCIs}
 \alias{estBootCIs}
 \title{Bootstrapping samples to estimate mediation effects confidence intervals for continuous 
-outcome and two treatment (exposure) groups}
+outcome and two treatment (exposure) groups.}
 \usage{
 estBootCIs(trt, t.seq, M, Y, t.est, deltat, replicates)
 }

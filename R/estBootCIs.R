@@ -1,5 +1,5 @@
 #' Bootstrapping samples to estimate mediation effects confidence intervals for continuous 
-#' outcome and two treatment (exposure) groups
+#' outcome and two treatment (exposure) groups.
 #' 
 #' Part of the set of internal functions for estimating bootstrapped confidence intervals 
 #' for continuous outcome and two treatment groups when user argument \code{CI="boot"}.
@@ -17,7 +17,6 @@
 #' @return {CI.upper}{percentile bootstrapped CI upper limit for the estimated mediation effect}
 #' @return {CI.lower}{percentile bootstrapped CI lower limit for the estimated mediation effect}
 #' 
-#' @export
 #' 
 
 estBootCIs <- function(trt, t.seq, M, Y, t.est, deltat, replicates) {
@@ -33,7 +32,6 @@ estBootCIs <- function(trt, t.seq, M, Y, t.est, deltat, replicates) {
     } else {
       print(sprintf("Boostrapping iteration %03d", k1))
     }
-    set.seed(k1^2)
     index.sample <- sample(1:N, N, replace = TRUE)
     t.coeff.boot <- NULL
     for (j in 2:length(t.seq)) {

@@ -2,14 +2,17 @@
 % Please edit documentation in R/bootci_tvm_3trt.R
 \name{bootci_tvm_3trt}
 \alias{bootci_tvm_3trt}
-\title{Bootstrap samples to estimate confidence intervals for continuous outcome and three treatment groups}
+\title{Bootstrap samples to estimate confidence intervals for continuous outcome and three 
+treatment groups.}
 \usage{
 bootci_tvm_3trt(boot.sample, orig.data, t.est)
 }
 \arguments{
-\item{boot.sample}{number of replicates for bootstrapping confidence intervals. Default = 1000.}
+\item{boot.sample}{number of replicates for bootstrapping confidence intervals. 
+Default = 1000.}
 
-\item{orig.data}{a list of original data \code{T1}, \code{T2}, \code{mediator}, \code{outcome} and \code{t.seq}.}
+\item{orig.data}{a list of original data \code{T1}, \code{T2}, \code{mediator}, 
+\code{outcome} and \code{t.seq}.}
 
 \item{t.est}{time points at which to make the estimation. Default = t.seq.}
 }
@@ -31,5 +34,7 @@ bootci_tvm_3trt(boot.sample, orig.data, t.est)
 \item{orig.mediation2}{time varying mediation effect for T2}
 }
 \description{
-Internal function for estimating bootstrapped confidence intervals for the mediation effect of continuous outcome and three treatment groups when user argument \code{CI="boot"}.
+Internal function for estimating bootstrapped confidence intervals for the mediation 
+effect of continuous outcome and three treatment groups when user argument 
+\code{CI="boot"}.
 }

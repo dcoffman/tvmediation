@@ -1,12 +1,15 @@
-#' Bootstrap samples to estimate confidence intervals for the mediation effect for a binary outcome
+#' Bootstrap samples to estimate confidence intervals for the mediation effect for a binary 
+#' outcome.
 #' 
-#' Part of the set of internal functions for estimating bootstrapped confidence intervals for the mediation effect for a binary outcome when user argument \code{CI="boot"}.
+#' Part of the set of internal functions for estimating bootstrapped confidence intervals 
+#' for the mediation effect for a binary outcome when user argument \code{CI="boot"}.
 #' 
 #' @param treatment    a vector indicating treatment group
 #' @param t.seq        a vector of unique time points for each observation
 #' @param m            matrix of mediator values in wide format
 #' @param outcome      matrix of outcome values in wide format
-#' @param coeff_data   a merged dataset of indirect and direct effects and CIs estimated from \code{bootci_coeff_binary}
+#' @param coeff_data   a merged dataset of indirect and direct effects and CIs estimated 
+#'                     from \code{bootci_coeff_binary}
 #' @param replicates   number of replicates for bootstrapping CIs. Default = 1000.
 #' 
 #' @return \item{timeseq}{time points of estimation}
@@ -26,12 +29,10 @@
 #' @return \item{CI.lower}{CI lower limit for medEffect}
 #' @return \item{CI.upper}{CI upper limit for medEffect}
 #' 
-#' @export
 #' 
 
 bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 1000){
-  
-  set.seed(27)
+
   reps <- replicates
   
   start.time <- Sys.time()

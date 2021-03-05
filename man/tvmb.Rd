@@ -71,7 +71,8 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 \note{
 \enumerate{
 \item{Currently supports 2 treatment groups}
-\item{** IMPORTANT ** An alternate way of formatting the data and calling the function is documented in detail in the tutorial for the tvmb() function.}
+\item{** IMPORTANT ** An alternate way of formatting the data and calling the function 
+      is documented in detail in the tutorial for the tvmb() function.}
 }
 }
 \section{Plot Returns}{
@@ -88,29 +89,29 @@ Function to estimate the time-varying mediation effect and bootstrap standard er
 }
 
 \examples{
-# data(smoker)
+\dontrun{data(smoker)
 
 # REDUCE DATA SET TO ONLY 2 TREATMENT CONDITIONS (EXCLUDE COMBINATION NRT)
-# smoker.sub <- smoker[smoker$treatment != 4, ]
+smoker.sub <- smoker[smoker$treatment != 4, ]
 
 # GENERATE WIDE FORMATTED MEDIATORS
-# mediator <- LongToWide(smoker.sub$SubjectID,
-#                        smoker.sub$timeseq,
-#                        smoker.sub$NegMoodLst15min)
+mediator <- LongToWide(smoker.sub$SubjectID,
+                       smoker.sub$timeseq,
+                       smoker.sub$NegMoodLst15min)
 
 # GENERATE WIDE FORMATTED OUTCOMES
-# outcome <- LongToWide(smoker.sub$SubjectID,
-#                       smoker.sub$timeseq,
-#                       smoker.sub$smoke_status)
+outcome <- LongToWide(smoker.sub$SubjectID,
+                      smoker.sub$timeseq,
+                      smoker.sub$smoke_status)
 
 # GENERATE A BINARY TREATMENT VARIABLE
-# trt <- as.numeric(unique(smoker.sub[, c("SubjectID","varenicline")])[, 2])-1
+trt <- as.numeric(unique(smoker.sub[, c("SubjectID","varenicline")])[, 2])-1
 
 # GENERATE A VECTOR OF UNIQUE TIME POINTS
-# t.seq <- sort(unique(smoker.sub$timeseq))
+t.seq <- sort(unique(smoker.sub$timeseq))
 
 # COMPUTE TIME VARYING MEDIATION ANALYSIS USING BOOTSTRAPPED CONFIDENCE INTERVALS
-# results <- tvmb(trt, t.seq, mediator, outcome)
+results <- tvmb(trt, t.seq, mediator, outcome)}
 
 }
 \references{

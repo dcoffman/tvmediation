@@ -2,7 +2,8 @@
 % Please edit documentation in R/newMediatorOutcome.R
 \name{newMediatorOutcome}
 \alias{newMediatorOutcome}
-\title{Function to compute new Mediator and Outcome using time t and t-1 mean centered on the individual}
+\title{Function to compute new Mediator and Outcome using time t and t-1 mean centered on the 
+individual.}
 \usage{
 newMediatorOutcome(trt, M, Y)
 }
@@ -18,5 +19,6 @@ Column 1 is mediator at time t-1. Column 2 is mediator at time t.}
 \item{newMO}{list containing new mediators, outcomes, and index of complete cases}
 }
 \description{
-Part of the set of internal functions called within the \code{tvma} function to assist in the estimation of time varying mediation effect.
+Part of the set of internal functions called within the \code{tvma} function to assist 
+in the estimation of time varying mediation effect.
 }

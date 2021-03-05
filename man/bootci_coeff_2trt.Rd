@@ -2,7 +2,8 @@
 % Please edit documentation in R/bootci_coeff_2trt.R
 \name{bootci_coeff_2trt}
 \alias{bootci_coeff_2trt}
-\title{Bootstrap function for computing CIs for coefficients for a continuous outcome and two treatment groups}
+\title{Bootstrap function for computing CIs for coefficients for a continuous outcome and two 
+treatment groups}
 \usage{
 bootci_coeff_2trt(trt, t.seq, M, Y, t.est, deltat, replicates)
 }
@@ -17,9 +18,11 @@ bootci_coeff_2trt(trt, t.seq, M, Y, t.est, deltat, replicates)
 
 \item{t.est}{time points at which to make the estimation. Default = t.seq}
 
-\item{deltat}{a small constant which controls the time-lag of the effect of the mediator on the outcome.}
+\item{deltat}{a small constant which controls the time-lag of the effect of the 
+mediator on the outcome.}
 
-\item{replicates}{number of replicates for bootstrapping confidence intervals. Default = 1000}
+\item{replicates}{number of replicates for bootstrapping confidence intervals. 
+Default = 1000}
 }
 \value{
 \item{CI.upper.alpha}{CI upper limit for coefficient hat.alpha}
@@ -39,5 +42,6 @@ bootci_coeff_2trt(trt, t.seq, M, Y, t.est, deltat, replicates)
 \item{CI.lower.tau}{CI lower limit for coefficient hat.tau}
 }
 \description{
-Part of the set of internal functions for estimating bootstrapped CIs for the coefficients of the mediation model for continuous outcome and two treatment groups.
+Part of the set of internal functions for estimating bootstrapped CIs for the coefficients
+ of the mediation model for continuous outcome and two treatment groups.
 }

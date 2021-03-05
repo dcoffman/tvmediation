@@ -1,15 +1,19 @@
-#' Bootstrap samples to estimate confidence intervals for coefficients for a continuous outcome and three treatment groups
+#' Bootstrap samples to estimate confidence intervals for coefficients for a continuous 
+#' outcome and three treatment groups.
 #' 
-#' Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for a continuous outcome and three treatment groups
+#' Part of the set of internal functions for estimating bootstrapped confidence intervals 
+#' for the coefficients of the mediation model for a continuous outcome and three treatment 
+#' groups.
 #' 
 #' @param T1                a vector indicating assignment to treatment 1
 #' @param T2                a vector indicating assignment to treatment 2
 #' @param t.seq             a vector of time points for each observation
 #' @param mediator          matrix of mediator values in wide format
 #' @param outcome           matrix of outcome values in wide format
-#' @param t.est             time points at which to make the estimation. Default = t.seq.
+#' @param t.est             time points at which to make the estimation. Default = t.seq
 #' @param original.coeff    a list of the estimated coefficients.
-#' @param boot.sample       number of replicates for bootstrapping confidence intervals. Default = 1000.
+#' @param boot.sample       number of replicates for bootstrapping confidence intervals. 
+#'                          Default = 1000.
 #' 
 #' @return \item{alw1}{CI lower limit for estimated Treatment 1 effect on mediator}
 #' @return \item{aup1}{CI upper limit for estimated Treatment 1 effect on mediator}
@@ -26,7 +30,6 @@
 #' @return \item{blw}{CI lower limit for estimated effect of mediator on outcome}
 #' @return \item{bup}{CI upper limit for estimated effect of mediator on outcome}
 #' 
-#' @export
 #' 
 
 bootci_coeff_3trt <- function(T1, T2, t.seq, mediator, outcome, t.est, original.coeff, boot.sample = 1000)
@@ -56,7 +59,6 @@ bootci_coeff_3trt <- function(T1, T2, t.seq, mediator, outcome, t.est, original.
   
   for(c1 in 1:boot.sample)
   {
-    set.seed(c1^2)
     if (c1 < boot.sample) {
       cat(sprintf("Boostrapping iteration %03d", c1), " \r")
     } else {

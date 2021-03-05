@@ -1,9 +1,14 @@
-#' Bootstrap samples to estimate confidence intervals for continuous outcome and three treatment groups
+#' Bootstrap samples to estimate confidence intervals for continuous outcome and three 
+#' treatment groups.
 #' 
-#' Internal function for estimating bootstrapped confidence intervals for the mediation effect of continuous outcome and three treatment groups when user argument \code{CI="boot"}.
+#' Internal function for estimating bootstrapped confidence intervals for the mediation 
+#' effect of continuous outcome and three treatment groups when user argument 
+#' \code{CI="boot"}.
 #' 
-#' @param boot.sample    number of replicates for bootstrapping confidence intervals. Default = 1000.
-#' @param orig.data      a list of original data \code{T1}, \code{T2}, \code{mediator}, \code{outcome} and \code{t.seq}.
+#' @param boot.sample    number of replicates for bootstrapping confidence intervals. 
+#'                       Default = 1000.
+#' @param orig.data      a list of original data \code{T1}, \code{T2}, \code{mediator}, 
+#'                       \code{outcome} and \code{t.seq}.
 #' @param t.est          time points at which to make the estimation. Default = t.seq.
 #' 
 #' @return \item{plw1}{CI lower limit for estimated mediation effect of T1}
@@ -15,7 +20,6 @@
 #' @return \item{orig.mediation1}{time varying mediation effect for T1}
 #' @return \item{orig.mediation2}{time varying mediation effect for T2}
 #' 
-#' @export
 #' 
 
 bootci_tvm_3trt <- function(boot.sample, orig.data, t.est)
@@ -40,7 +44,6 @@ bootci_tvm_3trt <- function(boot.sample, orig.data, t.est)
   
   for(k1 in 1:boot.sample)
   {
-    set.seed(k1^2)
     if (k1 < boot.sample) {
       cat(sprintf("Boostrapping iteration %03d", k1), " \r")
     } else {

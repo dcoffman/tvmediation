@@ -7,7 +7,14 @@
 * win-builder using R Under development (unstable) (2021-02-10 r79988)
    * platform: x86_64-w64-mingw32 (64-bit)
 
-## R CMD check results
+## R CMD check results local R installation
+R 4.0.4 x86_64-apple-darwin17.0 (64-bit)
+
+0 errors | 0 warnings | 0 notes
+
+## win-builder 
+R Under development (unstable) (2021-02-10 r79988)
+platform: x86_64-w64-mingw32 (64-bit)
 
 0 errors | 0 warnings | 1 note
 

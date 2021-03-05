@@ -2,7 +2,8 @@
 % Please edit documentation in R/bootci_coeff_3trt.R
 \name{bootci_coeff_3trt}
 \alias{bootci_coeff_3trt}
-\title{Bootstrap samples to estimate confidence intervals for coefficients for a continuous outcome and three treatment groups}
+\title{Bootstrap samples to estimate confidence intervals for coefficients for a continuous 
+outcome and three treatment groups.}
 \usage{
 bootci_coeff_3trt(
   T1,
@@ -26,11 +27,12 @@ bootci_coeff_3trt(
 
 \item{outcome}{matrix of outcome values in wide format}
 
-\item{t.est}{time points at which to make the estimation. Default = t.seq.}
+\item{t.est}{time points at which to make the estimation. Default = t.seq}
 
 \item{original.coeff}{a list of the estimated coefficients.}
 
-\item{boot.sample}{number of replicates for bootstrapping confidence intervals. Default = 1000.}
+\item{boot.sample}{number of replicates for bootstrapping confidence intervals. 
+Default = 1000.}
 }
 \value{
 \item{alw1}{CI lower limit for estimated Treatment 1 effect on mediator}
@@ -62,5 +64,7 @@ bootci_coeff_3trt(
 \item{bup}{CI upper limit for estimated effect of mediator on outcome}
 }
 \description{
-Part of the set of internal functions for estimating bootstrapped confidence intervals for the coefficients of the mediation model for a continuous outcome and three treatment groups
+Part of the set of internal functions for estimating bootstrapped confidence intervals 
+for the coefficients of the mediation model for a continuous outcome and three treatment 
+groups.
 }

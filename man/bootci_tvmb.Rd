@@ -2,7 +2,8 @@
 % Please edit documentation in R/bootci_tvmb.R
 \name{bootci_tvmb}
 \alias{bootci_tvmb}
-\title{Bootstrap samples to estimate confidence intervals for the mediation effect for a binary outcome}
+\title{Bootstrap samples to estimate confidence intervals for the mediation effect for a binary 
+outcome.}
 \usage{
 bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates = 1000)
 }
@@ -15,7 +16,8 @@ bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates = 1000)
 
 \item{outcome}{matrix of outcome values in wide format}
 
-\item{coeff_data}{a merged dataset of indirect and direct effects and CIs estimated from \code{bootci_coeff_binary}}
+\item{coeff_data}{a merged dataset of indirect and direct effects and CIs estimated 
+from \code{bootci_coeff_binary}}
 
 \item{replicates}{number of replicates for bootstrapping CIs. Default = 1000.}
 }
@@ -53,5 +55,6 @@ bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates = 1000)
 \item{CI.upper}{CI upper limit for medEffect}
 }
 \description{
-Part of the set of internal functions for estimating bootstrapped confidence intervals for the mediation effect for a binary outcome when user argument \code{CI="boot"}.
+Part of the set of internal functions for estimating bootstrapped confidence intervals 
+for the mediation effect for a binary outcome when user argument \code{CI="boot"}.
 }
