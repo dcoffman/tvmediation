@@ -7,6 +7,7 @@
 #' @param t.seq        a vector of unique time points for each observation
 #' @param m            matrix of mediator values in wide format
 #' @param outcome      matrix of outcome values in wide format
+#' @param span         Numeric value of the span to be used for LOESS regression. Default = 0.75.
 #' @param replicates   Number of replicates for bootstrapping confidence intervals. 
 #'                     Default = 1000.
 #' 
@@ -22,7 +23,7 @@
 #' 
 #' 
 
-bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000){
+bootci_coeff_binary <- function(treatment, t.seq, m, outcome, span = 0.75, replicates = 1000){
 
   reps <- replicates
   
@@ -107,10 +108,10 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
     coeff_dat <- merge(coeff_dat2, coeff_t_temp, by.x = "t.seq", by.y = "t.seq.b2",
                        all.x = TRUE)
     
-    smootha <- loess(aAllTemp ~ t.seq[1:length(t.seq)], span = 0.3, degree = 1)
-    smoothg <- loess(gAllTemp ~ t.seq.b[1:length(t.seq.b2)], span = 0.2, degree = 1)
-    smoothb <- loess(bAllTemp ~ t.seq.b[1:length(t.seq.b2)], span = 0.2, degree = 1)
-    smootht <- loess(tAllTemp ~ t.seq.b[1:length(t.seq.b2)], span = 0.2, degree = 1)
+    smootha <- loess(aAllTemp ~ t.seq[1:length(t.seq)], span = span, degree = 1)
+    smoothg <- loess(gAllTemp ~ t.seq.b[1:length(t.seq.b2)], span = span, degree = 1)
+    smoothb <- loess(bAllTemp ~ t.seq.b[1:length(t.seq.b2)], span = span, degree = 1)
+    smootht <- loess(tAllTemp ~ t.seq.b[1:length(t.seq.b2)], span = span, degree = 1)
     
     
     pred_a <- predict(smootha, t.seq[1:nm])
@@ -154,17 +155,17 @@ bootci_coeff_binary <- function(treatment, t.seq, m, outcome, replicates = 1000)
     quantiles_t[2,i] <- quantile(IE_t[,i], c(upper), na.rm=TRUE)
   }
   
-  smoothLow_a <- loess(quantiles_a[1,] ~ t.seq[1:nm], span = 0.1, degree=1)
-  smoothUp_a <- loess(quantiles_a[2,] ~ t.seq[1:nm], span = 0.1, degree=1)
+  smoothLow_a <- loess(quantiles_a[1,] ~ t.seq[1:nm], span = span, degree=1)
+  smoothUp_a <- loess(quantiles_a[2,] ~ t.seq[1:nm], span = span, degree=1)
   
-  smoothLow_g <- loess(quantiles_g[1,] ~ t.seq[1:nm], span = 0.1, degree=1)
-  smoothUp_g <- loess(quantiles_g[2,] ~ t.seq[1:nm], span = 0.1, degree=1)
+  smoothLow_g <- loess(quantiles_g[1,] ~ t.seq[1:nm], span = span, degree=1)
+  smoothUp_g <- loess(quantiles_g[2,] ~ t.seq[1:nm], span = span, degree=1)
   
-  smoothLow_b <- loess(quantiles_b[1,] ~ t.seq[1:nm], span = 0.1, degree=1)
-  smoothUp_b <- loess(quantiles_b[2,] ~ t.seq[1:nm], span = 0.1, degree=1)
+  smoothLow_b <- loess(quantiles_b[1,] ~ t.seq[1:nm], span = span, degree=1)
+  smoothUp_b <- loess(quantiles_b[2,] ~ t.seq[1:nm], span = span, degree=1)
   
-  smoothLow_t <- loess(quantiles_t[1,] ~ t.seq[1:nm], span = 0.1, degree=1)
-  smoothUp_t <- loess(quantiles_t[2,] ~ t.seq[1:nm], span = 0.1, degree=1)
+  smoothLow_t <- loess(quantiles_t[1,] ~ t.seq[1:nm], span = span, degree=1)
+  smoothUp_t <- loess(quantiles_t[2,] ~ t.seq[1:nm], span = span, degree=1)
   
   #creating a dataframe with the time sequences, mediation effect and quantiles
   test_t1 <- data.frame(cbind(t.seq, smoothLow_a$fitted, smoothUp_a$fitted))
