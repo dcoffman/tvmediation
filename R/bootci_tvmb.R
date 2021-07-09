@@ -10,6 +10,7 @@
 #' @param outcome      matrix of outcome values in wide format
 #' @param coeff_data   a merged dataset of indirect and direct effects and CIs estimated 
 #'                     from \code{bootci_coeff_binary}
+#' @param span         Numeric value of the span to be used for LOESS regression. Default = 0.75.
 #' @param replicates   number of replicates for bootstrapping CIs. Default = 1000.
 #' 
 #' @return \item{timeseq}{time points of estimation}
@@ -31,7 +32,7 @@
 #' 
 #' 
 
-bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 1000){
+bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, span = 0.75, replicates = 1000){
 
   reps <- replicates
   
@@ -104,7 +105,7 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 1
     medProdTemp <- coeff_dat$medProd
     medProdTemp <- medProdTemp[which(!is.na(medProdTemp))]
     
-    smooth <- loess(medProdTemp ~ t.seq.b2[1:length(t.seq.b2)], span = 0.5, degree=1)
+    smooth <- loess(medProdTemp ~ t.seq.b2[1:length(t.seq.b2)], span = span, degree=1)
     
     pred <- predict(smooth, t.seq[2:nm])
     IE[i,] <- pred
@@ -120,8 +121,8 @@ bootci_tvmb <- function(treatment, t.seq, m, outcome, coeff_data, replicates = 1
     quantiles[2,i] <- quantile(IE[,i], c(upper), na.rm=TRUE)
   }
   
-  smoothLow <- loess(quantiles[1,] ~ t.seq[2:nm], span = 0.1, degree=1)
-  smoothUp <- loess(quantiles[2,] ~ t.seq[2:nm], span = 0.1, degree=1)
+  smoothLow <- loess(quantiles[1,] ~ t.seq[2:nm], span = span, degree=1)
+  smoothUp <- loess(quantiles[2,] ~ t.seq[2:nm], span = span, degree=1)
   
   CI_1 <- data.frame(cbind(t.seq.b2, smoothLow$fitted, smoothUp$fitted))
   names(CI_1) <- c("t.seq", "CI.lower", "CI.upper")

@@ -9,6 +9,7 @@ tvmb(
   t.seq,
   mediator,
   outcome,
+  span = 0.75,
   plot = FALSE,
   CI = "boot",
   replicates = 1000,
@@ -23,6 +24,8 @@ tvmb(
 \item{mediator}{matrix of mediator values in wide format}
 
 \item{outcome}{matrix of outcome values in wide format}
+
+\item{span}{Numeric value of the span to be used for LOESS regression. Default = 0.75.}
 
 \item{plot}{TRUE or FALSE for producing plots. Default = "FALSE". (OPTIONAL ARGUMENT)}
 
