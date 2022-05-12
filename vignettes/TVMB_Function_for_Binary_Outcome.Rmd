@@ -38,7 +38,6 @@ pre code {
 ```{r setup, include=FALSE}
 library(dplyr)
 library(ggplot2)
-library(kedd)
 library(locpol)
 library(stats)
 library(tvmediation)
@@ -60,7 +59,7 @@ The `tvmb` function, like `tvma`, was developed for estimating the mediation eff
 
 ## Getting started
 
-To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.0.3` or greater. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or the `devtools` function. 
+To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.2.0` or greater. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or the `devtools` function. 
 
 ```{r, eval = FALSE}
 install.packages("tvmediation", dependencies = TRUE)
@@ -92,7 +91,7 @@ library(tvmediation)
 
 Once installed, you can type `?tvmediation` in the console to view the package documentation, as well as links to the important functions and data included in the package. The time-varying mediation analysis for the binary outcome and 2 exposure groups, relies on 2 user functions `tvmb` and `LongToWide` as well as a number of internal functions of the `tvmediation` package.
 
-The `tvmb` function has four required and four optional arguments.
+The `tvmb` function has four required and five optional arguments.
 
 1. `treatment` A binary vector indicating the treatment group
 2. `t.seq` A numeric vector of the time sequence of the measures
@@ -101,10 +100,11 @@ The `tvmb` function has four required and four optional arguments.
 
 The optional arguments are:
 
-5. `plot` TRUE or FALSE for plotting the mediation effect. The default value is "FALSE".
-6. `CI` "none" or "boot" method of deriving confidence intervals (CIs). The default value is "boot".
-7. `replicates` Number of replicates for bootstrapping CIs. The default value is 1000.
-8. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
+5. `span` Numeric value of the span to be used for LOESS regression. Default = 0.75.
+6. `plot` TRUE or FALSE for plotting the mediation effect. The default value is "FALSE".
+7. `CI` "none" or "boot" method of deriving confidence intervals (CIs). The default value is "boot".
+8. `replicates` Number of replicates for bootstrapping CIs. The default value is 1000.
+9. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
 
 Note that, unlike the `tvma` and `tvma_3trt` functions, the time points at which mediation effects are estimated cannot be different than the actual recorded response time points `t.seq`. Thus, `tvma` and `tvma_3trt` have the provision of a different `t.est` than `t.seq`, but `tvmb` does not have that provision.
 
@@ -220,7 +220,7 @@ We are now ready to perform the time varying mediation analysis.
 
 ## Calling the `tvmb` function
 
-As discussed earlier, the `tvmb` function has four required and four optional arguments.
+As discussed earlier, the `tvmb` function has four required and five optional arguments.
 
 1. `treatment` A binary vector indicating the treatment group
 2. `t.seq` A numeric vector of the time sequence of the measures
@@ -229,10 +229,11 @@ As discussed earlier, the `tvmb` function has four required and four optional ar
 
 The optional arguments are:
 
-5. `plot` TRUE or FALSE for plotting the mediation effect. The default value is "FALSE".
-6. `CI` "none" or "boot" method of deriving CIs. The default value is "boot".
-7. `replicates` Number of replicates for bootstrapping CIs. The default value is 1000.
-8. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
+5. `span` Numeric value of the span to be used for LOESS regression. Default = 0.75.
+6. `plot` TRUE or FALSE for plotting the mediation effect. The default value is "FALSE".
+7. `CI` "none" or "boot" method of deriving CIs. The default value is "boot".
+8. `replicates` Number of replicates for bootstrapping CIs. The default value is 1000.
+9. `verbose` TRUE or FALSE for printing results to screen. The default value is "FALSE".
 
 We will call the function with additional optional arguments `plot=TRUE` and `replicates = 250`. We decreased the number of bootstrap replicates so that this vignette compiles faster but we suggest using at least 500 replicates in an actual analysis. The remaining optional arguments are left to their respective default values.
 
@@ -337,9 +338,9 @@ The `tvmediation` package provides a set of functions for estimating mediation e
 
 ## References
 
-1. Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379.}
+1. Baker TB, Piper ME, Stein JH, et al. Effects of Nicotine Patch vs Varenicline vs Combination Nicotine Replacement Therapy on Smoking Cessation at 26 Weeks: A Randomized Clinical Trial. JAMA. 2016;315(4):371.
 
-2. Efron, B. & Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75.}
+2. B. Efron, R. Tibshirani. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statistical Science. 1986;1(1):54-75.
 
 </div>
 ---

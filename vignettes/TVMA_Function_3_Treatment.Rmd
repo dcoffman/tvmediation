@@ -38,7 +38,6 @@ pre code {
 ```{r setup, include=FALSE}
 library(dplyr)
 library(ggplot2)
-library(kedd)
 library(locpol)
 library(stats)
 library(tvmediation)
@@ -48,7 +47,7 @@ library(tvmediation)
 
 ## Introduction
 
-The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with three treatment (exposure) groups and a continuous outcome. Please note, that this package has been built considering the structure of panel data, where each subject/participant has repeated responses (collected over time) for the outcome and mediator variables. We do not address dynamic treatment regimens in this package. Therefore, we assume the scenario where the treatment (exposure) is time-invariant (i.e., does not change over time). For more details, refer to Cai et al., 2020 (the paper can be obtained at <https://arxiv.org/abs/2008.11797>).
+The purpose of this vignette is to provide users with a step-by-step guide for performing and interpreting the results of a time varying mediation analysis with three treatment (exposure) groups and a continuous outcome. Please note, that this package has been built considering the structure of panel data, where each subject/participant has repeated responses (collected over time) for the outcome and mediator variables. We do not address dynamic treatment regimens in this package. Therefore, we assume the scenario where the treatment (exposure) is time-invariant (i.e., does not change over time). For more details, refer to Cai et al., 2022.
 
 ### Data
 
@@ -58,7 +57,7 @@ A traditional approach to analyzing this type of data would be to use mediation 
 
 ## Getting started
 
-To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.0.3` or greater. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or the `devtools` function. 
+To use the time varying mediation analysis package in R, you must first install the package and load it. Before that, make sure you have `R version 4.2.0` or greater. There are two ways to install the package from the CRAN (Comprehensive R Archive Network) repository, by using `install.packages` or the `devtools` function. 
 
 ```{r, eval = FALSE}
 install.packages("tvmediation", dependencies = TRUE)
@@ -358,11 +357,11 @@ The `tvmediation` package provides a set of functions for estimating mediation e
 
 ## References
 
-1. Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). Estimation and inference for the mediation effect in a time-varying mediation model. <https://arxiv.org/abs/2008.11797>
+1. Cai X, Coffman DL, Piper ME, Li R. Estimation and inference for the mediation effect in a time-varying mediation model. BMC Med Res Methodol. 2022;22(1):1-12.
 
-2. Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs varenicline vs combination nicotine replacement therapy on smoking cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 371-379.}
+2. Baker TB, Piper ME, Stein JH, et al. Effects of Nicotine Patch vs Varenicline vs Combination Nicotine Replacement Therapy on Smoking Cessation at 26 Weeks: A Randomized Clinical Trial. JAMA. 2016;315(4):371.
 
-3. Efron, B. & Tibshirani, R. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statist. Sci. 1 (1986), no. 1, 54--75.}
+3. B. Efron, R. Tibshirani. Bootstrap Methods for Standard Errors, Confidence Intervals, and Other Measures of Statistical Accuracy. Statistical Science. 1986;1(1):54-75.
 
 </div>
 ---
