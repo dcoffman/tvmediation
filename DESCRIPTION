@@ -26,7 +26,7 @@ Authors@R:
           role = "ctb",
           email = "harryzobeljr@gmail.com")
    )
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Depends: R (>= 4.0.0)
 Imports:
     stats (>= 4.0.3),
