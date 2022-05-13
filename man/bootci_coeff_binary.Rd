@@ -4,7 +4,14 @@
 \alias{bootci_coeff_binary}
 \title{Bootstrap samples to estimate confidence intervals for binary outcome coefficients.}
 \usage{
-bootci_coeff_binary(treatment, t.seq, m, outcome, replicates = 1000)
+bootci_coeff_binary(
+  treatment,
+  t.seq,
+  m,
+  outcome,
+  span = 0.75,
+  replicates = 1000
+)
 }
 \arguments{
 \item{treatment}{a vector indicating treatment group}
@@ -14,6 +21,8 @@ bootci_coeff_binary(treatment, t.seq, m, outcome, replicates = 1000)
 \item{m}{matrix of mediator values in wide format}
 
 \item{outcome}{matrix of outcome values in wide format}
+
+\item{span}{Numeric value of the span to be used for LOESS regression. Default = 0.75.}
 
 \item{replicates}{Number of replicates for bootstrapping confidence intervals. 
 Default = 1000.}

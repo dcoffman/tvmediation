@@ -1,12 +1,12 @@
 Package: tvmediation
 Type: Package
-Date: 2021-03-05
-Version: 1.0.0
+Date: 2022-05-12
+Version: 1.1.0
 Title: Time Varying Mediation Analysis
 Description: Provides functions for estimating mediation effects that vary over 
-   time as described in Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). 
-   Estimation and inference for the mediation effect in a time-varying mediation 
-   model. <arXiv:2008.11797>.
+   time as described in Cai X, Coffman DL, Piper ME, Li R. 
+   Estimation and inference for the mediation effect in a time-varying mediation model. 
+   BMC Med Res Methodol. 2022;22(1):1-12.
 Authors@R:
  c(person(given = "Donna",
           family = "Coffman",
@@ -16,11 +16,13 @@ Authors@R:
    person(given = "Xizhen",
           family = "Cai",
           role = "aut",
-          email = "cai.xizhen@gmail.com"),
+          email = "cai.xizhen@gmail.com",
+          comment = c(ORCID = "0000-0003-2097-1755")),
    person(given = "Yajnaseni",
           family = "Chakraborti",
           role = "aut",
-          email = "yajnaseni.chakraborti@temple.edu"),
+          email = "yajnaseni.chakraborti@temple.edu",
+          comment = c(ORCID = "0000-0002-6747-8821")),
    person(given = "Harry",
           family = "Zobel",
           role = "ctb",
@@ -29,10 +31,9 @@ Authors@R:
 RoxygenNote: 7.1.2
 Depends: R (>= 4.0.0)
 Imports:
-    stats (>= 4.0.3),
-    dplyr (>= 1.0.4),
-    ggplot2 (>= 3.3.3),
-    kedd (>= 1.0.3),
+    stats (>= 4.2.0),
+    dplyr (>= 1.0.9),
+    ggplot2 (>= 3.3.6),
     locpol (>= 0.7-0)
 Suggests:
     knitr,

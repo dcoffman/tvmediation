@@ -6,6 +6,7 @@
 #' @param t.seq       a vector of unique time points for each observation
 #' @param mediator    matrix of mediator values in wide format
 #' @param outcome     matrix of outcome values in wide format
+#' @param span        Numeric value of the span to be used for LOESS regression. Default = 0.75.
 #' @param plot        TRUE or FALSE for producing plots. Default = "FALSE". (OPTIONAL ARGUMENT)
 #' @param CI          "none" or "boot" method of deriving confidence intervals. Default = "boot". (OPTIONAL ARGUMENT)
 #' @param replicates  Number of replicates for bootstrapping confidence intervals. Default = 1000. (OPTIONAL ARGUMENT)
@@ -73,32 +74,28 @@
 #' 
 #' @references 
 #' \enumerate{
-#' \item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its 
-#'      applications: monographs on statistics and applied probability 66. 
-#'      CRC Press.}
-#' \item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying 
-#'       coefficient models. The Annals of Statistics, 27, 1491-1518.}
-#' \item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear 
-#'       models with applications to longitudinal data. Journal of the Royal 
-#'       Statistical Society: Series B (Statistical Methodology), 62, 303-322.}
-#' \item{Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., 
-#'       Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs 
-#'       varenicline vs combination nicotine replacement therapy on smoking 
-#'       cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 
-#'       371-379.}
-#' \item{Efron, B. and Tibshirani, R. (1986). Bootstrap methods for standard 
-#'       errors, confidence intervals, and other measures of statistical accuracy.
-#'       Statistical Science, 1, 54-75.}
+#' \item{Fan, J. and Gijbels, I. Local polynomial modelling and its 
+#'       applications: Monographs on statistics and applied probability 66. 
+#'       CRC Press; 1996.}
+#' \item{Fan J, Zhang W. Statistical Estimation in Varying Coefficient Models. 
+#'       The Annals of Statistics. 1999;27(5):1491-1518.}
+#' \item{Fan J, Zhang JT. Two-step estimation of functional linear models with 
+#'       applications to longitudinal data. Journal of the Royal Statistical Society: 
+#'       Series B (Statistical Methodology). 2000;62(2):303-322.}
+#' \item{Baker TB, Piper ME, Stein JH, et al. Effects of Nicotine Patch vs Varenicline 
+#'       vs Combination Nicotine Replacement Therapy on Smoking Cessation at 26 Weeks: 
+#'       A Randomized Clinical Trial. JAMA. 2016;315(4):371.}
+#' \item{B. Efron, R. Tibshirani. Bootstrap Methods for Standard Errors, Confidence 
+#'       Intervals, and Other Measures of Statistical Accuracy. Statistical Science. 
+#'       1986;1(1):54-75.}
 #' }
-#' 
 #' @export 
 #' @importFrom stats complete.cases cov glm lm loess na.omit predict quantile sd var
 #' @import dplyr
 #' @import ggplot2
-#' @import kedd
 #' @import locpol
 
-tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
+tvmb <- function(treatment, t.seq, mediator, outcome, span = 0.75, plot = FALSE, CI="boot", replicates = 1000, verbose = FALSE)
 {
   ## Testing the class of the arguments passed in the function
   ctm <- class(mediator)
@@ -165,7 +162,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         }
         
         # create smoothing line
-        smootha <- loess(aAll ~ t.seq[1:nm], span = 0.3, degree=1)
+        smootha <- loess(aAll ~ t.seq[1:nm], span = span, degree=1)
         
         # create dataframe with the time sequences, a1 and smoothed coefficients
         test1 <- data.frame(cbind(t.seq, aAll, smootha$fitted))
@@ -195,8 +192,8 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         # smooth
         t.seq.b <- t.seq
         t.seq.b <- t.seq.b[-1]
-        smoothg <- loess(gAll ~ t.seq.b[1:length(t.seq.b)], span = 0.2, degree = 1)
-        smoothb <- loess(bAll ~ t.seq.b[1:length(t.seq.b)], span = 0.2, degree = 1)
+        smoothg <- loess(gAll ~ t.seq.b[1:length(t.seq.b)], span = span, degree = 1)
+        smoothb <- loess(bAll ~ t.seq.b[1:length(t.seq.b)], span = span, degree = 1)
         
         # estimate tau coefficient for each time point
         tAll <- vector()
@@ -213,7 +210,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         }
 
         # smooth
-        smootht <- loess(tAll ~ t.seq.b[1:length(t.seq.b)], span = 0.2, degree = 1)
+        smootht <- loess(tAll ~ t.seq.b[1:length(t.seq.b)], span = span, degree = 1)
         
         # create dataframe with the time sequences and smoothed coefficients
         test2 <- data.frame(cbind(t.seq.b, gAll, smoothg$fitted, bAll, smoothb$fitted, tAll, smootht$fitted))
@@ -223,7 +220,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         
         ##### Bootstrap to estimate confidence intervals for coefficients 
         
-        coeff_CI <- bootci_coeff_binary(treatment, t.seq, m, outcome, replicates)
+        coeff_CI <- bootci_coeff_binary(treatment, t.seq, m, outcome, span, replicates)
         
         #### Formatting the results into a single dataframe ####
         
@@ -245,7 +242,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         #calculate smooth line for mediation effect estimate
         medProd <- coeff_data$medProd
         medProd <- medProd[which(!is.na(medProd))]
-        smoothProd <- loess(medProd ~ t.seq.b[1:length(t.seq.b)], span = 0.3, degree=1)
+        smoothProd <- loess(medProd ~ t.seq.b[1:length(t.seq.b)], span = span, degree=1)
         
         #create dataframe with the time sequences, mediation effects and smoothed coefficients
         test_a <- data.frame(cbind(t.seq.b, medProd, smoothProd$fitted))
@@ -261,7 +258,7 @@ tvmb <- function(treatment, t.seq, mediator, outcome, plot = FALSE, CI="boot", r
         ##### Bootstrap to estimate confidence intervals
         
         if(CI == "boot"){
-          list_all <- bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates)
+          list_all <- bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, span, replicates)
           IE_t <- list_all$bootstrap_result
           final_dat <- list_all$all_results
           final_dat1 <- final_dat %>%

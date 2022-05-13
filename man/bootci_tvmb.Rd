@@ -5,7 +5,15 @@
 \title{Bootstrap samples to estimate confidence intervals for the mediation effect for a binary 
 outcome.}
 \usage{
-bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates = 1000)
+bootci_tvmb(
+  treatment,
+  t.seq,
+  m,
+  outcome,
+  coeff_data,
+  span = 0.75,
+  replicates = 1000
+)
 }
 \arguments{
 \item{treatment}{a vector indicating treatment group}
@@ -18,6 +26,8 @@ bootci_tvmb(treatment, t.seq, m, outcome, coeff_data, replicates = 1000)
 
 \item{coeff_data}{a merged dataset of indirect and direct effects and CIs estimated 
 from \code{bootci_coeff_binary}}
+
+\item{span}{Numeric value of the span to be used for LOESS regression. Default = 0.75.}
 
 \item{replicates}{number of replicates for bootstrapping CIs. Default = 1000.}
 }
