@@ -31,9 +31,9 @@ Authors@R:
 RoxygenNote: 7.1.2
 Depends: R (>= 4.0.0)
 Imports:
-    stats (>= 4.2.0),
-    dplyr (>= 1.0.9),
-    ggplot2 (>= 3.3.6),
+    stats (>= 4.0.2),
+    dplyr (>= 1.0.2),
+    ggplot2 (>= 3.3.2),
     locpol (>= 0.7-0)
 Suggests:
     knitr,
