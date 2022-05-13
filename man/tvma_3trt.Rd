@@ -158,24 +158,22 @@ results <- tvma_3trt(NRT1, NRT2, t.seq, mediator, outcome,
 }
 \references{
 \enumerate{
-\item{Fan, J. and Gijbels, I. (1996). Local polynomial modelling and its 
-      applications: monographs on statistics and applied probability 66. 
-      CRC Press.}
-\item{Fan, J. and Zhang, W. (1999). Statistical estimation in varying 
-      coefficient models. The Annals of Statistics, 27, 1491-1518.}
-\item{Fan, J. and Zhang, W. (2000). Two-step estimation of functional linear 
-      models with applications to longitudinal data. Journal of the Royal 
-      Statistical Society: Series B (Statistical Methodology), 62, 303-322.}
-\item{Cai, X., Piper, M. E., Li, R., & Coffman, D. L. (2020). 
-      Estimation and inference for the mediation effect in a time-varying 
-      mediation model. <https://arxiv.org/abs/2008.11797>}
-\item{Baker, T. B., Piper, M. E., Stein, J. H., Smith, S. S., Bolt, D. M., 
-      Fraser, D. L., & Fiore, M. C. (2016). Effects of nicotine patch vs 
-      varenicline vs combination nicotine replacement therapy on smoking 
-      cessation at 26 weeks: A randomized clinical trial. JAMA, 315(4), 
-      371-379.}
-\item{Efron, B. and Tibshirani, R. (1986). Bootstrap methods for standard 
-      errors, confidence intervals, and other measures of statistical accuracy. 
-      Statistical Science, 1, 54-75.}
+\item{Fan, J. and Gijbels, I. Local polynomial modelling and its 
+      applications: Monographs on statistics and applied probability 66. 
+      CRC Press; 1996.}
+\item{Fan J, Zhang W. Statistical Estimation in Varying Coefficient Models. 
+      The Annals of Statistics. 1999;27(5):1491-1518.}
+\item{Fan J, Zhang JT. Two-step estimation of functional linear models with 
+      applications to longitudinal data. Journal of the Royal Statistical Society: 
+      Series B (Statistical Methodology). 2000;62(2):303-322.}
+\item{Cai X, Coffman DL, Piper ME, Li R. Estimation and inference for the mediation 
+      effect in a time-varying mediation model. BMC Med Res Methodol. 
+      2022;22(1):1-12.}
+\item{Baker TB, Piper ME, Stein JH, et al. Effects of Nicotine Patch vs Varenicline 
+      vs Combination Nicotine Replacement Therapy on Smoking Cessation at 26 Weeks: 
+      A Randomized Clinical Trial. JAMA. 2016;315(4):371.}
+\item{B. Efron, R. Tibshirani. Bootstrap Methods for Standard Errors, Confidence 
+      Intervals, and Other Measures of Statistical Accuracy. Statistical Science. 
+      1986;1(1):54-75.}
 }
 }
