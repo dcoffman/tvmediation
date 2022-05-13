@@ -1,6 +1,6 @@
 Package: tvmediation
 Type: Package
-Date: 2022-05-12
+Date: 2022-05-13
 Version: 1.1.0
 Title: Time Varying Mediation Analysis
 Description: Provides functions for estimating mediation effects that vary over 
